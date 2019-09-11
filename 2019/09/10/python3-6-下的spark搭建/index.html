@@ -1,196 +1,314 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="utf-8">
-  
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-  
-  <title>python3_6 下的spark搭建 | Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="python3.6下的spark搭建一、前言这是AllenXue的第一条blog，可能会很low，但是绝对是非常有意义的，自认为本人是为数不多的长得比较帅的程序员（虽然有点小胖），这条blog也是开启疯狂学习模式的起点。本人在学习过程中，如果有学习心得会在第一时间分享给大家。 二、关于sparkSpark是专为大规模数据处理而设计的快速通用的计算引擎。Spark是加州大学伯克利分校的AMP实验室所">
-<meta property="og:type" content="article">
-<meta property="og:title" content="python3_6 下的spark搭建">
-<meta property="og:url" content="http://yoursite.com/2019/09/10/python3-6-下的spark搭建/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="python3.6下的spark搭建一、前言这是AllenXue的第一条blog，可能会很low，但是绝对是非常有意义的，自认为本人是为数不多的长得比较帅的程序员（虽然有点小胖），这条blog也是开启疯狂学习模式的起点。本人在学习过程中，如果有学习心得会在第一时间分享给大家。 二、关于sparkSpark是专为大规模数据处理而设计的快速通用的计算引擎。Spark是加州大学伯克利分校的AMP实验室所">
-<meta property="og:locale" content="en">
-<meta property="og:image" content="http://yoursite.com/2019/09/10/python3-6-下的spark搭建/1.png">
-<meta property="og:image" content="http://yoursite.com/2019/09/10/python3-6-下的spark搭建/2.png">
-<meta property="og:image" content="http://yoursite.com/2019/09/10/python3-6-下的spark搭建/3.png">
-<meta property="og:image" content="http://yoursite.com/2019/09/10/python3-6-下的spark搭建/4.png">
-<meta property="og:image" content="http://yoursite.com/2019/09/10/python3-6-下的spark搭建/5.png">
-<meta property="og:image" content="http://yoursite.com/2019/09/10/python3-6-下的spark搭建/6.png">
-<meta property="og:updated_time" content="2019-09-10T16:29:14.207Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="python3_6 下的spark搭建">
-<meta name="twitter:description" content="python3.6下的spark搭建一、前言这是AllenXue的第一条blog，可能会很low，但是绝对是非常有意义的，自认为本人是为数不多的长得比较帅的程序员（虽然有点小胖），这条blog也是开启疯狂学习模式的起点。本人在学习过程中，如果有学习心得会在第一时间分享给大家。 二、关于sparkSpark是专为大规模数据处理而设计的快速通用的计算引擎。Spark是加州大学伯克利分校的AMP实验室所">
-<meta name="twitter:image" content="http://yoursite.com/2019/09/10/python3-6-下的spark搭建/1.png">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
+
+
+<title>python3_6 下的spark搭建 | Allen Xue&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
 </head>
-</html>
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-python3-6-下的spark搭建" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/09/10/python3-6-下的spark搭建/" class="article-date">
-  <time datetime="2019-09-10T15:52:29.000Z" itemprop="datePublished">2019-09-10</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      python3_6 下的spark搭建
-    </h1>
-  
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Allen Xue&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
 
-      </header>
+        </div>
+    </nav>
+
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="python3-6下的spark搭建"><a href="#python3-6下的spark搭建" class="headerlink" title="python3.6下的spark搭建"></a>python3.6下的spark搭建</h1><h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>这是AllenXue的第一条blog，可能会很low，但是绝对是非常有意义的，自认为本人是为数不多的长得比较帅的程序员（虽然有点小胖），这条blog也是开启疯狂学习模式的起点。本人在学习过程中，如果有学习心得会在第一时间分享给大家。</p>
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Allen Xue&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">python3_6 下的spark搭建</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Allen Xue</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">September 10, 2019&nbsp;&nbsp;23:52:29</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/python/">python</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>这是AllenXue的第一条blog，可能会很low，但是绝对是非常有意义的，自认为本人是为数不多的长得比较帅的程序员（虽然有点小胖），这条blog也是开启疯狂学习模式的起点。本人在学习过程中，如果有学习心得会在第一时间分享给大家。</p>
 <h2 id="二、关于spark"><a href="#二、关于spark" class="headerlink" title="二、关于spark"></a>二、关于spark</h2><p><strong>Spark</strong>是专为大规模数据处理而设计的快速通用的计算引擎。<strong>Spark</strong>是加州大学伯克利分校的AMP实验室所开源的类Hadoop MapReduce的通用并行框架，<strong>Spark</strong>拥有Hadoop MapReduce所具有的优点。</p>
 <p><strong>Spark</strong>是在<strong>Scala</strong>语言中实现的，它将<strong>Scala</strong> 用作其应用程序框架。与 <strong>Hadoop</strong>不同，<strong>Spark</strong> 和 <strong>Scala</strong> 能够紧密集成，其中的 <strong>Scala</strong> 可以像操作本地集合对象一样轻松地操作分布式数据集。</p>
 <p>为了适应迭代计算,<strong>Spark</strong>把经常被重用的数据缓存到内存中以提高数据读取和操作速度,<strong>Spark</strong>比<strong>Hadoop</strong>快近百倍，支持Java、Scla、Pyhon、R等多种语言，除map和reduce之外,还支持filter、foreach、reduceByKey、aggregate以及SQL查询、流式查询等。</p>
 <p>进行<strong>Spark</strong>应用开发时，一般是<br>先在本地进行开发和测试，通过测试后再提交到集群执行，下面我们以<strong>Win 10 64-bit</strong>平台为例环境的搭建和简单使用。</p>
-<h2 id="三、搭建过程"><a href="#三、搭建过程" class="headerlink" title="三、搭建过程"></a>三、搭建过程</h2><h3 id="1、安装JDK"><a href="#1、安装JDK" class="headerlink" title="1、安装JDK"></a>1、安装JDK</h3><p>官网（<a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a> ）下载最新版本<strong>JDK</strong>（本人下载的是<strong>jdk1.8_221</strong>）<br><br><br><img src="/2019/09/10/python3-6-下的spark搭建/1.png" alt="image"><br></p>
+<h2 id="三、搭建过程"><a href="#三、搭建过程" class="headerlink" title="三、搭建过程"></a>三、搭建过程</h2><h3 id="1、下载安装JDK"><a href="#1、下载安装JDK" class="headerlink" title="1、下载安装JDK"></a>1、下载安装JDK</h3><p>官网（<a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a> ）下载最新版本<strong>JDK</strong>（本人下载的是<strong>jdk1.8_221</strong>）<br><br><br><img src="/2019/09/10/python3-6-下的spark搭建/1.png" alt="image"><br></p>
 <p>点击 <strong>Accept License Agreement</strong> ,再点击 <strong>jdk-8u221-windows-x64.exe</strong> 进行下载（可以用迅雷进行下载，这样会快很多）</p>
 <p>下载完成后，打开进行安装，在路径设置时记住自己所设置的路径（不建议安装在C盘），后面会用到</p>
 <p>注意：安装过程会提示安装jre，无需安装，jdk中已经含有jre</p>
-<h2 id="2、配置JDK环境变量"><a href="#2、配置JDK环境变量" class="headerlink" title="2、配置JDK环境变量"></a>2、配置JDK环境变量</h2><p>右击此电脑，打开属性<br><img src="/2019/09/10/python3-6-下的spark搭建/2.png" alt="image"> </p>
+<h2 id="2、配置JDK的环境变量"><a href="#2、配置JDK的环境变量" class="headerlink" title="2、配置JDK的环境变量"></a>2、配置JDK的环境变量</h2><p>右击此电脑，打开属性<br><img src="/2019/09/10/python3-6-下的spark搭建/2.png" alt="image"> </p>
 <p>点击高级系统设置并点击环境变量，开始配置。在系统变量栏新建JAVA_HOME，编辑为jdk的所在路径<img src="/2019/09/10/python3-6-下的spark搭建/3.png" alt="image"></p>
 <p>系统变量→ Path →编辑 →新建 →输入jdk所在路径<br>完成后点回车，再重复上述步骤输入jre所在路径，完成后点回车，结果如下图：<img src="/2019/09/10/python3-6-下的spark搭建/4.png" alt="image"></p>
 <p>再新建CLASSPATH，并编辑为.;%JAVA_HOME%\lib;%JAVA_HOME%\lib\tools.jar（注意不要忘记前面的 . ） <img src="/2019/09/10/python3-6-下的spark搭建/5.png" alt="image"></p>
 <p>验证是否安装成功<br>在命令提示符中输入java -version <img src="/2019/09/10/python3-6-下的spark搭建/6.png" alt="image"><br>出现上图所示的内容即为安装完成。</p>
-<h2 id="3、安装sclar"><a href="#3、安装sclar" class="headerlink" title="3、安装sclar"></a>3、安装sclar</h2><h4 id="今天太晚了，为了不掉头发，明天继续"><a href="#今天太晚了，为了不掉头发，明天继续" class="headerlink" title="今天太晚了，为了不掉头发，明天继续"></a><em>今天太晚了，为了不掉头发，明天继续</em></h4>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/10/python3-6-下的spark搭建/" data-id="ck0e0oeyd00007svy7c2j7nq4" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-    
-  
-</article>
+<h2 id="3、下载安装Scala"><a href="#3、下载安装Scala" class="headerlink" title="3、下载安装Scala"></a>3、下载安装Scala</h2><p>在官网上（<a href="https://www.scala-lang.org/download/" target="_blank" rel="noopener">https://www.scala-lang.org/download/</a><br>）下载最新版本的<strong>Scala</strong>（本人下载的是<strong>scala-2.13.0.msi</strong>）</p>
+<p><img src="/2019/09/10/python3-6-下的spark搭建/7.png" alt="image"></p>
+<p>安装过程和<strong>JDK</strong>安装类似，记住安装路径，我的安装路径选择在<strong>D盘</strong></p>
+<h2 id="4、配置Scala的环境变量"><a href="#4、配置Scala的环境变量" class="headerlink" title="4、配置Scala的环境变量"></a>4、配置Scala的环境变量</h2><p><strong>注意：在配置Scala的环境变量之前，一定要完成JDK的安装和环境配置</strong></p>
+<p>右击此电脑，打开属性</p>
+<p><img src="/2019/09/10/python3-6-下的spark搭建/2.png" alt="image"> </p>
+<p>系统变量→ Path →编辑 →新建 →输入 Scala所在路径+/bin/<br>完成后点回车，结果如下图：<img src="/2019/09/10/python3-6-下的spark搭建/8.png" alt="image"></p>
+<p>验证是否安装成功<br>在命令提示符中输入salar -versio<br><img src="/2019/09/10/python3-6-下的spark搭建/9.png" alt="image"><br>出现上图所示的内容即为安装完成。</p>
+<h2 id="5、下载安装Spark"><a href="#5、下载安装Spark" class="headerlink" title="5、下载安装Spark"></a>5、下载安装Spark</h2><p>在官网（<a href="http://spark.apache.org/downloads.html" target="_blank" rel="noopener">http://spark.apache.org/downloads.html</a><br>）上下载Spark</p>
+<p><img src="/2019/09/10/python3-6-下的spark搭建/10.png" alt="image"></p>
+<p>下载完成后，解压到D盘即可</p>
+<h2 id="6、配置Spark的环境变量"><a href="#6、配置Spark的环境变量" class="headerlink" title="6、配置Spark的环境变量"></a>6、配置Spark的环境变量</h2><p>右击此电脑，打开属性<br><img src="/2019/09/10/python3-6-下的spark搭建/2.png" alt="image"> </p>
+<p>点击高级系统设置并点击环境变量，开始配置。在系统变量栏新建SPARK_HOME，编辑为spark的所在路径<img src="/2019/09/10/python3-6-下的spark搭建/11.png" alt="image"></p>
+<h2 id="7、下载安装Hadoop"><a href="#7、下载安装Hadoop" class="headerlink" title="7、下载安装Hadoop"></a>7、下载安装Hadoop</h2><p>在官网（<a href="http://hadoop.apache.org/releases.html" target="_blank" rel="noopener">http://hadoop.apache.org/releases.html</a><br>）上下载适应版本的<strong>Hadoop</strong>（在下载解压的spark文件夹查看，可以看出我要下载的是<strong>2.7及以后的版本</strong>）</p>
+<p><img src="/2019/09/10/python3-6-下的spark搭建/13.png" alt="image"><br><img src="/2019/09/10/python3-6-下的spark搭建/12.png" alt="image"><br>点击<strong>binary</strong>进行下载，完成后解压到D盘即可</p>
+<h2 id="6、配置Hadoop的环境变量"><a href="#6、配置Hadoop的环境变量" class="headerlink" title="6、配置Hadoop的环境变量"></a>6、配置Hadoop的环境变量</h2><p>右击此电脑，打开属性<br><img src="/2019/09/10/python3-6-下的spark搭建/2.png" alt="image"> </p>
+<p>点击高级系统设置并点击环境变量，开始配置。在系统变量栏新建SPARK_HOME，编辑为spark的所在路径<img src="/2019/09/10/python3-6-下的spark搭建/14.png" alt="image"></p>
+<h2 id="7、winutils下载"><a href="#7、winutils下载" class="headerlink" title="7、winutils下载"></a>7、winutils下载</h2><p>下载地址（<a href="https://github.com/steveloughran/winutils" target="_blank" rel="noopener">https://github.com/steveloughran/winutils</a><br>），点击 <strong>Clone or download</strong> 下载 <strong>winutils-master.zip</strong></p>
+<p><img src="/2019/09/10/python3-6-下的spark搭建/15.png" alt="image"> </p>
+<p>下载完成后解压并打开，找到自己Hadoop对应的版本<br><img src="/2019/09/10/python3-6-下的spark搭建/16.png" alt="image"></p>
+<p>将其打开并将bin文件夹复制到Hadoop所在路径下<br><img src="/2019/09/10/python3-6-下的spark搭建/17.png" alt="image"></p>
+<p>选择<strong>替换目标中的的文件</strong></p>
+<h2 id="8、安装扩展库py4j"><a href="#8、安装扩展库py4j" class="headerlink" title="8、安装扩展库py4j"></a>8、安装扩展库py4j</h2><p>以<strong>管理员身份</strong>打开<strong>命令提示符</strong>，运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install py4j</span><br></pre></td></tr></table></figure>
 
-</section>
+<p>注意：如果出错，一般为网速问题；也有可能是pip版本太低，升级pip版本即可</p>
+<h2 id="9、验证"><a href="#9、验证" class="headerlink" title="9、验证"></a>9、验证</h2><p>打开命令提示符，将路径切换到<strong>spark-2.4.3-bin-hadoop2.7\bin</strong>所在路径，执行命令<strong>pyspark.cmd</strong>，进入<strong>Python</strong>开发环境（不仅可以使用pyspark库，还可以使用Python标准库和已安装的扩展库）</p>
+<p><img src="/2019/09/10/python3-6-下的spark搭建/18.png" alt="image"></p>
+<p><em>没有出现错误信息，到这一步已经算是成功了，在此恭喜你已经成功搭建好了python下的spark</em></p>
+<p>另外，在Spark的bin文件夹中还提供了<strong>spark-submit.cmd</strong> 文件。</p>
+<p>打开命令提示符，输入以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark-shell</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/09/10/python3-6-下的spark搭建/19.png" alt="image"></p>
+<p>将<strong>Spark context Web UI available at</strong> 后的网址在浏览器中打开，可以访问控制台中的webui</p>
+<p><img src="/2019/09/10/python3-6-下的spark搭建/20.png" alt="image"></p>
+
+        </div>
+
         
-          <aside id="sidebar">
-  
-    
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Allen Xue</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><strong>To be or not to be,that is a question.<strong></strong></strong></span>
+                     </p>
+                
 
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
+            </section>
         
-          <li>
-            <a href="/2019/09/10/python3-6-下的spark搭建/">python3_6 下的spark搭建</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/python/"># python</a>
+                    
+                        <a href="/tag/spark/"># spark</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+        </section>
 
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2019 John Doe<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Allen Xue | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
-  </div>
 </footer>
+
     </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
     
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-
-
-  </div>
+        <script type="text/javascript" color="0,0,0" opacity="0.3" zindex="-2" count="99" src="/js/canvas-nest.js"></script>
+    
 </body>
 </html>
