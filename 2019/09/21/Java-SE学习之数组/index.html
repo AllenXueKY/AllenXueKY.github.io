@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Java SE学习之【数组】 | Allen Xue&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Allen Xue&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Allen Xue&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Java SE学习之【数组】</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Allen Xue</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">September 21, 2019&nbsp;&nbsp;14:14:45</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/Java-SE/">Java SE</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>先分享一下，这一周学习<strong>Java</strong>的感受吧。学习<strong>Java</strong>和之前学习C语言和C++有一些不同，刚开始学习时很难接受，也很难上手。     </p>
+<p>和C/C++比较的话，语法上稍微能简洁一点，但是运行速度却是天壤之别，而且当了解到<strong>Java</strong>没有指针时，瞬间觉得这语言没了灵魂，但是通过这一周的学习发现，<strong>Java</strong>其实也有一些值得去学习的地方，有一些内置的方法能够快速高效地达到预期的结果。所以说任何一门编程语言之所以存在，都会有一些值得去学习的地方，在学习的道路中，不能存在所谓的”鄙视链“，要以平和的心态对待每一门语言，这样才能使自己更加强大。</p>
+<p>下面说说，<strong>Java</strong>中<strong>数组</strong>是如何进行<strong>定义、初始化、动态赋值、排序、查找、删除和插入</strong>的。</p>
+<h2 id="二、数组的定义"><a href="#二、数组的定义" class="headerlink" title="二、数组的定义"></a>二、数组的定义</h2><p>在<strong>Java</strong>中数组的定义与C语言大不相同。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/*C语言中数组的定义*/</span><br><span class="line">int array[10];</span><br><span class="line">//类型说明符 数组名[常量表达式];</span><br><span class="line"></span><br><span class="line">/*Java中数组的定义*/</span><br><span class="line">int[] array = new int[10];</span><br><span class="line">//类型说明符[] 数组名 = new 类型说明符[常量表达式]</span><br><span class="line"></span><br><span class="line">/*也可以这样写*/</span><br><span class="line">int[] array;</span><br><span class="line">array = new int[10];</span><br></pre></td></tr></table></figure>
+
+<p>通过对第二种方法的分析来了解<strong>数组</strong>在创建过程中内存的分配情况。第一行代码声明了一个变量array，该变量的类型为int[]，即一个int类型的数组，但是变量array只占用一块内存单元，并没有被分配初始值。第二行代码创建了一个数组，将数组的地址赋值给变量array，在程序运行期间可以使用<strong>变量array</strong>来引用数组。</p>
+<h2 id="三、一维数组的初始化"><a href="#三、一维数组的初始化" class="headerlink" title="三、一维数组的初始化"></a>三、一维数组的初始化</h2><p>先通过几个例子感受一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//错误：声明并初始化数组时，不需要指定数组的大小</span><br><span class="line">int years[6] = &#123;2012,2013,2014,2015,2016,2017&#125;;</span><br><span class="line"></span><br><span class="line">//错误：声明并初始化数组时，不需要指定数组的大小</span><br><span class="line">int[12] months =&#123;1,3,5,7,8,10,12&#125;; </span><br><span class="line"></span><br><span class="line">//正确：元素个数为2（days.length == 2）</span><br><span class="line">int days[] = &#123;1,15&#125;;</span><br><span class="line"></span><br><span class="line">//语法正确：但不能为数组元素赋值</span><br><span class="line">int array[] = &#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>通过上面的例子发现，Java事儿还是挺多的。<br>静态初始化有两种方式。</p>
+<p>   1.类型[] 数组名 = new 类型[]{元素,元素,元素,…}；</p>
+<p>   2.类型[] 数组名 = {元素,元素,元素,…}；</p>
+<p>上面的两种方式都可以实现数组的静态初始化，通常采用第二种方式。<strong>需要注意的是：1、创建数组后就不能再修改数组的大小。    2、基本数据类型数组的默认值为0。  3、char型数组元素的默认值为\u0000</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class blogTest &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		int[] array = new int[2];</span><br><span class="line">		System.out.println(&quot;int型数组中的元素有:&quot;);</span><br><span class="line">		for (int i = 0; i &lt; array.length; i++) &#123;</span><br><span class="line">			System.out.println(array[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		char[] arrayc = new char[2];</span><br><span class="line">		System.out.println(&quot;char型数组中的元素有:&quot;);</span><br><span class="line">		for (int i = 0; i &lt; arrayc.length; i++) &#123;</span><br><span class="line">			System.out.println(arrayc[i]);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line">运行结果：</span><br><span class="line">int型数组中的元素有:</span><br><span class="line">0</span><br><span class="line">0</span><br><span class="line">char型数组中的元素有:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">*/</span><br><span class="line">//控制台输出的是空格，\u0000 表示的是Unicode值</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、一维数组的动态赋值"><a href="#三、一维数组的动态赋值" class="headerlink" title="三、一维数组的动态赋值"></a>三、一维数组的动态赋值</h2><p>大概的思想和C语言是类似的，都是先定义一个空的数组再通过<strong>for循环</strong>来对数组进行赋值，下面来看一个C语言中很熟悉的斐波那契额数列的例子，这样会更快地理解动态赋值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public class HelloWorld &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		int[] nums= new int[20];</span><br><span class="line">		int sum=0;</span><br><span class="line">		double avg;</span><br><span class="line">		nums[0]=1;</span><br><span class="line">		nums[1]=1;</span><br><span class="line">		for (int i = 2; i &lt; nums.length; i++) &#123;</span><br><span class="line">			nums[i]=nums[i-1]+nums[i-2];</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(&quot;打印结果&quot;);</span><br><span class="line">		for (int i = 0; i &lt; nums.length; i++) &#123;</span><br><span class="line">			System.out.print(nums[i]+ &quot;, &quot;);</span><br><span class="line">			sum+=nums[i];</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">		System.out.println(sum/nums.length/1.0);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">运行结果：</span><br><span class="line">打印结果</span><br><span class="line">1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, </span><br><span class="line">885.0</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、数组的排序"><a href="#四、数组的排序" class="headerlink" title="四、数组的排序"></a>四、数组的排序</h2><p>常见的几种排序：冒泡排序、选择排序、快速排序</p>
+<h3 id="1、冒泡排序"><a href="#1、冒泡排序" class="headerlink" title="1、冒泡排序"></a>1、冒泡排序</h3><p>冒泡排序算法的原理如下：</p>
+<p><strong>a</strong>.  比较相邻的元素。如果第一个比第二个大，就交换他们两个。</p>
+<p><strong>b</strong>.  对每一对相邻元素做同样的工作，从开始第一对到结尾的最后一对。在这一点，最后的元素应该会是最大的数。</p>
+<p><strong>c</strong>.   针对所有的元素重复以上的步骤，除了最后一个。</p>
+<p><strong>d</strong>.   持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">//结果升序</span><br><span class="line">public class blogTest &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">	    int[] arr = &#123;78,89,67,98,90,56,88&#125;;</span><br><span class="line">	    for(int i=0; i&lt;arr.length; i++)&#123;</span><br><span class="line">	        for(int j=i; j&lt;arr.length; j++)&#123;</span><br><span class="line">	            if(arr[i]&gt;arr[j])&#123;</span><br><span class="line">	                int temp = arr[j];</span><br><span class="line">	                arr[j]  = arr[i];</span><br><span class="line">	                arr[i] = temp;</span><br><span class="line">	            &#125;</span><br><span class="line">	        &#125;</span><br><span class="line">	    &#125;</span><br><span class="line">	    for (int i = 0; i &lt; arr.length; i++) &#123;</span><br><span class="line">			System.out.print(arr[i]+&quot;\t&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">运行结果：</span><br><span class="line">56	67	78	88	89	90	98	</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+
+<p>需要进行降序的冒泡排序时，将上述代码中第二个for循环中的if语句的条件 <code>arr[i]&gt;arr[j]</code> 改为<code>arr[i]arr[j]</code>即可。</p>
+<h3 id="2、选择排序"><a href="#2、选择排序" class="headerlink" title="2、选择排序"></a>2、选择排序</h3><p><strong>简单选择排序是最简单直观的一种算法</strong>，每一趟从待排序的数据元素中选择最小（或最大）的一个元素作为首元素，直到所有元素排完为止，简单选择排序是不稳定排序。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public class blogTest &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		int[] arr = &#123;52,63,14,59,68,35,8,67,45,99&#125;;</span><br><span class="line">		System.out.println(&quot;原数组：&quot;);</span><br><span class="line">		for (int i : arr) &#123;</span><br><span class="line">			System.out.print(i+&quot; &quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">		for(int i = 0; i &lt; arr.length-1; i++)&#123;</span><br><span class="line">			int min = i;</span><br><span class="line">			for(int j = i+1; j &lt;arr.length-1;j++)&#123;</span><br><span class="line">				if(arr[j]&lt;arr[min])&#123;</span><br><span class="line">					min = j;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			if(min!=i)&#123;</span><br><span class="line">				int temp = arr[i];</span><br><span class="line">				arr[i] = arr[min];</span><br><span class="line">				arr[min] = temp;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(&quot;排序后：&quot;);</span><br><span class="line">		for (int i : arr) &#123;</span><br><span class="line">			System.out.print(i+&quot; &quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">运行结果：</span><br><span class="line">原数组：</span><br><span class="line">52 63 14 59 68 35 8 67 45 99 </span><br><span class="line">排序后：</span><br><span class="line">8 14 35 45 52 59 63 67 68 99 </span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码中有些for循环的条件为<code>int i : arr</code></p>
+<p>等价为 <code>int i ; i &lt; arr.length() ; i++</code></p>
+<h3 id="3、sort方法之快速排序"><a href="#3、sort方法之快速排序" class="headerlink" title="3、sort方法之快速排序"></a>3、sort方法之快速排序</h3><p><strong>快速排序基本思想：</strong><br>通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此达到整个数据变成有序序列。</p>
+<p>Java中有自带的类库可以直接实现快速排序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Arrays;</span><br><span class="line">public class blogTest &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		int[] arr = &#123;52,63,14,59,68,35,8,67,45,99&#125;;</span><br><span class="line">		System.out.println(&quot;原数组：&quot;);</span><br><span class="line">		for (int i : arr) &#123;</span><br><span class="line">			System.out.print(i+&quot; &quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">		Arrays.sort(arr);</span><br><span class="line">		System.out.println(&quot;排序后：&quot;);</span><br><span class="line">		for (int i : arr) &#123;</span><br><span class="line">			System.out.print(i+&quot; &quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">运行结果：</span><br><span class="line">原数组：</span><br><span class="line">52 63 14 59 68 35 8 67 45 99 </span><br><span class="line">排序后：</span><br><span class="line">8 14 35 45 52 59 63 67 68 99 </span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+
+<p>需要进行逆序时，在引用sort方法后，加上以下代码调换数组元素的顺序即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">for (int i = 0; i &lt; arr.length / 2; i++) &#123;</span><br><span class="line">			int temp = arr[i];</span><br><span class="line">			arr[i] = arr[arr.length-i-1];</span><br><span class="line">			arr[arr.length-i-1]=temp;</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="五、数组的二分查找法"><a href="#五、数组的二分查找法" class="headerlink" title="五、数组的二分查找法"></a>五、数组的二分查找法</h2><p><strong>基本原理：</strong></p>
+<p>首先将要查找的元素（key）与数组的中间元素比较</p>
+<p><strong>1</strong>、如果key小于中间元素，只需要在数组的前一半元素中继续查找</p>
+<p><strong>2</strong>、如果key和中间元素相等，匹配成功，查找结束</p>
+<p><strong>3</strong>、如果key大于中间元素，只需要在数组的后一半元素中继续查找key</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Scanner;</span><br><span class="line">public class blogTest &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		int[] arr = &#123;1,2,3,4,5,6&#125;;</span><br><span class="line">		System.out.print(&quot;请输入要查找的值:&quot;);</span><br><span class="line">		Scanner input = new Scanner(System.in);</span><br><span class="line">		int key = input.nextInt();</span><br><span class="line">		boolean isFind = false;</span><br><span class="line">		int low = 0;</span><br><span class="line">		int high = arr.length - 1;</span><br><span class="line">		while (low &lt;= high) &#123;</span><br><span class="line">			int mid = low + (high - low) / 2;</span><br><span class="line">		    if (arr[mid] &gt; key)&#123;</span><br><span class="line">		    	high = mid - 1;</span><br><span class="line">		    &#125;else if(arr[mid] &lt; key)&#123;</span><br><span class="line">		        low = mid + 1;</span><br><span class="line">		    &#125;else&#123;</span><br><span class="line">		        System.out.println(&quot;找到了！下标为&quot;+mid);</span><br><span class="line">		        isFind = true;</span><br><span class="line">		        break;</span><br><span class="line">		    &#125;</span><br><span class="line">		&#125;</span><br><span class="line">		if (!isFind) &#123;</span><br><span class="line">	    	System.out.println(&quot;抱歉，未找到!&quot;);</span><br><span class="line">		&#125;	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">运行结果：</span><br><span class="line">请输入要查找的值:10</span><br><span class="line">抱歉，未找到!</span><br><span class="line"></span><br><span class="line">请输入要查找的值:5</span><br><span class="line">找到了！下标为4</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+
+<h2 id="六、数组的删除和插入"><a href="#六、数组的删除和插入" class="headerlink" title="六、数组的删除和插入"></a>六、数组的删除和插入</h2><h3 id="1、删除"><a href="#1、删除" class="headerlink" title="1、删除"></a>1、删除</h3><p><strong>删除之前操作的步骤</strong>：先排序然后查找要删除的元素的下标</p>
+<p><strong>删除操作的步骤：</strong></p>
+<p><strong>a</strong>、找到要删除元素的下标</p>
+<p><strong>b</strong>、从要删除的元素开始，后面一个元素赋值给前面一个元素——覆盖</p>
+<p><strong>c</strong>、数组总长度-1</p>
+<p>具体代码实现如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Scanner;</span><br><span class="line">public class blogTest &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		int[] arr = &#123;1,2,3,4,5,6&#125;; //这里直接给的是一个有序的数组，如果改变为无序，加入sort方法排序即可</span><br><span class="line">		System.out.print(&quot;请输入要删除的值:&quot;);</span><br><span class="line">		Scanner input = new Scanner(System.in);</span><br><span class="line">		int key = input.nextInt();</span><br><span class="line">		int deleteIndex = -1;	//要删除元素的下标</span><br><span class="line">		int count = arr.length; //当前数组元素的总个数</span><br><span class="line">		boolean isFind = false;</span><br><span class="line">		int low = 0;</span><br><span class="line">		int high = arr.length - 1;</span><br><span class="line">		while (low &lt;= high) &#123;</span><br><span class="line">			int mid = low + (high - low) / 2;</span><br><span class="line">		    if (arr[mid] &gt; key)&#123;</span><br><span class="line">		    	high = mid - 1;</span><br><span class="line">		    &#125;else if(arr[mid] &lt; key)&#123;</span><br><span class="line">		        low = mid + 1;</span><br><span class="line">		    &#125;else&#123;</span><br><span class="line">		        System.out.println(&quot;找到了！下标为&quot;+mid);</span><br><span class="line">		        isFind = true;</span><br><span class="line">		        deleteIndex = mid;</span><br><span class="line">		        break;</span><br><span class="line">		    &#125;</span><br><span class="line">		&#125;</span><br><span class="line">		if (!isFind || deleteIndex == -1) &#123;</span><br><span class="line">	    	System.out.println(&quot;抱歉，未找到!&quot;);</span><br><span class="line">	    	System.exit(0);</span><br><span class="line">		&#125;</span><br><span class="line">		count--;</span><br><span class="line">		for (int i = deleteIndex; i &lt; count; i++) &#123;</span><br><span class="line">			arr[i]=arr[i+1];</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.print(&quot;已删除！剩余数组元素为：&quot;);</span><br><span class="line">		for (int i = 0; i &lt; count; i++) &#123;</span><br><span class="line">			System.err.print(arr[i]+&quot;\t&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">运行结果：</span><br><span class="line">请输入要删除的值:5</span><br><span class="line">找到了！下标为4</span><br><span class="line">已删除！剩余数组元素为：1	2	3	4	6	</span><br><span class="line"></span><br><span class="line">请输入要删除的值:10</span><br><span class="line">抱歉，未找到!</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+
+<p>其实并没有删除，只不过是将要删除的数后的元素重新进行赋值，在遍历数组时，将数组最后一个元素不进行遍历。因为在Java中数组的空间和总大小是不能改变的，在C语言和C++中也是一样。</p>
+<h3 id="2、插入"><a href="#2、插入" class="headerlink" title="2、插入"></a>2、插入</h3><p><strong>插入操作的步骤：</strong></p>
+<p><strong>a</strong>、用<strong>copyOf</strong>方法复制原来的数组<strong>arr</strong>得到比原来数组长度大1新数组<strong>arr1</strong></p>
+<p><strong>b</strong>、找到要插入元素的下标（找到第一个大于要插入元素的下标）</p>
+<p><strong>c</strong>、从最后一个元素开始<strong>arr1[i] = arr[i-1]</strong>  直到<strong>index</strong>结束</p>
+<p><strong>d</strong>、在<strong>index</strong>处赋值</p>
+<p>具体代码实现如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Arrays;</span><br><span class="line">import java.util.Scanner;</span><br><span class="line">public class blogTest &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">      Scanner input = new Scanner(System.in);</span><br><span class="line">      int[] arr = &#123; 99, 85, 82, 63, 60 &#125;;</span><br><span class="line">      Arrays.sort(arr);</span><br><span class="line">      int[] arr1 = Arrays.copyOf(arr, arr.length + 1);//用copyOf方法复制原来的数组得到比原来数组长度大1新数组arr1</span><br><span class="line">      int index = 0;</span><br><span class="line">      System.out.print(&quot;请输入要插入的数：&quot;);</span><br><span class="line">      int a = input.nextInt();</span><br><span class="line">      for (int i = 0; i &lt; arr1.length; i++) &#123;</span><br><span class="line">         if (arr[i] &gt; a) &#123;</span><br><span class="line">            index = i;</span><br><span class="line">            break;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      for (int i = arr1.length - 1; i &gt; index; i--) &#123;</span><br><span class="line">         arr1[i] = arr[i - 1];</span><br><span class="line">      &#125;</span><br><span class="line">      arr1[index] = a;</span><br><span class="line">      System.out.print(&quot;插入后的数下标是：&quot; + index);</span><br><span class="line">      System.out.println();</span><br><span class="line">      System.out.print(&quot;插入后的数组元素为：&quot;);</span><br><span class="line">      for (int i : arr1) &#123;</span><br><span class="line">         System.out.print(i + &quot;\t&quot;);</span><br><span class="line">      &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">运行结果：</span><br><span class="line">请输入要插入的数：80</span><br><span class="line">插入后的数下标是：2</span><br><span class="line">插入后的数组元素为：60	63	80	82	85	99	</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+
+<p>也可以将要插入的数直接赋值给新的数组arr1的最后一个元素，然后进行排序即可。</p>
+<h2 id="七、浅淡二维数组"><a href="#七、浅淡二维数组" class="headerlink" title="七、浅淡二维数组"></a>七、浅淡二维数组</h2><p>二维数组可以看作是由N个一维数组所组成的数组，在二维数组的相关操作中，多采用嵌套的for循环进行，所以最基础的东西还是一维数组的这些操作，掌握了这些操作，二维数组或者多维数组都能够自己分析。</p>
+<h2 id="八、小结"><a href="#八、小结" class="headerlink" title="八、小结"></a>八、小结</h2><h3 id="写了一下午，已经有点崩溃了"><a href="#写了一下午，已经有点崩溃了" class="headerlink" title="写了一下午，已经有点崩溃了"></a><em>写了一下午，已经有点崩溃了</em></h3><p>写之前的样子：</p>
+<p><img src="/2019/09/21/Java-SE学习之数组/0.jpg" alt="image"> </p>
+<p>写完以后的样子：</p>
+<p><img src="/2019/09/21/Java-SE学习之数组/1.jpg" alt="image"> </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Allen Xue</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><strong>To be or not to be,that is a question.<strong></strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/Java-SE/"># Java SE</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2019/09/10/python3-6-下的spark搭建/">python3_6 下的spark搭建</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Allen Xue | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+    
+        <script type="text/javascript" color="0,0,0" opacity="0.3" zindex="-2" count="99" src="/js/canvas-nest.js"></script>
+    
+</body>
+</html>
