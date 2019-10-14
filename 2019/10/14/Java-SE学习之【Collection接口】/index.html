@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Java_SE学习之【Collection接口】 | Allen Xue&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Allen Xue&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Allen Xue&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Java_SE学习之【Collection接口】</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Allen Xue</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">October 14, 2019&nbsp;&nbsp;19:59:52</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/Java-SE/">Java_SE</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="一、集合"><a href="#一、集合" class="headerlink" title="一、集合"></a>一、集合</h2><h3 id="1、集合的概念"><a href="#1、集合的概念" class="headerlink" title="1、集合的概念"></a>1、集合的概念</h3><ul>
+<li>现实生活中：很多事物凑在一起</li>
+<li>数学中的集合：具有共同属性的事物的总体</li>
+<li><strong>Java中的集合类：是一种工具类。就像是容器，储存任意数量的具有共同属性的对象</strong></li>
+</ul>
+<h3 id="2、集合的作用"><a href="#2、集合的作用" class="headerlink" title="2、集合的作用"></a>2、集合的作用</h3><ul>
+<li>在类的的内部，对数据进行组织</li>
+<li>简单而快速地搜索大数量地条目</li>
+<li>有的集合接口，提供了一系列排列有序的元素，并且可以在序列中间快速地插入或者删除有关属性</li>
+<li>有的集合接口，提供了映射关系，可以通过关键字（key）去快速查找到对应的唯一对象，而这个关键字可以是任意类型</li>
+</ul>
+<h3 id="3、与数组的对比——为何选择集合而不是数组"><a href="#3、与数组的对比——为何选择集合而不是数组" class="headerlink" title="3、与数组的对比——为何选择集合而不是数组"></a>3、与数组的对比——为何选择集合而不是数组</h3><ul>
+<li>数组的长度固定，集合长度可变</li>
+<li>数组只能通过下标访问元素，类型固定，而有的集合可以通过任意类型查找所映射的具体对象</li>
+</ul>
+<h2 id="二、Java中的集合"><a href="#二、Java中的集合" class="headerlink" title="二、Java中的集合"></a>二、Java中的集合</h2><h3 id="1、Collection架构"><a href="#1、Collection架构" class="headerlink" title="1、Collection架构"></a>1、Collection架构</h3><p><img src="/2019/10/14/Java-SE学习之【Collection接口】/2.png" alt="image"></p>
+<p><img src="/2019/10/14/Java-SE学习之【Collection接口】/1.png" alt="image"></p>
+<p><strong>三种主要类型的集合：</strong></p>
+<ul>
+<li><strong>Set（规则集）</strong>：存储一组不可重复的元素</li>
+<li><strong>List（线性表）</strong>：存储一个有序集合</li>
+<li><strong>Queue（队列）</strong>：存储用先进先出方式处理的对象</li>
+</ul>
+<p><strong>注意：</strong></p>
+<ul>
+<li>集合框架中的<strong>所有接口和类</strong>都在<strong>java.util</strong>包中</li>
+<li>集合框架中的所有的具体类都实现了<strong>Cloneable</strong>和<strong>Serializable</strong>接口，即他们的实例都是<strong>可复制且可序列化的</strong></li>
+</ul>
+<h3 id="2、Collection接口"><a href="#2、Collection接口" class="headerlink" title="2、Collection接口"></a>2、Collection接口</h3><p><img src="/2019/10/14/Java-SE学习之【Collection接口】/3.png" alt="image"></p>
+<h3 id="3、插入一个知识点：泛型"><a href="#3、插入一个知识点：泛型" class="headerlink" title="3、插入一个知识点：泛型"></a>3、插入一个知识点：泛型</h3><p><strong>泛型</strong>，即“参数化类型”。<br>将类型由原来的具体的类型参数化，类似于方法中的变量参数，此时类型也定义成参数形式（可以称之为类型形参），然后在使用/调用时传入具体的类型（类型实参）。</p>
+<p><strong>泛型的本质</strong>是为了参数化类型（在不创建新的类型的情况下，通过泛型指定的不同类型来控制形参具体限制的类型）。也就是说在泛型使用过程中，</p>
+<p><strong>操作的数据类型被指定为一个参数</strong>，这种参数类型可以用在类、接口和方法中，分别被称为<strong>泛型类、泛型接口、泛型方法。</strong></p>
+<p>通过下面的代码理解：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 理解泛型的基本含义</span><br><span class="line"> */</span><br><span class="line">public class ElementDemo&lt;E&gt; &#123;</span><br><span class="line">	Object[] objs = new Object[999];</span><br><span class="line">	</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		//运行时给定类型</span><br><span class="line">		ElementDemo&lt;Integer&gt; demo = new ElementDemo&lt;Integer&gt;();</span><br><span class="line">		demo.add(12);//使用泛型后，类型错误时就会产生编译期的异常</span><br><span class="line">		</span><br><span class="line">		ElementDemo&lt;String&gt; demo1 = new ElementDemo&lt;&gt;();</span><br><span class="line">		</span><br><span class="line">		//</span><br><span class="line">//		objs[0] = 1024;</span><br><span class="line">//		objs[1] = &quot;abc&quot;;</span><br><span class="line">//		objs[2] = 19.9;</span><br><span class="line">//		objs[3] = new Student();</span><br><span class="line">//		</span><br><span class="line">//		//从对象数组中取出对象进行操作</span><br><span class="line">//		Integer value1 = (Integer)objs[0];</span><br><span class="line">//		//java.lang.ClassCastException - 运行时异常，无法在编译期杜绝 - 有可能造成程序的崩溃</span><br><span class="line">//		Integer value2 = (Integer)objs[1]; </span><br><span class="line">//		</span><br><span class="line">//		System.out.println(value1);</span><br><span class="line">//		System.out.println(value2);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	/**</span><br><span class="line">	 * 向对象数组中添加给定类型的元素 - 泛型</span><br><span class="line">	 * @param e</span><br><span class="line">	 */</span><br><span class="line">	public void add(E e)&#123;</span><br><span class="line">		//向obj数组中添加e元素即可</span><br><span class="line">		//代码省略</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">class Student&#123;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行上面的代码注释的部分会发现程序并没有报错，但是运行的时候程序会直接跳出异常。</p>
+<h3 id="4、具有索引的List接口"><a href="#4、具有索引的List接口" class="headerlink" title="4、具有索引的List接口"></a>4、具有索引的List接口</h3><p><img src="/2019/10/14/Java-SE学习之【Collection接口】/4.png" alt="image"></p>
+<p><strong>集合使用建议：</strong></p>
+<ul>
+<li><strong>ArrayList/LinkedList/ArrayDeque/HashSet/LinkedHashSet/TreeSet</strong><ul>
+<li>1、如果要遍历List结合，对于ArrayList、Vector来说，使用随遍历（get)效率更高；对于LinkedList/LinkHashSet来说，使用<strong>迭代器</strong>效率更高</li>
+<li>2、如果需要经常执行插入、删除操作来改变包含大量数据的集合大小，建议使用LinkedList。（ArrayList、Vector可能需要重新分配内部数组的大小，从而影响效率）</li>
+<li>3、如果有多个线程需要同时访问集合中的元素，可以考虑使用Collectons将集合包装成线程安全的集合</li>
+</ul>
+</li>
+</ul>
+<p>通过代码进一步理解List接口以及迭代器的使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.Iterator;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.ListIterator;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class CollectionDemo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		//多态：使用List接口的一个子类ArrayList进行实现</span><br><span class="line">		List&lt;String&gt; list1 = new ArrayList&lt;&gt;();</span><br><span class="line">		list1.add(&quot;曹操&quot;);</span><br><span class="line">		list1.add(&quot;曹冲&quot;);</span><br><span class="line">		list1.add(&quot;曹植&quot;);</span><br><span class="line">		list1.add(&quot;曹培&quot;);</span><br><span class="line">		list1.add(&quot;曹仁&quot;);	</span><br><span class="line">		System.out.println(list1);</span><br><span class="line">		list1.add(1, &quot;刘璇的&quot;);</span><br><span class="line">		System.out.println(list1);</span><br><span class="line">		list1.set(1, &quot;关云长&quot;);</span><br><span class="line">		System.out.println(list1);</span><br><span class="line">		</span><br><span class="line">		List&lt;String&gt; list2 = new ArrayList&lt;&gt;();</span><br><span class="line">		list2.add(&quot;张翼德&quot;);</span><br><span class="line">		list2.add(&quot;张飞龙&quot;);</span><br><span class="line">		</span><br><span class="line">		list1.addAll(list2);</span><br><span class="line">		System.out.println(list1);</span><br><span class="line">		</span><br><span class="line">		System.out.println(&quot;集合的遍历&quot;);</span><br><span class="line">		//1、List的遍历</span><br><span class="line">		for(int i = 0; i &lt; list1.size(); i++)&#123;</span><br><span class="line">			System.out.print(list1.get(i) + &quot;,  &quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">		//2、使用foreach循环</span><br><span class="line">		for(String str : list1)&#123;</span><br><span class="line">			System.out.print(str + &quot;,  &quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">		//3、使用迭代器遍历</span><br><span class="line">		Iterator&lt;String&gt; it = list1.iterator();</span><br><span class="line">		//使用迭代器的方法相对比较固定</span><br><span class="line">		while(it.hasNext())&#123;</span><br><span class="line">			System.out.print(it.next() + &quot;,  &quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">		//4、使用ListIterator迭代器</span><br><span class="line">		ListIterator&lt;String&gt; listIt = list1.listIterator();</span><br><span class="line">		while(listIt.hasNext())&#123;</span><br><span class="line">			System.out.print(listIt.next() + &quot;,  &quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">		//使用ListIterator与传统迭代器的区别</span><br><span class="line">		//1、ListIterator不止可以向后访问，也可以向前访问</span><br><span class="line">		//2、ListIterator可以修改集合中的元素</span><br><span class="line">		System.out.println(&quot;使用ListIterator从后向前遍历集合元素（逆序）&quot;);</span><br><span class="line">		ListIterator&lt;String&gt; listIt2 = list1.listIterator(list1.size());</span><br><span class="line">		while(listIt2.hasPrevious())&#123;//当迭代器中的元素存在上一个时</span><br><span class="line">			System.out.print(listIt2.previous() + &quot;,  &quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(&quot;\n&quot;);</span><br><span class="line">		ListIterator&lt;String&gt; listIt3 = list1.listIterator(3);</span><br><span class="line">		if(listIt3.hasPrevious())&#123;</span><br><span class="line">			listIt3.previous();</span><br><span class="line">			listIt3.set(&quot;赵子龙&quot;);//使用迭代器修改元素</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(list1);</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		System.out.println(&quot;删除下标为4的元素：&quot;);</span><br><span class="line">		//list1.remove(4);</span><br><span class="line">		list1.remove(&quot;曹培&quot;);</span><br><span class="line">		System.out.println(list1);</span><br><span class="line">		</span><br><span class="line">		System.out.println(&quot;subList(3, 5) : &quot; + list1.subList(3, 5));</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	/**</span><br><span class="line">	 * 使用迭代器的好处：在遍历集合时，不依赖某个类的实现</span><br><span class="line">	 * @param it</span><br><span class="line">	 */</span><br><span class="line">	public void show(Iterator&lt;? extends Employee&gt; it)&#123;</span><br><span class="line">		while(it.hasNext())&#123;</span><br><span class="line">			System.out.println(it.next());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line">class Employee&#123;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5、List接口的实现类"><a href="#5、List接口的实现类" class="headerlink" title="5、List接口的实现类"></a>5、List接口的实现类</h3><ul>
+<li><strong>ArrayList（数组线性表）</strong><ul>
+<li>是一个<strong>大小可变的数组</strong>，在内存中分配<strong>连续的空间</strong></li>
+<li><strong>遍历</strong>元素和<strong>随机访问</strong>元素的<strong>效率比较高</strong></li>
+</ul>
+</li>
+<li><strong>LinkedList（链表）</strong><ul>
+<li>采用<strong>链表</strong>存储方式</li>
+<li>提供从<strong>线性表两端提取、插入和删除</strong>元素的方法</li>
+<li><strong>插入、删除</strong>元素的效率比较高</li>
+</ul>
+</li>
+</ul>
+<p>通过下面的代码，能够清楚地发现两者在不同情况下的效率谁高谁低：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.LinkedList;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">public class ArrayListAndLinkedListDemo &#123;</span><br><span class="line">	/**</span><br><span class="line">	 * 在实际开发中，有可能两种情况（随机访问和删除、插入）交替出现</span><br><span class="line">	 * 建议使用父接口List，不用关心具体的实现</span><br><span class="line">	 * 在具体的情况下，传入或转换成相应的子类型进行使用即可</span><br><span class="line">	 * @param args</span><br><span class="line">	 */</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">		//list.addAll(c)</span><br><span class="line">		System.out.println(&quot;ArrayList耗时：&quot; + CostTime(new ArrayList&lt;&gt;()));</span><br><span class="line">		</span><br><span class="line">		System.out.println(&quot;LinkedList耗时：&quot; + CostTime(new LinkedList&lt;&gt;()));</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static long CostTime(List&lt;Object&gt; list)&#123;</span><br><span class="line">		Object obj = new Object();</span><br><span class="line">		final int N = 150000;</span><br><span class="line">		long startTime = System.currentTimeMillis();</span><br><span class="line">		for (int i = 0; i &lt; N; i++) &#123;</span><br><span class="line">			list.add(obj);			//每次在集合的最后一个位置添加元素</span><br><span class="line">			//list.add(0, obj);   	//每次向集合的0号位置添加元素</span><br><span class="line">		&#125;</span><br><span class="line">		long endTime = System.currentTimeMillis();</span><br><span class="line">		return endTime - startTime;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6、向量类Vector"><a href="#6、向量类Vector" class="headerlink" title="6、向量类Vector"></a>6、向量类Vector</h3><ul>
+<li><strong>Vector</strong>从<strong>Java1.0</strong>起就存在了，<strong>ArrayList</strong>从<strong>Java1.2</strong>才开始存在</li>
+<li>Vector的<strong>使用场景</strong>：<strong>JavaMe等一些微小版本</strong>中都可以使用，但是ArrayList<strong>不可以</strong></li>
+<li>在Java1.2之前，Vector就被广泛的应用在了Java设计中，因为它可以实现可变大小的数组。特别是大多数Swing的数据模型都使用了Vector</li>
+<li>相较ArrayList，Vector中的方法采用<strong>线程同步</strong>，所以<strong>效率比ArrayList低</strong></li>
+</ul>
+<p><strong>Vector实现了List接口:</strong><br><img src="/2019/10/14/Java-SE学习之【Collection接口】/5.png" alt="image"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.Enumeration;</span><br><span class="line">import java.util.Vector;</span><br><span class="line"></span><br><span class="line">public class VectorDemo &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		Vector&lt;String&gt; vec = new Vector&lt;&gt;();</span><br><span class="line">		vec.add(&quot;天龙八部&quot;);			//会返回boolean值</span><br><span class="line">		vec.addElement(&quot;天龙九部&quot;);	//无返回值</span><br><span class="line">		vec.add(&quot;aaa&quot;);</span><br><span class="line">		vec.add(&quot;aaa&quot;);</span><br><span class="line">		vec.add(&quot;aaa&quot;);</span><br><span class="line">		vec.add(&quot;aaa&quot;);</span><br><span class="line">		vec.add(&quot;aaa&quot;);</span><br><span class="line">		vec.add(&quot;aaa&quot;);</span><br><span class="line">		vec.add(&quot;aaa&quot;);</span><br><span class="line">		vec.add(&quot;aaa&quot;);</span><br><span class="line">		vec.add(&quot;aaa&quot;);</span><br><span class="line">		System.out.println(&quot;size:&quot; + vec.size());</span><br><span class="line">		System.out.println(&quot;容量：&quot; + vec.capacity());</span><br><span class="line">		vec.trimToSize();</span><br><span class="line">		System.out.println(&quot;trim后的容量：&quot; + vec.capacity());</span><br><span class="line">		vec.ensureCapacity(3000);</span><br><span class="line">		System.out.println(&quot;ensureCapacity后的容量：&quot; + vec.capacity());</span><br><span class="line">		</span><br><span class="line">		//Vector的遍历</span><br><span class="line">		for(int i = 0; i &lt; vec.size(); i++)&#123;</span><br><span class="line">			System.out.print(vec.get(i) + &quot;, &quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">		//vec.iterator()  迭代器的使用与List相同</span><br><span class="line">		</span><br><span class="line">		//使用枚举遍历 - 早期版本的方式 - 已被Iterator取代</span><br><span class="line">		Enumeration&lt;String&gt; vecEnum = vec.elements();</span><br><span class="line">		while(vecEnum.hasMoreElements())&#123;</span><br><span class="line">			System.out.print(vecEnum.nextElement() + &quot;, &quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">		</span><br><span class="line">		//Lambda表达式遍历</span><br><span class="line">		System.out.println(&quot;使用Lambda表达式遍历&quot;);</span><br><span class="line">		vec.forEach(str -&gt; System.out.print(str + &quot;, &quot;));</span><br><span class="line">		</span><br><span class="line">		//查询元素</span><br><span class="line">		System.out.println(&quot;第一个元素：&quot; + vec.firstElement());</span><br><span class="line">		System.out.println(&quot;最后一个元素：&quot; + vec.lastElement());</span><br><span class="line">		System.out.println(&quot;下标为1的元素：&quot; + vec.elementAt(1) + &quot;\t&quot; + vec.get(1));</span><br><span class="line">		</span><br><span class="line">		vec.removeElementAt(19);// java.lang.ArrayIndexOutOfBoundsException: 19 &gt;= 11</span><br><span class="line">		System.out.println(&quot;删除后：&quot;);</span><br><span class="line">		vec.forEach(str -&gt; System.out.print(str + &quot;, &quot;));</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Vector和ArrayList的异同：</strong></p>
+<ul>
+<li>实现原理相同，功能相同，很多情况下可以互用</li>
+</ul>
+<p><strong>两者的主要区别如下：</strong></p>
+<ul>
+<li><strong>Vector线程安全，ArrayList重速度轻安全，线程非安全</strong></li>
+<li>长度需要增长，Vector默认<strong>增长一倍</strong>；ArrayList增长<strong>50%</strong>。有利于<strong>节约空间</strong></li>
+<li>如果<strong>不需要同步</strong>，做好<strong>使用ArrayList</strong>，因为它比Vector快得多</li>
+</ul>
+<h3 id="7、Set接口及实现类"><a href="#7、Set接口及实现类" class="headerlink" title="7、Set接口及实现类"></a>7、Set接口及实现类</h3><p><img src="/2019/10/14/Java-SE学习之【Collection接口】/6.png" alt="image"><br><strong>Set接口：用来操作存储一组唯一、无序的对象</strong></p>
+<ul>
+<li><strong>HashSet</strong>：用来存储<strong>互不相同的任何元素</strong></li>
+<li><strong>LinkedHashSet</strong>：使用<strong>链表</strong>扩展实现<strong>HashSet类</strong>，<strong>支持对元素的排序</strong><ul>
+<li><strong>注意：如果不需要维护元素被插入的顺序，就应该使用HashSet，更加高效</strong></li>
+</ul>
+</li>
+<li><strong>TreeSet</strong>：可以确保所有元素是<strong>有序的</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Comparator;</span><br><span class="line">import java.util.HashSet;</span><br><span class="line">import java.util.LinkedHashSet;</span><br><span class="line">import java.util.Set;</span><br><span class="line">import java.util.TreeSet;</span><br><span class="line"></span><br><span class="line">public class SetDemo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		TreeSet();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void TreeSet()&#123;</span><br><span class="line">		TreeSet&lt;String&gt; citySet = new TreeSet&lt;&gt;(new Comparator&lt;String&gt;() &#123;</span><br><span class="line">			@Override</span><br><span class="line">			public int compare(String o1, String o2) &#123;</span><br><span class="line">				if(o1.compareTo(o2) &gt; 0) return -1;</span><br><span class="line">				if(o1.compareTo(o2) &lt; 0) return 1;</span><br><span class="line">				return 0;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">		citySet.add(&quot;London&quot;);</span><br><span class="line">		citySet.add(&quot;Paris&quot;);</span><br><span class="line">		citySet.add(&quot;New York&quot;);</span><br><span class="line">		citySet.add(&quot;Bei Jing&quot;);</span><br><span class="line">		citySet.add(&quot;Shang Hai&quot;);</span><br><span class="line">		citySet.forEach(str -&gt; System.out.print(str + &quot;, &quot;));</span><br><span class="line">		System.out.println();</span><br><span class="line">		System.out.println(citySet.higher(&quot;N&quot;));</span><br><span class="line">		System.out.println(&quot;New York之前的元素集合：&quot; + citySet.headSet(&quot;New York&quot;));</span><br><span class="line">		System.out.println(&quot;New York之后的元素集合：&quot; + citySet.tailSet(&quot;New York&quot;));</span><br><span class="line">		System.out.println(&quot;首元素：&quot; + citySet.first());</span><br><span class="line">		</span><br><span class="line">		//citySet.pollFirst() 返回第一个元素，并删除第一个元素</span><br><span class="line">		System.out.println(&quot;删除第一个元素：&quot; + citySet.pollFirst());</span><br><span class="line">		citySet.forEach(str -&gt; System.out.print(str + &quot;, &quot;));</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void HashSetDemo()&#123;</span><br><span class="line">		//Set：规则集两个特点  1、不允许有重复的元素    2、无序</span><br><span class="line">		Set&lt;String&gt; citySet = new HashSet&lt;&gt;();</span><br><span class="line">		citySet.add(&quot;London&quot;);</span><br><span class="line">		citySet.add(&quot;Paris&quot;);</span><br><span class="line">		citySet.add(&quot;New York&quot;);</span><br><span class="line">		citySet.add(&quot;Bei Jing&quot;);</span><br><span class="line">		citySet.add(&quot;Shang Hai&quot;);</span><br><span class="line">		citySet.add(&quot;Shang Hai&quot;);</span><br><span class="line">		citySet.forEach(str -&gt; System.out.print(str + &quot;, &quot;));</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void LinkedHashSetDemo()&#123;</span><br><span class="line">		//LinkedHashSet:插入顺序与实际的顺序一致</span><br><span class="line">		Set&lt;String&gt; citySet = new LinkedHashSet&lt;&gt;();</span><br><span class="line">		citySet.add(&quot;London&quot;);</span><br><span class="line">		citySet.add(&quot;Paris&quot;);</span><br><span class="line">		citySet.add(&quot;New York&quot;);</span><br><span class="line">		citySet.add(&quot;Bei Jing&quot;);</span><br><span class="line">		citySet.add(&quot;Shang Hai&quot;);</span><br><span class="line">		citySet.forEach(str -&gt; System.out.print(str + &quot;, &quot;));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="8、java-util-Collections"><a href="#8、java-util-Collections" class="headerlink" title="8、java.util.Collections"></a>8、java.util.Collections</h3><ul>
+<li>Collections用于简化对Java集合框架的常见操作<br><img src="/2019/10/14/Java-SE学习之【Collection接口】/7.png" alt="image"><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.Arrays;</span><br><span class="line">import java.util.Collection;</span><br><span class="line">import java.util.Collections;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Random;</span><br><span class="line"></span><br><span class="line">public class CollectionsDemo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		List&lt;Integer&gt; intCollection = new ArrayList&lt;&gt;();</span><br><span class="line">		intCollection.add(123);</span><br><span class="line">		intCollection.add(120);</span><br><span class="line">		intCollection.add(124);</span><br><span class="line">		intCollection.add(122);</span><br><span class="line">		intCollection.add(127);</span><br><span class="line">		intCollection.add(126);	</span><br><span class="line">		</span><br><span class="line">		intCollection.forEach(value -&gt; System.out.print(value + &quot;, &quot;));</span><br><span class="line">		Collections.shuffle(intCollection, new Random(20));</span><br><span class="line">		System.out.println(&quot;\n乱序后：&quot;);</span><br><span class="line">		intCollection.forEach(value -&gt; System.out.print(value + &quot;, &quot;));</span><br><span class="line">		</span><br><span class="line">		Collections.shuffle(intCollection, new Random(20));</span><br><span class="line">		System.out.println(&quot;\n乱序后：&quot;);</span><br><span class="line">		intCollection.forEach(value -&gt; System.out.print(value + &quot;, &quot;));</span><br><span class="line">		</span><br><span class="line">		System.out.println(&quot;集合的复制&quot;);		</span><br><span class="line">		List&lt;Integer&gt; longCollection = new ArrayList&lt;&gt;();</span><br><span class="line">		longCollection.add(0);</span><br><span class="line">		longCollection.add(0);</span><br><span class="line">		longCollection.add(0);</span><br><span class="line">		longCollection.add(0);</span><br><span class="line">		longCollection.add(0);</span><br><span class="line">		longCollection.add(0);</span><br><span class="line">		Collections.copy(longCollection, intCollection);</span><br><span class="line">		longCollection.forEach(value -&gt; System.out.print(value + &quot;, &quot;));</span><br><span class="line">		longCollection.add(126);</span><br><span class="line">		//对比两个集合中没有公共元素</span><br><span class="line">		System.out.println(Collections.disjoint(intCollection, longCollection));</span><br><span class="line">		</span><br><span class="line">		System.out.println(&quot;返回集合中指定元素出现的次数&quot; + Collections.frequency(longCollection, 126));</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		//补充：使用Arrays.asList转换成的List集合中，无法执行add方法</span><br><span class="line">		List&lt;String&gt; strList = Arrays.asList(&quot;abc&quot;, &quot;123&quot;, &quot;321&quot;);</span><br><span class="line">		strList.add(&quot;111&quot;);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="9、支持队列操作的Queue"><a href="#9、支持队列操作的Queue" class="headerlink" title="9、支持队列操作的Queue"></a>9、支持队列操作的Queue</h3><ul>
+<li><strong>Queue</strong>通常用于操作存储一组队列方式的对象信息<ul>
+<li><strong>特点：一般存储方式为先进先出（FIFO）</strong><br><img src="/2019/10/14/Java-SE学习之【Collection接口】/8.png" alt="image"><br><img src="/2019/10/14/Java-SE学习之【Collection接口】/9.png" alt="image"></li>
+</ul>
+</li>
+<li><em>注意：*</em></li>
+<li>Deque支持在<strong>两端插入和删除元素</strong>，是双端队列的简称（double-ended queue），支持从两端操作队列的元素</li>
+<li><strong>定义的方法：addFirst(e),removeFirst(e),addLast(e),removeLast(e),getFirst()/getLast()</strong></li>
+</ul>
+<h3 id="10、图Map"><a href="#10、图Map" class="headerlink" title="10、图Map"></a>10、图Map</h3><ul>
+<li>以<strong>键-值</strong>存储元素的容器<ul>
+<li>根据<strong>关键字</strong>（key）找到对应的数据</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2019/10/14/Java-SE学习之【Collection接口】/10.png" alt="image"><br><img src="/2019/10/14/Java-SE学习之【Collection接口】/11.png" alt="image"></p>
+<p><strong>注意：</strong></p>
+<ul>
+<li><strong>HashMap</strong>的<strong>查询、插入和删除比较高效</strong></li>
+<li><strong>LinkedHashMap支持元素的排序</strong></li>
+<li><strong>TreeMap在遍历有序的键值时非常高效</strong></li>
+<li><strong>Properties一般用于操作属性文件</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br></pre></td><td class="code"><pre><span class="line">import java.io.BufferedReader;</span><br><span class="line">import java.io.FileReader;</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.Arrays;</span><br><span class="line">import java.util.Comparator;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.HashSet;</span><br><span class="line">import java.util.Iterator;</span><br><span class="line">import java.util.LinkedHashMap;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Map;</span><br><span class="line">import java.util.Map.Entry;</span><br><span class="line">import java.util.Set;</span><br><span class="line">import java.util.TreeMap;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 三种图的基本用法</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class MapDemo &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		//Map的基本用法();		</span><br><span class="line">		//需求：统计java源文件中，每个关键字出现的次数</span><br><span class="line">		统计关键字出现的次数();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void 统计关键字出现的次数()&#123;</span><br><span class="line">		final String fileName = &quot;src/com/javabase/Collection/MapDemo.java&quot;;</span><br><span class="line">		final String keywords = &quot;package, import, public, class, void, final, static, new, while, if, catch, for, try, return&quot;;</span><br><span class="line">		//1、获得Java源文件中的字符串（行的集合、StringBuffer）</span><br><span class="line">		List&lt;String&gt; contentList = ReadSourceFile(fileName);</span><br><span class="line">		Set&lt;String&gt; keywordsSet = new HashSet&lt;&gt;();	</span><br><span class="line">		keywordsSet.addAll(Arrays.asList(keywords.split(&quot;,&quot;)));</span><br><span class="line">		//String[] keywordsArray = keywords.split(&quot;,&quot;);	//简单的做法	</span><br><span class="line">		//2、遍历关键字集合，统计每一个关键字在源文件字符串中出现的次数 - 将关键字和次数以键-值的方式存放在Map集合中</span><br><span class="line">		Map&lt;String, Integer&gt; keywordsMap = new HashMap&lt;&gt;();</span><br><span class="line">		for(String keyword : keywordsSet)&#123;//外循环遍历关键字集合</span><br><span class="line">			keyword = keyword.trim();</span><br><span class="line">			for(String line : contentList)&#123;//内循环-每个关键字都遍历一次源码的所有行</span><br><span class="line">				//统计每一行中，keyword出现的次数 (进行累加)</span><br><span class="line">				//int num1 = 0;	int num2 = 0; int num3 = 0;</span><br><span class="line">				int count = getLineKeywordCount(line, keyword);</span><br><span class="line">				if(count == 0) continue;</span><br><span class="line">				//将count放到map集合中</span><br><span class="line">				if(keywordsMap.containsKey(keyword))&#123;</span><br><span class="line">					int oldCount = keywordsMap.get(keyword).intValue();</span><br><span class="line">					keywordsMap.put(keyword, new Integer(count + oldCount));</span><br><span class="line">				&#125;else&#123;</span><br><span class="line">					keywordsMap.put(keyword, count);//关键字第一次出现，直接添加即可</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		//3、遍历Map集合（以关键字出现的次数来排序）</span><br><span class="line">		for(Entry&lt;String, Integer&gt; entry : keywordsMap.entrySet())&#123;</span><br><span class="line">			System.out.println(entry.getKey() + &quot;\t&quot; + entry.getValue());</span><br><span class="line">		&#125;</span><br><span class="line">		//排序显示</span><br><span class="line">		System.out.println(&quot;-------------------------------------------------&quot;);</span><br><span class="line">		Map&lt;String, Integer&gt; treeMap = new TreeMap&lt;&gt;(new MyTreeComparator(keywordsMap));</span><br><span class="line">		treeMap.putAll(keywordsMap);</span><br><span class="line">		for(Entry&lt;String, Integer&gt; entry : treeMap.entrySet())&#123;</span><br><span class="line">			System.out.println(entry.getKey() + &quot;\t&quot; + entry.getValue());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	/**</span><br><span class="line">	 * 统计这一行（line）中，keyword出现的次数</span><br><span class="line">	 * @param line</span><br><span class="line">	 * @param keyword</span><br><span class="line">	 * @return</span><br><span class="line">	 */</span><br><span class="line">	private static int getLineKeywordCount(String line, String keyword)&#123;</span><br><span class="line">		if(null == line || line.length() == 0) return 0;</span><br><span class="line">		//可以在这里添加其他逻辑判断：跳过注释行</span><br><span class="line">		if(line.startsWith(&quot;/*&quot;) || line.startsWith(&quot;*&quot;) || line.startsWith(&quot;*/&quot;) || line.startsWith(&quot;//&quot;))&#123;</span><br><span class="line">			return 0;</span><br><span class="line">		&#125;</span><br><span class="line">		int count = 0;</span><br><span class="line">		//int num1 = 0;	int num2 = 0; int num3 = 0;</span><br><span class="line">		String strLine = new String(line);</span><br><span class="line">		int index = -1;</span><br><span class="line">		while((index = strLine.indexOf(keyword)) != -1)&#123;</span><br><span class="line">			count++;</span><br><span class="line">			strLine = strLine.substring(index + keyword.length() + 1);</span><br><span class="line">		&#125;</span><br><span class="line">		return count;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	/**</span><br><span class="line">	 * 读取传入路径的Java源文件，以字符串的方式返回源文件的所有内容</span><br><span class="line">	 * @param fileName</span><br><span class="line">	 * @return</span><br><span class="line">	 */</span><br><span class="line">	private static List&lt;String&gt; ReadSourceFile(String fileName)&#123;</span><br><span class="line">		List&lt;String&gt; contentList = new ArrayList&lt;&gt;();</span><br><span class="line">		try(</span><br><span class="line">			FileReader freader = new FileReader(fileName);</span><br><span class="line">			BufferedReader reader = new BufferedReader(freader);</span><br><span class="line">		)&#123;</span><br><span class="line">			String line = null;</span><br><span class="line">			while((line = reader.readLine()) != null)&#123;</span><br><span class="line">				if(line.trim().length() == 1) continue;</span><br><span class="line">				contentList.add(line.trim());</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		return contentList;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void Map的基本用法()&#123;</span><br><span class="line">		Map&lt;String, Integer&gt; hashMap = new HashMap&lt;&gt;();</span><br><span class="line">		hashMap.put(&quot;Monkey·D·Luffy&quot;, 18);</span><br><span class="line">		hashMap.put(&quot;Nami&quot;, 19);</span><br><span class="line">		hashMap.put(&quot;Sanji&quot;, 25);</span><br><span class="line">		hashMap.put(&quot;Nico Robin&quot;, 26);</span><br><span class="line">		hashMap.put(&quot;Roronoa Zoro&quot;, 21);</span><br><span class="line">		System.out.println(&quot;hashmap:&quot; + hashMap);</span><br><span class="line">		Map&lt;String, Integer&gt; linkedHashMap = new LinkedHashMap&lt;&gt;();</span><br><span class="line">		linkedHashMap.put(&quot;Monkey·D·Luffy&quot;, 18);</span><br><span class="line">		linkedHashMap.put(&quot;Nami&quot;, 19);</span><br><span class="line">		linkedHashMap.put(&quot;Sanji&quot;, 25);</span><br><span class="line">		linkedHashMap.put(&quot;Nico Robin&quot;, 26);</span><br><span class="line">		linkedHashMap.put(&quot;Roronoa Zoro&quot;, 21);</span><br><span class="line">		System.out.println(&quot;linkedHashMap:&quot; + linkedHashMap);</span><br><span class="line">		Map&lt;String, Integer&gt; treeMap = new TreeMap&lt;&gt;(new MyTreeComparator(hashMap));</span><br><span class="line">		treeMap.putAll(hashMap);</span><br><span class="line">//		treeMap.put(&quot;Monkey·D·Luffy&quot;, 18);</span><br><span class="line">//		treeMap.put(&quot;Nami&quot;, 19);</span><br><span class="line">//		treeMap.put(&quot;Sanji&quot;, 25);</span><br><span class="line">//		treeMap.put(&quot;Nico Robin&quot;, 26);</span><br><span class="line">//		treeMap.put(&quot;Roronoa Zoro&quot;, 21);</span><br><span class="line">		System.out.println(&quot;treeMap:&quot; + treeMap);</span><br><span class="line">		</span><br><span class="line">		System.out.println(&quot;第一种遍历方式：通过Map.keySet遍历key，通过key取出对应的value - 比较常用，需要二次取值&quot;);</span><br><span class="line">		for(String key : treeMap.keySet()) &#123;</span><br><span class="line">			System.out.println(key + &quot; -- &quot; + treeMap.get(key));</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		System.out.println(&quot;第二种遍历方式：通过Map.entrySet使用迭代器遍历key和value&quot;);</span><br><span class="line">		Set&lt;Map.Entry&lt;String, Integer&gt;&gt; entrySet = treeMap.entrySet();</span><br><span class="line">		Iterator&lt;Map.Entry&lt;String, Integer&gt;&gt; entrySetIt = entrySet.iterator();</span><br><span class="line">		while(entrySetIt.hasNext())&#123;</span><br><span class="line">			Map.Entry&lt;String, Integer&gt; entry = entrySetIt.next();</span><br><span class="line">			System.out.println(entry.getKey() + &quot;\t\t&quot; + entry.getValue());</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		System.out.println(&quot;第三种遍历方式：直接遍历Map.entrySet集合 - 容量大时，推荐使用本方法遍历map&quot;);</span><br><span class="line">		for(Entry&lt;String, Integer&gt; entry : treeMap.entrySet())&#123;</span><br><span class="line">			System.out.println(entry.getKey() + &quot;  ==  &quot; + entry.getValue());</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line">/**</span><br><span class="line"> * 我们自己定义的比较器</span><br><span class="line"> * 注意：默认情况下，Map的比较器只能对key进行排序</span><br><span class="line"> * 根据值比较：需要自定义属性</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">class MyTreeComparator implements Comparator&lt;String&gt;&#123;</span><br><span class="line">	private Map&lt;String, Integer&gt; map;</span><br><span class="line">	public MyTreeComparator(Map&lt;String, Integer&gt; map) &#123;</span><br><span class="line">		this.map = map;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public int compare(String key1, String key2) &#123;</span><br><span class="line">//		if(key1.compareTo(key2) &gt; 0) return -1;</span><br><span class="line">//		if(key1.compareTo(key2) &lt; 0) return 1;</span><br><span class="line">		//根据value值进行比较</span><br><span class="line">		if(map.get(key1).intValue() &lt; map.get(key2).intValue())&#123;</span><br><span class="line">			return 1;</span><br><span class="line">		&#125;</span><br><span class="line">		if(map.get(key1).intValue() &gt; map.get(key2).intValue())&#123;</span><br><span class="line">			return -1;</span><br><span class="line">		&#125;</span><br><span class="line">		return 0;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="11、Properties"><a href="#11、Properties" class="headerlink" title="11、Properties"></a>11、Properties</h3><ul>
+<li><strong>键值对集合</strong><ul>
+<li>通常用于保存<strong>字符串类型的键值对</strong></li>
+<li>更多用于<strong>读取属性文件</strong><br><img src="/2019/10/14/Java-SE学习之【Collection接口】/12.png" alt="image"><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">import java.io.FileOutputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.Map.Entry;</span><br><span class="line">import java.util.Properties;</span><br><span class="line"></span><br><span class="line">public class PropertiesDemo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) throws IOException &#123;</span><br><span class="line">		//读取properties文件的常用做法</span><br><span class="line">		Properties props = new Properties();</span><br><span class="line">		//加载配置文件 - 固定的写法</span><br><span class="line">		props.load(PropertiesDemo.class.getResourceAsStream(&quot;Config.properties&quot;));</span><br><span class="line">		//读取配置</span><br><span class="line">		String value = props.getProperty(&quot;user1&quot;, &quot;abc&quot;);//通过key获得value</span><br><span class="line">		System.out.println(value);</span><br><span class="line">		//向配置文件中写入内容</span><br><span class="line">		props.setProperty(&quot;name&quot;, &quot;Monkey·D·Luffy&quot;);</span><br><span class="line">		props.setProperty(&quot;中文&quot;, &quot;中华人们共和国&quot;);</span><br><span class="line">		FileOutputStream outStream = new FileOutputStream(&quot;bin/com/javabase/Collection/Config.properties&quot;);</span><br><span class="line">		props.store(outStream, &quot;写入时的注释 - Comments&quot;);</span><br><span class="line">		</span><br><span class="line">		props.load(PropertiesDemo.class.getResourceAsStream(&quot;Config.properties&quot;));</span><br><span class="line">		System.out.println(&quot;遍历所有的键值对&quot;);</span><br><span class="line">		for(Entry&lt;Object, Object&gt; entry : props.entrySet())&#123;</span><br><span class="line">			System.out.println(entry.getKey() + &quot; -- &quot; + entry.getValue());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Allen Xue</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><strong>To be or not to be,that is a question.<strong></strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/Java-SE/"># Java_SE</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2019/10/14/Java-SE学习之【IO】/">Java_SE学习之【IO】</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Allen Xue | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+    
+        <script type="text/javascript" color="0,0,0" opacity="0.3" zindex="-2" count="99" src="/js/canvas-nest.js"></script>
+    
+</body>
+</html>
