@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Java_SE学习之【异常处理】 | Allen Xue&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Allen Xue&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Allen Xue&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Java_SE学习之【异常处理】</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Allen Xue</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">October 14, 2019&nbsp;&nbsp;14:10:14</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/Java-SE/">Java_SE</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="一、什么是异常"><a href="#一、什么是异常" class="headerlink" title="一、什么是异常"></a>一、什么是异常</h2><p><strong>异常</strong>是一种<strong>对象</strong>（Exception），<strong>表示组织程序正常执行的错误或情况</strong></p>
+<ul>
+<li>在程序运行的过程中，如果JVM检测出一个不可能执行的操作，就会出现运行时错误</li>
+<li>在Java中，运行时错误（Running Error）会作为异常（对象）抛出</li>
+<li>如果异常没有被处理，程序将会非正常终止</li>
+</ul>
+<p><strong>异常处理 - 使程序可以继续运行或者优雅地终止</strong></p>
+<ul>
+<li>方法抛出异常，调用者可以捕获以及处理该异常 <ul>
+<li>恢复正常的程序执行</li>
+<li>进行日志处理</li>
+<li>以某些方式提醒用户（错误提示、对话框等）</li>
+</ul>
+</li>
+</ul>
+<p>以下是一个除法的例子，我们都知道除法运算中的除数不能为零，那么如果是零的话，会出现什么情况呢？</p>
+<p>如果没有进行任何异常处理并记录在日志中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">   int num1 = 1,num2 = 0,result;</span><br><span class="line">result = num1/num2;</span><br></pre></td></tr></table></figure>
+
+<p>编译器会直接报错<br><img src="/2019/10/14/Java-SE学习之【异常处理】/1.png" alt="image"></p>
+<p>这只是一个异常，在以后会做一些大型的项目，如果写完程序后运行时，出现满屏的异常，这样就很不好，异常的日志直接记录下来，在屏幕上显示的内容少一点也更明确，从而使开发者能够一目了然，下面是加了异常处理的全新版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">int num1 = 1,num2 = 0,result;</span><br><span class="line">try&#123;</span><br><span class="line">    result = num1 / num2;</span><br><span class="line">&#125;catch(Exception ex)&#123;</span><br><span class="line">    System.err.println(ex.getMessage());</span><br><span class="line">    //记录在日志中</span><br><span class="line">    log.log(Level.WARNING,ex.getMessage());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、异常类的层次结构"><a href="#二、异常类的层次结构" class="headerlink" title="二、异常类的层次结构"></a>二、异常类的层次结构</h2><p><img src="/2019/10/14/Java-SE学习之【异常处理】/2.png" alt="image"></p>
+<p><strong>注意：</strong></p>
+<ul>
+<li>RuntimeException和Error以及他们的子类都成为免检异常。所有其他异常都称为必检异常（由于免检异常可能在程序的任何一个地方出现，为避免过多地使用try-catch块，Java语言不强制要求编写代码捕获异常）</li>
+</ul>
+<h2 id="三、常见的异常类型"><a href="#三、常见的异常类型" class="headerlink" title="三、常见的异常类型"></a>三、常见的异常类型</h2><p><img src="/2019/10/14/Java-SE学习之【异常处理】/3.png" alt="image"></p>
+<h2 id="四、如何进行异常处理"><a href="#四、如何进行异常处理" class="headerlink" title="四、如何进行异常处理"></a>四、如何进行异常处理</h2><h3 id="1-try-catch（try-catch-finally）捕获异常"><a href="#1-try-catch（try-catch-finally）捕获异常" class="headerlink" title="1.try catch（try catch finally）捕获异常"></a>1.try catch（try catch finally）捕获异常</h3><p><strong>捕获异常结构：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">try&#123;</span><br><span class="line"></span><br><span class="line">    //可能出现异常的代码段</span><br><span class="line"></span><br><span class="line">&#125;catch(匹配的异常)&#123;</span><br><span class="line"></span><br><span class="line">    解决办法//执行的代码段</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>异常捕获的<strong>语法</strong>为<strong>try、catch、finally</strong>，程序首先执行<strong>try</strong>中的代码，当满足catch中的异常情况时执行<strong>catch</strong>中的代码，<strong>catch可以有多个</strong>，最后执行<strong>finally</strong>中的代码。</p>
+<h3 id="2-使用throw和throws抛出异常"><a href="#2-使用throw和throws抛出异常" class="headerlink" title="2.使用throw和throws抛出异常"></a>2.使用throw和throws抛出异常</h3><p>这种方法是<strong>将异常抛出给JVM</strong>，而使用throw抛出的异常是抛出一个<strong>对象</strong>（因为Throwable类继承于Object类），throw可以单独使用也可以和try catch一起使用.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">public class ThrowDemo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		Hero hero = new Hero(&quot;貂蝉&quot;);</span><br><span class="line">		try &#123;</span><br><span class="line">			hero.setExp(1000);</span><br><span class="line">			hero.setHealth(40);</span><br><span class="line">			hero.rideHorse();</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">//			System.err.print(&quot;在设置经验值时出现异常：&quot; + e.getMessage());</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(&quot;当前英雄的经验值：&quot; + hero.getExp());</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">class Hero&#123;</span><br><span class="line">	private String name;</span><br><span class="line">	private long exp;</span><br><span class="line">	private int health;</span><br><span class="line">	</span><br><span class="line">	public Hero(String name)&#123;</span><br><span class="line">		setName(name);</span><br><span class="line">	&#125;</span><br><span class="line">	/**</span><br><span class="line">	 * 英雄的骑马方法 - 当英雄的健康值低于50时，不允许骑马</span><br><span class="line">	 * @throws LessThanZeroException </span><br><span class="line">	 */</span><br><span class="line">	public void rideHorse() throws RideHorseException&#123;</span><br><span class="line">		if(health &gt;= 50)</span><br><span class="line">			System.out.println(name + &quot;正在快乐地骑马！&quot;);</span><br><span class="line">		else</span><br><span class="line">			throw new RideHorseException(health);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	public int getHealth() &#123;</span><br><span class="line">		return health;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	public void setHealth(int health) &#123;</span><br><span class="line">		this.health = health;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	public String getName() &#123;</span><br><span class="line">		return name;</span><br><span class="line">	&#125;</span><br><span class="line">	public void setName(String name) &#123;</span><br><span class="line">		this.name = name;</span><br><span class="line">	&#125;</span><br><span class="line">	public long getExp() &#123;</span><br><span class="line">		return exp;</span><br><span class="line">	&#125;</span><br><span class="line">	public void setExp(long exp) throws Exception &#123;</span><br><span class="line">		if(exp &gt;= 0)</span><br><span class="line">			this.exp = exp;</span><br><span class="line">		else//当exp为负数时，强制抛出异常</span><br><span class="line">			throw new LessThanZeroException((int)exp);</span><br><span class="line">			</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>通过上面的例子可以更为全面的理解throw和throws如何使用以抛出异常</em></p>
+<h3 id="3-自定义异常"><a href="#3-自定义异常" class="headerlink" title="3.自定义异常"></a>3.自定义异常</h3><p>在定义异常时，必须是Throwable类的子类，如果检查异常就要继承自Exception，如果是运行异常就要继承自RuntimeException。下面通过例子来看下自定义异常如何定义使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">*自定义异常 - 小于零时触发</span><br><span class="line">*/</span><br><span class="line">public class LessThanZeroException extends Exception&#123;</span><br><span class="line">	//重写父类的两个构造方法即可</span><br><span class="line">	</span><br><span class="line">	private int value;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	public LessThanZeroException()&#123;</span><br><span class="line">		super(&quot;数字不能小于零！&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public LessThanZeroException(int value)&#123;</span><br><span class="line">		super(&quot;输入的数字为：&quot; + value + &quot;，不能小于零！&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Allen Xue</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><strong>To be or not to be,that is a question.<strong></strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/Java-SE/"># Java_SE</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2019/09/27/Java-OO（Object-oriented面向对象）/">Java_OO（Object-oriented面向对象）</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Allen Xue | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+    
+        <script type="text/javascript" color="0,0,0" opacity="0.3" zindex="-2" count="99" src="/js/canvas-nest.js"></script>
+    
+</body>
+</html>
