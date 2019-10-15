@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Java_SE学习之【多线程】 | Allen Xue&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Allen Xue&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Allen Xue&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Java_SE学习之【多线程】</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Allen Xue</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">October 15, 2019&nbsp;&nbsp;10:14:55</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/Java-SE/">Java_SE</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="一、线程与进程"><a href="#一、线程与进程" class="headerlink" title="一、线程与进程"></a>一、线程与进程</h2><h3 id="1、线程的概念"><a href="#1、线程的概念" class="headerlink" title="1、线程的概念"></a>1、线程的概念</h3><p><strong>线程</strong>（thread）是操作系统能够进行运算调度的<strong>最小单位</strong>。<strong>它被包含在进程之中，是进程中的实际运作单位</strong>。一条线程指的是进程中一个单一顺序的控制流，一个进程中可以并发多个线程，每条线程并行执行不同的任务。</p>
+<h3 id="2、进程的概念"><a href="#2、进程的概念" class="headerlink" title="2、进程的概念"></a>2、进程的概念</h3><p><strong>进程</strong>（process）是计算机中的程序关于某数据集合上的一次运行活动，<strong>是系统进行资源分配和调度的基本单位</strong>，是操作系统结构的基础。</p>
+<h3 id="3、两者之间的联系"><a href="#3、两者之间的联系" class="headerlink" title="3、两者之间的联系"></a>3、两者之间的联系</h3><p> 一个进程至少拥有<strong>一个线程——主线程</strong>，<strong>也可以拥有多个线程</strong>；<strong>一个线程必须有一个父进程。多个进程可以并发执行；一个线程可以创建和撤销另一个线程；同一个进程中的多个线程之间可以并发执行</strong>。</p>
+<h3 id="4、两者之间的区别"><a href="#4、两者之间的区别" class="headerlink" title="4、两者之间的区别"></a>4、两者之间的区别</h3><p><strong>线程是进程划分成的更小的运行单位</strong>。线程和进程最大的不同在于基本上各进程是独立的，而各线程则不一定，因为同一进程中的线程极有可能会相互影响。从另一角度来说，进程属于操作系统的范畴，主要是同一段时间内，可以同时执行一个以上的程序，而线程则是在同一程序内几乎同时执行一个以上的程序段。</p>
+<h2 id="二、多线程"><a href="#二、多线程" class="headerlink" title="二、多线程"></a>二、多线程</h2><p><strong>多线程</strong>就是几乎<strong>同时执行多个线程</strong>（一个处理器在某一个时间点上永远都只能是一个线程！即使这个处理器是多核的，除非有多个处理器才能实现多个线程同时运行。）。几乎同时是因为实际上多线程程序中的多个线程实际上是一个线程执行一会然后其他的线程再执行，并不是很多书籍所谓的同时执行。</p>
+<h2 id="三、Java中的多线程"><a href="#三、Java中的多线程" class="headerlink" title="三、Java中的多线程"></a>三、Java中的多线程</h2><h3 id="1、Java对多线程的支持"><a href="#1、Java对多线程的支持" class="headerlink" title="1、Java对多线程的支持"></a>1、Java对多线程的支持</h3><ul>
+<li>class Thread</li>
+<li>interface Runnable</li>
+</ul>
+<h3 id="2、线程的创建与启动"><a href="#2、线程的创建与启动" class="headerlink" title="2、线程的创建与启动"></a>2、线程的创建与启动</h3><p><img src="/2019/10/15/Java-SE学习之【多线程】/1.png" alt="image"></p>
+<p><strong>创建一个新的执行线程有两种方法</strong>：</p>
+<ul>
+<li>一个是将一个类声明为<strong>Thread的子类</strong>。 <strong>这个子类应该重写run类的方法Thread</strong> 。 然后可以分配并启动子类的实例。</li>
+</ul>
+<p>例如，计算大于规定值的素数的线程可以写成如下： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class PrimeThread extends Thread &#123;</span><br><span class="line">    long minPrime;</span><br><span class="line">    PrimeThread(long minPrime) &#123;</span><br><span class="line">        this.minPrime = minPrime;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void run() &#123;</span><br><span class="line">    // compute primes larger than minPrime</span><br><span class="line">              . . .</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后，以下代码将创建一个线程并启动它运行： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PrimeThread p = new PrimeThread(143);</span><br><span class="line">p.start();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>另一种方法来<strong>创建一个线程声明实现类Runnable接口</strong>,<strong>然后实现了run方法,可以分配类的实例，在创建Thread时作为参数传递，并启动</strong>。 </li>
+</ul>
+<p>此方法的同一个例子如下所示： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class PrimeRun implements Runnable &#123;</span><br><span class="line">    long minPrime;</span><br><span class="line">    PrimeRun(long minPrime) &#123;</span><br><span class="line">        this.minPrime = minPrime;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void run() &#123;</span><br><span class="line">    // compute primes larger than minPrime</span><br><span class="line">            . . .</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后，以下代码将创建一个线程并启动它运行： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PrimeRun p = new PrimeRun(143);</span><br><span class="line">new Thread(p).start();</span><br></pre></td></tr></table></figure>
+
+<p>通过下面的代码了解多线程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">package com.javabase.concurrent;</span><br><span class="line">/***</span><br><span class="line"> * 线程了解--引入线程</span><br><span class="line"> * @author 87366</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class Actor extends Thread &#123;</span><br><span class="line">	public void run() &#123;</span><br><span class="line">		System.out.println(getName() + &quot;是一个演员！&quot;);</span><br><span class="line">		int count = 0;</span><br><span class="line">		boolean keepRunning = true;</span><br><span class="line">		</span><br><span class="line">		while (keepRunning) &#123;</span><br><span class="line">			System.out.println(getName() + &quot;登台演出：&quot; + (++count));</span><br><span class="line">			</span><br><span class="line">			if (count == 100) &#123;</span><br><span class="line">				keepRunning = false;</span><br><span class="line">			&#125;	</span><br><span class="line">					</span><br><span class="line">			if (count %10 == 0) &#123;</span><br><span class="line">				try &#123;</span><br><span class="line">					Thread.sleep(1000);</span><br><span class="line">				&#125; catch (InterruptedException e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(getName() + &quot;的演出结束了！&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		Thread actor = new Actor();</span><br><span class="line">		actor.setName(&quot;Mr.Thread&quot;);</span><br><span class="line">		</span><br><span class="line">		actor.start();</span><br><span class="line">		</span><br><span class="line">		Thread actressThread = new Thread(new Actress(),&quot;Ms.Runnable&quot;);</span><br><span class="line">		actressThread.start();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Actress implements Runnable&#123;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void run() &#123;</span><br><span class="line">		System.out.println(Thread.currentThread().getName() + &quot;是一个演员！&quot;);</span><br><span class="line">		int count = 0;</span><br><span class="line">		boolean keepRunning = true;</span><br><span class="line">		</span><br><span class="line">		while (keepRunning) &#123;</span><br><span class="line">			System.out.println(Thread.currentThread().getName() + &quot;登台演出：&quot; + (++count));</span><br><span class="line">			</span><br><span class="line">			if (count == 100) &#123;</span><br><span class="line">				keepRunning = false;</span><br><span class="line">			&#125;	</span><br><span class="line">					</span><br><span class="line">			if (count %10 == 0) &#123;</span><br><span class="line">				try &#123;</span><br><span class="line">					Thread.sleep(1000);</span><br><span class="line">				&#125; catch (InterruptedException e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(Thread.currentThread().getName() + &quot;的演出结束了！&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、举例"><a href="#3、举例" class="headerlink" title="3、举例"></a>3、举例</h3><p>下面通过舞台剧《隋唐演义》的例子进行理解</p>
+<ul>
+<li>简述与分析：本例中的《隋唐演义》有隋朝军队和农民军队两大阵营，他们在进行战争的时候，<strong>其实就是一个多线程的实例</strong>，<strong>两个阵营相当于两个进程同时进行</strong>。就在两军交战火热，半路杀出个程咬金，随即两军停止作战，程咬金杀得昏天黑地，农民军取得最后的胜利。在这里，<strong>程咬金也是一个线程，在他启动时，其他两个线程停止。</strong></li>
+</ul>
+<p>下面是代码演示：</p>
+<ul>
+<li><p>Stage舞台类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">package com.javabase.concurrent.base;</span><br><span class="line"></span><br><span class="line">import javax.swing.JInternalFrame;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 隋唐演义大戏舞台</span><br><span class="line"> * @author 87366</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class Stage extends Thread &#123;</span><br><span class="line">	</span><br><span class="line">	public void run() &#123;</span><br><span class="line">		System.out.println(&quot;欢迎观看隋唐演义&quot;);</span><br><span class="line">		try &#123;</span><br><span class="line">			Thread.sleep(5000);</span><br><span class="line">		&#125; catch (InterruptedException e1) &#123;</span><br><span class="line">			e1.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(&quot;大幕徐徐拉开&quot;);</span><br><span class="line">		try &#123;</span><br><span class="line">			Thread.sleep(5000);</span><br><span class="line">		&#125; catch (InterruptedException e1) &#123;</span><br><span class="line">			e1.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(&quot;话说隋朝末年，隋军与农民起义军杀得昏天黑地。。。&quot;);</span><br><span class="line">		</span><br><span class="line">		ArmyRunnable armyTsakOfDynasty = new ArmyRunnable();//隋朝军队</span><br><span class="line">		ArmyRunnable armyTsakOfRevolt = new ArmyRunnable(); //农民起义军</span><br><span class="line">		//使用Runnable接口创建线程</span><br><span class="line">		Thread armyOfDynasty = new Thread(armyTsakOfDynasty,&quot;隋朝军队&quot;);</span><br><span class="line">		Thread armyOfRevolt = new Thread(armyTsakOfRevolt,&quot;农民起义军&quot;);</span><br><span class="line">		//启动线程，让双方开始作战</span><br><span class="line">		armyOfDynasty.start();</span><br><span class="line">		armyOfRevolt.start();</span><br><span class="line">		//舞台线程休眠，大家专心观看军队的厮杀</span><br><span class="line">		try &#123;</span><br><span class="line">			Thread.sleep(50);</span><br><span class="line">		&#125; catch (InterruptedException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(&quot;正当双方激战正酣，半路杀出个程咬金&quot;);</span><br><span class="line">		Thread mrCheng = new KeyPersonThread();</span><br><span class="line">		mrCheng.setName(&quot;程咬金&quot;);</span><br><span class="line">		System.out.println(&quot;程咬金的理想就是结束战争，使百姓安居乐业！&quot;);</span><br><span class="line">		//停止军队作战</span><br><span class="line">		//停止线程的方法</span><br><span class="line">		armyTsakOfDynasty.keepRunning = false;</span><br><span class="line">		armyTsakOfRevolt.keepRunning = false;</span><br><span class="line">		try &#123;</span><br><span class="line">			Thread.sleep(2000);</span><br><span class="line">		&#125; catch (InterruptedException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		/**</span><br><span class="line">		 * 历史大戏留给关键人物</span><br><span class="line">		 */</span><br><span class="line">		mrCheng.start();</span><br><span class="line">		try &#123;</span><br><span class="line">			mrCheng.join();</span><br><span class="line">		&#125; catch (InterruptedException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(&quot;战争结束，人民安居乐业，程先生实现了积极的人生梦想，为人民做出了贡献&quot;);</span><br><span class="line">		System.out.println(&quot;谢谢大家的观看，再见！&quot;);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		new Stage().start();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建军队进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">package com.javabase.concurrent.base;</span><br><span class="line">/**</span><br><span class="line"> * 军队进程 -- 模拟双方作战的行为</span><br><span class="line"> * @author 87366</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class ArmyRunnable implements Runnable &#123;</span><br><span class="line">	//volatile保证了线程可以正确的读取其他线程写入的值</span><br><span class="line">	//可见性 JMM ， happens-before原则</span><br><span class="line">	volatile boolean keepRunning = true;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void run() &#123;</span><br><span class="line">		while (keepRunning) &#123;</span><br><span class="line">			//发动五连击</span><br><span class="line">			for (int i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">				System.out.println(Thread.currentThread().getName() + &quot;进攻对方[&quot; + i + &quot;]&quot;);</span><br><span class="line">				//让出了处理器时间，下次该谁进攻还不一定呢！</span><br><span class="line">				Thread.yield();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		System.out.println(Thread.currentThread().getName() + &quot;结束了战斗！&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关键人物线程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">package com.javabase.concurrent.base;</span><br><span class="line"></span><br><span class="line">public class KeyPersonThread extends Thread &#123;</span><br><span class="line">    public void run() &#123;</span><br><span class="line">    	System.out.println(Thread.currentThread().getName() + &quot;开始了战斗！&quot;);</span><br><span class="line">    	for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">    		System.out.println(Thread.currentThread().getName() + &quot;突出重围，击杀隋军。。。&quot;);</span><br><span class="line">    	&#125;</span><br><span class="line">    	System.out.println(Thread.currentThread().getName() + &quot;结束了战斗！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="4、线程停止的方法"><a href="#4、线程停止的方法" class="headerlink" title="4、线程停止的方法"></a>4、线程停止的方法</h3><p><strong>我接触到的线程停止的方法有三种</strong>：</p>
+<ul>
+<li><strong>interrupt（）方法</strong>是给受阻塞的线程发出一个中断信号，这样受阻线程就得以退出阻塞的状态，只是改变中断状态而已，它不会中断一个正在运行的线程。</li>
+<li><strong>stop方法停止</strong>：由于不安全，已经不使用了</li>
+<li><strong>设置标识位停止</strong>，上面的举例中的keepRunning就是一个标志位，如果想要进程停止，将keepRunning置为false即可，<strong>这样做的好处是：使得线程有机会使得一个完整的业务步骤被完整地执行，在执行完业务步骤后有充分的时间去做代码的清理工作，使得线程代码在实际中更安全。</strong></li>
+<li><em>是最推荐的一种方法*</em>。</li>
+</ul>
+<h3 id="5、线程的交互与同步"><a href="#5、线程的交互与同步" class="headerlink" title="5、线程的交互与同步"></a>5、线程的交互与同步</h3><ul>
+<li>互斥的实现：synchronized(intrinsic lock)</li>
+<li>同步的实现：wait()/notify()/notifyAll()</li>
+</ul>
+<h3 id="6、还需要了解的概念："><a href="#6、还需要了解的概念：" class="headerlink" title="6、还需要了解的概念："></a>6、还需要了解的概念：</h3><ul>
+<li>Java Memory Mode</li>
+<li>Locks &amp; Condition</li>
+<li>线程安全性</li>
+<li>多线程编程常用的交互模型</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Allen Xue</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><strong>To be or not to be,that is a question.<strong></strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/Java-SE/"># Java_SE</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2019/10/14/Java-SE学习之【Collection接口】/">Java_SE学习之【Collection接口】</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Allen Xue | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+    
+        <script type="text/javascript" color="0,0,0" opacity="0.3" zindex="-2" count="99" src="/js/canvas-nest.js"></script>
+    
+</body>
+</html>
