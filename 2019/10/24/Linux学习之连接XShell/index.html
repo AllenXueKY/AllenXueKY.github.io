@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Linux学习之连接XShell | Allen Xue&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Allen Xue&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Allen Xue&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Linux学习之连接XShell</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Allen Xue</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">October 24, 2019&nbsp;&nbsp;10:50:33</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/Linux/">Linux</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="一、Linux操作系统简介"><a href="#一、Linux操作系统简介" class="headerlink" title="一、Linux操作系统简介"></a>一、Linux操作系统简介</h2><p><strong>Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和Unix的多用户、多任务、支持多线程和多CPU的操作系统。</strong></p>
+<h3 id="1、优点："><a href="#1、优点：" class="headerlink" title="1、优点："></a>1、优点：</h3><ul>
+<li>系统性能稳定，而且是开源软件。其核心防火墙组件性能高效、配置简单，保证了系统的安全。</li>
+<li>Linux与其他操作系统相比，具有开放源码、没有版权、技术社区用户多等特点，开放源码使得用户可以自由裁剪，灵活性，功能强大，成本低。尤其系统中内嵌网络协议栈，经过适当的配置就可实现路由器的功能。这些特点使得Linux成为开发路由交换设备的理想开发平台。</li>
+</ul>
+<h3 id="2、主流发行版本"><a href="#2、主流发行版本" class="headerlink" title="2、主流发行版本"></a>2、主流发行版本</h3><ul>
+<li>Ubuntu</li>
+<li>Debian</li>
+<li>CentOS（强烈推荐）</li>
+<li>Fedora</li>
+<li>Red Hat</li>
+</ul>
+<h3 id="3、为什么使用XShell呢？"><a href="#3、为什么使用XShell呢？" class="headerlink" title="3、为什么使用XShell呢？"></a>3、为什么使用XShell呢？</h3><p>XShell就是舒服，不然你也不会点开我的blog</p>
+<p><strong><em>由于本文是在参加了红帽的集训之后所写的，所以主要以Redhat为主展开介绍</em></strong></p>
+<h2 id="二、准备工作"><a href="#二、准备工作" class="headerlink" title="二、准备工作"></a>二、准备工作</h2><ul>
+<li><strong>VMWare</strong>（推荐一个公众号“软件安装管家”，在里面进行下载即可）</li>
+<li><strong>配置好的虚拟机/镜像文件</strong>（如果需要Redhat配置好的虚拟机，在下方评论，我会联系；镜像文件的话，推荐去CentOS的官方网站进行下载）</li>
+<li><strong>XShell</strong>（官网下载即可，安装过程基本全程next，无难度）</li>
+</ul>
+<h2 id="三、配置网络以连接XShell"><a href="#三、配置网络以连接XShell" class="headerlink" title="三、配置网络以连接XShell"></a>三、配置网络以连接XShell</h2><ul>
+<li>1、在VMWare中启动已经安装好的虚拟机</li>
+<li>2、输入命令<code>ip addr</code>或者<code>ifconfig</code>（有些新版本的Linux已经不支持ifconfig命令）</li>
+<li>3、查看你的（以e开头的那个）网卡配置是否显示的是IP地址（ <strong>* .*</strong>. <strong>*. *</strong> ）（如果已经显示如下图所示的类似，可选择跳过7）<br><img src="/2019/10/24/Linux学习之连接XShell/2.png" alt="image"></li>
+<li>4、输入命令<code>vim /etc/sysconfig/network-scripts/ifcfg-eth0</code>(eth0是我的网卡连接名，大多数情况下是eth0，如果没有，在输入到e时按下Tab键进行自动补全即可)</li>
+<li>5、通过<code>su</code>命令，切换到管理员权限（会提示输密码，Linux的密码是隐藏的不会显示，直接输入即可）</li>
+<li>6、按<code>i键</code>进入vim编辑模式，并移动到<strong>ONBOOT=no</strong>那一行（一般是no，如果是yes可以跳过此步），将<code>no</code>改为<code>yes</code>，改好后如下图，然后按<code>ESC键</code>进入普通模式，再输入<code>:wq</code>命令写入并退出<br><img src="/2019/10/24/Linux学习之连接XShell/1.png" alt="image"></li>
+<li>7、输入<code>service network restart</code>命令重启网络</li>
+<li>8、输入<code>ip addr</code>命令，在刚才的地方查看IP<img src="/2019/10/24/Linux学习之连接XShell/2.png" alt="image"></li>
+<li>9、复制IP地址，用<code>CTRL键</code>+<code>Insert键</code>复制，也可以记住</li>
+<li>10、按<code>CTRL键</code>+<code>ALT键</code>将鼠标移出虚拟机</li>
+<li>11、打开XShell，点击新建，然后在主机一栏输入IP地址<br><img src="/2019/10/24/Linux学习之连接XShell/3.png" alt="image"></li>
+<li>12、按图操作<br><img src="/2019/10/24/Linux学习之连接XShell/4.png" alt="image"></li>
+<li>13、连接成功 <img src="/2019/10/24/Linux学习之连接XShell/5.png" alt="image"></li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Allen Xue</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><strong>To be or not to be,that is a question.<strong></strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/Linux/"># Linux</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2019/10/15/Java-SE学习之【网络编程JavaSocket】/">Java_SE学习之【网络编程JavaSocket】</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Allen Xue | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+    
+        <script type="text/javascript" color="0,0,0" opacity="0.3" zindex="-2" count="99" src="/js/canvas-nest.js"></script>
+    
+</body>
+</html>
