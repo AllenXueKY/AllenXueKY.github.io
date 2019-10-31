@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Mybatis学习day01 | Allen Xue&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Allen Xue&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Allen Xue&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Mybatis学习day01</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Allen Xue</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">October 31, 2019&nbsp;&nbsp;19:01:51</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/Java-EE/">Java_EE</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>Mybatis的学习，我是通过哔哩哔哩网站上的视频，黑马程序员的，个人觉得很不错，推荐给大家，讲解思路清晰，内容充实，总共四天，让我能够全面的了解Mybatis的常用操作及应用。<br><br><em>链接如下：<a href="https://www.bilibili.com/video/av47952553/?p=1" target="_blank" rel="noopener">https://www.bilibili.com/video/av47952553/?p=1</a></em><br></p>
+<h2 id="二、Mybatis框架简介"><a href="#二、Mybatis框架简介" class="headerlink" title="二、Mybatis框架简介"></a>二、Mybatis框架简介</h2><p><strong>mybatis</strong>是一个优秀的基于java的持久层框架，它内部封装了<strong>jdbc</strong>，使开发者只需要关注<strong>sql语句</strong>本身，<br>而不需要花费精力去处理加载驱动、创建连接、创建 statement 等繁杂的过程。</p>
+<p><strong>mybatis</strong>通过<strong>xml 或注解的方式</strong>将要执行的各种 statement 配置起来，并通过 java 对象和 statement 中<br>sql 的动态参数进行映射生成最终执行的 sql语句，最后由 mybatis 框架执行 sql 并将结果映射为 java对象并返回。</p>
+<h2 id="三、jdbc的回顾"><a href="#三、jdbc的回顾" class="headerlink" title="三、jdbc的回顾"></a>三、jdbc的回顾</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123; </span><br><span class="line">    Connection connection = null; </span><br><span class="line">    PreparedStatement preparedStatement = null; ResultSet resultSet = null;</span><br><span class="line"></span><br><span class="line">    try &#123;</span><br><span class="line">        //加载数据库驱动</span><br><span class="line">        Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span><br><span class="line">        //通过驱动管理类获取数据库链接</span><br><span class="line">        connection=DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/mybatis?characterEncoding=utf-8&quot;,&quot;root&quot;, &quot;root&quot;);</span><br><span class="line">        //定义 sql 语句 ?表示占位符</span><br><span class="line">        String sql = &quot;select * from user where username = ?&quot;;</span><br><span class="line"></span><br><span class="line">        //获取预处理 statement</span><br><span class="line">        preparedStatement = connection.prepareStatement(sql);</span><br><span class="line">        //设置参数，第一个参数为 sql 语句中参数的序号（从 1 开始），第二个参数为设置的参数值</span><br><span class="line">        preparedStatement.setString(1, &quot;王五&quot;);</span><br><span class="line">        //向数据库发出 sql 执行查询，查询出结果集</span><br><span class="line">        resultSet =	preparedStatement.executeQuery();</span><br><span class="line">        //遍历查询结果集</span><br><span class="line">        while(resultSet.next())&#123;</span><br><span class="line">            System.out.println(resultSet.getString(&quot;id&quot;)+&quot; &quot;+resultSet.getString(&quot;username&quot;));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Exception e) &#123; </span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;finally&#123;</span><br><span class="line">        //释放资源</span><br><span class="line">        if(resultSet!=null)&#123;</span><br><span class="line">            try &#123;       </span><br><span class="line">                resultSet.close();</span><br><span class="line">            &#125; catch (SQLException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if(preparedStatement!=null)&#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                preparedStatement.close();</span><br><span class="line">            &#125; catch (SQLException e) &#123;     </span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if(connection!=null)&#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                connection.close();</span><br><span class="line">            &#125; catch (SQLException e) &#123;</span><br><span class="line">                 e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*上边使用 jdbc 的原始方法（未经封装）实现了查询数据库表记录的操作。*/</span><br></pre></td></tr></table></figure>
+
+<h3 id="jdbc-问题分析"><a href="#jdbc-问题分析" class="headerlink" title="jdbc 问题分析"></a>jdbc 问题分析</h3><ul>
+<li><p>数据库链接创建、释放频繁造成系统资源浪费从而影响系统性能，如果使用数据库链接池可解决此问题。</p>
+</li>
+<li><p>Sql 语句在代码中硬编码，造成代码不易维护，实际应用 sql 变化的可能较大，sql 变动需要改变 java代码。</p>
+</li>
+<li><p>使用 preparedStatement向占有位符号传参数存在硬编码，因为 sql 语句的where条件不一定，可能多也可能少，修改 sql 还要修改代码，系统不易维护。</p>
+</li>
+<li><p>对结果集解析存在硬编码（查询列名），sql变化导致解析代码变化，系统不易维护，如果能将数据库记录封装成 pojo 对象解析比较方便。</p>
+</li>
+</ul>
+<h2 id="四、Mybatis快速入门"><a href="#四、Mybatis快速入门" class="headerlink" title="四、Mybatis快速入门"></a>四、Mybatis快速入门</h2><h3 id="1、什么是框架？"><a href="#1、什么是框架？" class="headerlink" title="1、什么是框架？"></a>1、什么是框架？</h3><p><strong>它是我们软件开发中的一套解决方案，不同的框架解决</strong>的是不同的问题。<strong><br><br>使用框架的好处：</strong><br>    框架封装了很多的细节，使开发者可以使用极简的方式实现功能。大大提高开发效率。</p>
+<h3 id="2、三层架构"><a href="#2、三层架构" class="headerlink" title="2、三层架构"></a>2、三层架构</h3><p><strong>表现层</strong>：<br>    是用于展示数据的<br><br><strong>业务层</strong>：<br>    是处理业务需求<br><br><strong>持久层</strong>：<br>    是和数据库交互的</p>
+<h3 id="3、持久层技术解决方案"><a href="#3、持久层技术解决方案" class="headerlink" title="3、持久层技术解决方案"></a>3、持久层技术解决方案</h3><p><strong>JDBC技术</strong>：<br>    Connection<br>    PreparedStatement<br>    ResultSet<br><br><strong>Spring的JdbcTemplate：</strong><br>    Spring中对jdbc的简单封装<br><br><strong>Apache的DBUtils：</strong><br>    它和Spring的JdbcTemplate很像，也是对Jdbc的简单封装<br></p>
+<p><em>以上这些都不是框架<br><br>    JDBC是规范<br>    Spring的JdbcTemplate和Apache的DBUtils都只是工具类</em></p>
+<h3 id="4、mybatis的概述"><a href="#4、mybatis的概述" class="headerlink" title="4、mybatis的概述"></a>4、mybatis的概述</h3><p><strong>mybatis是一个持久层框架，用java编写的</strong>。<br><br>它封装了jdbc操作的很多细节，使开发者只需要关注sql语句本身，而无需关注注册驱动，创建连接等繁杂过程<br>它使用了ORM思想实现了结果集的封装。</p>
+<p><strong>ORM：</strong><br>    <strong>Object Relational Mappging 对象关系映射</strong><br><br><em>简单的说：<br>    就是把数据库表和实体类及实体类的属性对应起来<br>    让我们可以操作实体类就实现操作数据库表。</em></p>
+<pre><code>user            User
+id                userId
+user_name        userName</code></pre><p><strong>实体类中的属性和数据库表的字段名称保持一致。</strong></p>
+<pre><code>user            User
+id                id
+user_name        user_name</code></pre><h3 id="5、mybatis的入门"><a href="#5、mybatis的入门" class="headerlink" title="5、mybatis的入门"></a>5、mybatis的入门</h3><p><strong>mybatis的环境搭建</strong></p>
+<ul>
+<li>第一步：创建maven工程并导入坐标</li>
+<li>第二步：创建实体类和dao的接口</li>
+<li>第三步：创建Mybatis的主配置文件SqlMapConifg.xml</li>
+<li>第四步：创建映射配置文件IUserDao.xml</li>
+</ul>
+<p><strong>环境搭建的注意事项：</strong></p>
+<p> <strong>第一</strong>：创建<strong>IUserDao.xml</strong> 和 <strong>IUserDao.java</strong>时名称是为了和我们之前的知识保持一致。</p>
+<p>在Mybatis中它把<strong>持久层的操作接口名称和映射文件</strong>也叫做<strong>Mapper</strong><br>所以,IUserDao 和 IUserMapper是一样的</p>
+<p><strong>第二</strong>：在idea中创建目录的时候，它和包是不一样的</p>
+<ul>
+<li>包在创建时：com.itheima.dao它是三级结构</li>
+<li>目录在创建时：com.itheima.dao是一级目录</li>
+</ul>
+<p><strong>第三</strong>：<strong>mybatis的映射配置文件位置必须和dao接口的包结构相同</strong></p>
+<p><strong>第四</strong>：映射配置文件的mapper标签namespace属性的取值必须是dao接口的全限定类名</p>
+<p><strong>第五</strong>：映射配置文件的操作配置（select），id属性的取值必须是dao接口的方法名</p>
+<p><strong><em>当我们遵从了第三，四，五点之后，我们在开发中就无须再写dao的实现类</em></strong>。</p>
+<p><strong>mybatis的入门案例</strong></p>
+<ul>
+<li>第一步：读取配置文件</li>
+<li>第二步：创建SqlSessionFactory工厂</li>
+<li>第三步：创建SqlSession</li>
+<li>第四步：创建Dao接口的代理对象</li>
+<li>第五步：执行dao中的方法</li>
+<li>第六步：释放资源</li>
+</ul>
+<p><em>注意事项：</em></p>
+<ul>
+<li><em>不要忘记在映射配置中告知mybatis要封装到哪个实体类中</em></li>
+<li><em>配置的方式：指定实体类的全限定类名</em></li>
+</ul>
+<p><strong>*mybatis基于注解的入门案例：(了解，后面几天的学习会有专门的讲解)</strong><br><br>把IUserDao.xml移除，在dao接口的方法上使用@Select注解，并且指定SQL语句<br><br>同时需要在SqlMapConfig.xml中的mapper配置时，使用class属性指定dao接口的全限定类名。*<br></p>
+<p><strong>明确：<br>    我们在实际开发中，都是越简便越好，所以都是采用不写dao实现类的方式。<br>    不管使用XML还是注解配置。<br>    但是Mybatis它是支持写dao实现类的。</strong></p>
+<h3 id="6、自定义Mybatis的分析：（了解，需大致了解其内部实现）"><a href="#6、自定义Mybatis的分析：（了解，需大致了解其内部实现）" class="headerlink" title="6、自定义Mybatis的分析：（了解，需大致了解其内部实现）"></a>6、自定义Mybatis的分析：（了解，需大致了解其内部实现）</h3><h4 id="mybatis在使用代理dao的方式实现增删改查时做什么事呢？"><a href="#mybatis在使用代理dao的方式实现增删改查时做什么事呢？" class="headerlink" title="mybatis在使用代理dao的方式实现增删改查时做什么事呢？"></a>mybatis在使用代理dao的方式实现增删改查时做什么事呢？</h4><p><strong>只有两件事</strong>：<br><br><strong>第一：创建代理对象</strong><br><br><strong>第二：在代理对象中调用selectList</strong></p>
+<h4 id="自定义mybatis能通过入门案例看到类"><a href="#自定义mybatis能通过入门案例看到类" class="headerlink" title="自定义mybatis能通过入门案例看到类"></a>自定义mybatis能通过入门案例看到类</h4><p>class Resources<br><br>class SqlSessionFactoryBuilder<br><br>interface SqlSessionFactory<br><br>interface SqlSession</p>
+<h2 id="五、day01代码以及资料（百度云盘）"><a href="#五、day01代码以及资料（百度云盘）" class="headerlink" title="五、day01代码以及资料（百度云盘）"></a>五、day01代码以及资料（百度云盘）</h2><p>由于代码较多，不方便展示，下面的资料中所有老师上课讲解的东西都有，最有效的学习方式是在听课的同时，能够自己进行同步操作，即能加深印象又能学会和理解</p>
+<p><em>链接：<a href="https://pan.baidu.com/s/1yE5o757PRiESId4vUDMLKg" target="_blank" rel="noopener">https://pan.baidu.com/s/1yE5o757PRiESId4vUDMLKg</a><br>提取码：2ekq<br>复制这段内容后打开百度网盘手机App，操作更方便哦</em></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Allen Xue</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><strong>To be or not to be,that is a question.<strong></strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/Java-EE/"># Java_EE</a>
+                    
+                        <a href="/tag/Mybatis/"># Mybatis</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2019/10/24/Linux学习之连接XShell/">Linux学习之连接XShell</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Allen Xue | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+    
+        <script type="text/javascript" color="0,0,0" opacity="0.3" zindex="-2" count="99" src="/js/canvas-nest.js"></script>
+    
+</body>
+</html>
