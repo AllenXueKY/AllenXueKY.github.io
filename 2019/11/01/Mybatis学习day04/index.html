@@ -7,7 +7,7 @@
 
 
 
-<title>Mybatis学习day03 | Allen Xue&#39;s Blog</title>
+<title>Mybatis学习day04 | Allen Xue&#39;s Blog</title>
 
 
 
@@ -169,7 +169,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">Mybatis学习day03</h1>
+            <h1 class="post-title">Mybatis学习day04</h1>
             
                 <div class="post-meta">
                     
@@ -178,7 +178,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">November 1, 2019&nbsp;&nbsp;8:24:03</a>
+                        Date: <a href="#">November 1, 2019&nbsp;&nbsp;8:52:07</a>
                         </span>
                     
                     
@@ -194,84 +194,58 @@
         </header>
 
         <div class="post-content">
-            <h2 id="一、学习内容"><a href="#一、学习内容" class="headerlink" title="一、学习内容"></a>一、学习内容</h2><ul>
-<li><p>1、mybatis中的连接池以及事务控制（原理部分了解，应用部分会用）<br><br>  mybatis中连接池使用及分析<br><br>  mybatis事务控制的分析</p>
-</li>
-<li><p>2、mybatis基于XML配置的动态SQL语句使用(会用即可)</p>
-</li>
-<li><pre><code>mappers配置文件中的几个标签：
-&lt;if&gt;
-&lt;where&gt;
-&lt;foreach&gt;
-&lt;sql&gt;</code></pre><p>3、<strong>mybatis中的多表操作</strong>(掌握应用)</p>
-<p>  一对多<br>  一对一<br>  多对多</p>
-<h2 id="二、连接池以及事务控制"><a href="#二、连接池以及事务控制" class="headerlink" title="二、连接池以及事务控制"></a>二、连接池以及事务控制</h2><h3 id="1、连接池："><a href="#1、连接池：" class="headerlink" title="1、连接池："></a>1、连接池：</h3><p>  我们在实际开发中都会使用连接池。<br>  因为它可以减少我们获取连接所消耗的时间。</p>
-<h3 id="2、mybatis中的连接池"><a href="#2、mybatis中的连接池" class="headerlink" title="2、mybatis中的连接池"></a>2、mybatis中的连接池</h3><p>  mybatis连接池提供了3种方式的配置：</p>
-<pre><code>配置的位置：
-    主配置文件SqlMapConfig.xml中的dataSource标签，type属性就是表示采用何种连接池方式。
-type属性的取值：
-    POOLED     采用传统的javax.sql.DataSource规范中的连接池，mybatis中有针对规范的实现
-    UNPOOLED 采用传统的获取连接的方式，虽然也实现Javax.sql.DataSource接口，但是并没有使用池的思想。
-    JNDI     采用服务器提供的JNDI技术实现，来获取DataSource对象，不同的服务器所能拿到DataSource是不一样。</code></pre></li>
-<li><p>注意：如果不是web或者maven的war工程，是不能使用的。此课程中使用的是tomcat服务器，采用连接池就是dbcp连接池*。</p>
-<h3 id="3、mybatis中的事务"><a href="#3、mybatis中的事务" class="headerlink" title="3、mybatis中的事务"></a>3、mybatis中的事务</h3></li>
-<li><p><em>什么是事务？*</em></p>
-</li>
-<li><p>指访问并可能更新数据库中各种数据项的一个程序执行单元(unit)。</p>
-</li>
-</ul>
-<p><strong>事务的四大特性ACID</strong></p>
+            <h2 id="一、Mybatis中的延迟加载"><a href="#一、Mybatis中的延迟加载" class="headerlink" title="一、Mybatis中的延迟加载"></a>一、Mybatis中的延迟加载</h2><p><em>问题：在一对多中，当我们有一个用户，它有100个账户。<br>在查询用户的时候，要不要把关联的账户查出来？<br>在查询账户的时候，要不要把关联的用户查出来？</em></p>
 <ul>
-<li>原子性（Atomicity）</li>
-<li>一致性（Consistency）</li>
-<li>隔离性（Isolation）</li>
-<li>持久性（Durability）</li>
+<li>在查询用户时，用户下的账户信息应该是，什么时候使用，什么时候查询的。</li>
+<li>在查询账户时，账户的所属用户信息应该是随着账户查询时一起查询出来。</li>
 </ul>
-<p><em>不考虑隔离性会产生的3个问题<br>解决办法：四种隔离级别</em></p>
-<p><strong>Mybatis通过sqlsession对象的commit方法和rollback方法实现事务的提交和回滚</strong></p>
-<h3 id="4、mybatis中的多表查询"><a href="#4、mybatis中的多表查询" class="headerlink" title="4、mybatis中的多表查询"></a>4、mybatis中的多表查询</h3><p><strong>表之间的关系有几种：</strong></p>
+<p><strong>什么是延迟加载</strong></p>
 <ul>
-<li>一对多</li>
-<li>多对一</li>
-<li>一对一</li>
-<li>多对多</li>
+<li>在真正使用数据时才发起查询，不用的时候不查询。按需加载（懒加载）</li>
 </ul>
-<p><em>举例</em>：</p>
+<p><strong>什么是立即加载</strong></p>
 <ul>
-<li>用户和订单就是一对多</li>
-<li>订单和用户就是多对一</li>
-<li>一个用户可以下多个订单</li>
-<li>多个订单属于同一个用户</li>
-<li>人和身份证号就是一对一</li>
-<li>一个人只能有一个身份证号</li>
-<li>一个身份证号只能属于一个人<br></li>
-<li>老师和学生之间就是多对多</li>
-<li>一个学生可以被多个老师教过</li>
-<li>一个老师可以交多个学生</li>
+<li>不管用不用，只要一调用方法，马上发起查询。</li>
 </ul>
-<p><strong>特例：</strong><br>如果拿出每一个订单，他都只能属于一个用户。<br><strong>所以Mybatis就把多对一看成了一对一。</strong></p>
-<p><strong>mybatis中的多表查询</strong>：</p>
-<p><em>示例一：用户和账户<br>一个用户可以有多个账户<br>一个账户只能属于一个用户（多个账户也可以属于同一个用户）</em></p>
-<p><strong>步骤</strong>：</p>
+<p><strong>在对应的四种表关系中：一对多，多对一，一对一，多对多</strong></p>
 <ul>
-<li>1、建立两张表：<strong>用户表，账户表</strong></li>
-<li><em>让用户表和账户表之间具备一对多的关系：需要使用外键在账户表中添加*</em></li>
-<li>2、建立两个实体类：<strong>用户实体类和账户实体类</strong><br>让用户和账户的实体类能体现出来<strong>一对多</strong>的关系</li>
-<li>3、建立两个配置文件<strong>用户的配置文件;账户的配置文件</strong></li>
-<li>4、实现配置：<br>当我们查询用户时，可以同时得到用户下所包含的账户信息<br><br>当我们查询账户时，可以同时得到账户的所属用户信息</li>
+<li>一对多，多对多：通常情况下我们都是采用延迟加载。</li>
+<li>多对一，一对一：通常情况下我们都是采用立即加载。</li>
 </ul>
-<p><em>示例二：用户和角色<br>一个用户可以有多个角色<br>一个角色可以赋予多个用户</em></p>
-<p><strong>步骤</strong>：</p>
+<h2 id="二、Mybatis中的缓存"><a href="#二、Mybatis中的缓存" class="headerlink" title="二、Mybatis中的缓存"></a>二、Mybatis中的缓存</h2><p><strong>什么是缓存</strong></p>
 <ul>
-<li>1、建立两张表：<strong>用户表，角色表</strong></li>
-<li><em>让用户表和角色表具有多对多的关系。需要使用中间表，中间表中包含各自的主键，在中间表中是外键*</em>。</li>
-<li>2、建立两个实体类：<strong>用户实体类和角色实体类</strong><br>让用户和角色的实体类能体现出来多对多的关系</li>
-<li><em>各自包含对方一个集合引用*</em></li>
-<li>3、建立两个配置文件</li>
-<li><em>用户的配置文件<br>角色的配置文件*</em></li>
-<li>4、实现配置：<br>当我们查询用户时，可以同时得到用户所包含的角色信息<br><br>当我们查询角色时，可以同时得到角色的所赋予的用户信息<h2 id="三、相关资料"><a href="#三、相关资料" class="headerlink" title="三、相关资料"></a>三、相关资料</h2></li>
-<li>链接：<a href="https://pan.baidu.com/s/1IeghP5STp4SsO0mSArZNoQ" target="_blank" rel="noopener">https://pan.baidu.com/s/1IeghP5STp4SsO0mSArZNoQ</a><br>提取码：sr83<br>复制这段内容后打开百度网盘手机App，操作更方便哦*</li>
+<li>存在于内存中的临时数据。</li>
 </ul>
+<p><strong>为什么使用缓存</strong></p>
+<ul>
+<li>减少和数据库的交互次数，提高执行效率。</li>
+</ul>
+<p><strong>什么样的数据能使用缓存，什么样的数据不能使用</strong></p>
+<ul>
+<li>适用于缓存：<strong>经常查询并且不经常改变的;数据的正确与否对最终结果影响不大的。</strong></li>
+<li>不适用于缓存：<strong>经常改变的数据;数据的正确与否对最终结果影响很大的。</strong><br>例如：商品的库存，银行的汇率，股市的牌价。<h2 id="三、Mybatis中的一级缓存和二级缓存"><a href="#三、Mybatis中的一级缓存和二级缓存" class="headerlink" title="三、Mybatis中的一级缓存和二级缓存"></a>三、Mybatis中的一级缓存和二级缓存</h2></li>
+</ul>
+<p><strong>一级缓存</strong>：<br><strong>它指的是Mybatis中SqlSession对象的缓存。</strong></p>
+<ul>
+<li>当我们执行查询之后，查询的结果会同时存入到SqlSession为我们提供一块区域中。</li>
+<li>该区域的结构是一个Map。当我们再次查询同样的数据，mybatis会先去sqlsession中</li>
+<li>查询是否有，有的话直接拿出来用。</li>
+<li>当SqlSession对象消失时，mybatis的一级缓存也就消失了。</li>
+</ul>
+<p><strong>二级缓存:<br>它指的是Mybatis中SqlSessionFactory对象的缓存。由同一个SqlSessionFactory对象创建的SqlSession共享其缓存。</strong></p>
+<p><strong>二级缓存的使用步骤：</strong></p>
+<ul>
+<li>第一步：让Mybatis框架支持二级缓存（在SqlMapConfig.xml中配置）</li>
+<li>第二步：让当前的映射文件支持二级缓存（在IUserDao.xml中配置）</li>
+<li>第三步：让当前的操作支持二级缓存（在select标签中配置）<h2 id="四、Mybatis中的注解开发"><a href="#四、Mybatis中的注解开发" class="headerlink" title="四、Mybatis中的注解开发"></a>四、Mybatis中的注解开发</h2></li>
+</ul>
+<ul>
+<li>环境搭建</li>
+<li>单表CRUD操作（代理Dao方式）</li>
+<li>多表查询操作</li>
+<li>缓存的配置<h2 id="五、相关资料"><a href="#五、相关资料" class="headerlink" title="五、相关资料"></a>五、相关资料</h2></li>
+</ul>
+<p><em>链接：<a href="https://pan.baidu.com/s/1LWvJSuZHWNv4qjsU-lBzhg" target="_blank" rel="noopener">https://pan.baidu.com/s/1LWvJSuZHWNv4qjsU-lBzhg</a><br>提取码：fs20<br>复制这段内容后打开百度网盘手机App，操作更方便哦</em></p>
 
         </div>
 
@@ -320,10 +294,8 @@ type属性的取值：
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/11/01/Mybatis学习day04/">Mybatis学习day04</a>
             
-            
-            <a class="next" rel="next" href="/2019/10/31/Mybatis学习day02/">Mybatis学习day02</a>
+            <a class="next" rel="next" href="/2019/11/01/Mybatis学习day03/">Mybatis学习day03</a>
             
         </section>
 
