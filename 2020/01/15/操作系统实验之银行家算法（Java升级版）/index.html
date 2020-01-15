@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>操作系统实验之银行家算法（Java升级版） | Allen Xue&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Allen Xue&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Allen Xue&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">操作系统实验之银行家算法（Java升级版）</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Allen Xue</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">January 15, 2020&nbsp;&nbsp;13:21:53</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/操作系统/">操作系统</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><strong><em>这次较上一篇文章更加透彻地展示了银行家算法，分析步骤和上一篇一样，直接上代码</em></strong></p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>Processes.class</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 进程类，包含多个进程的资源情况以及系统资源的情况</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.Scanner;</span><br><span class="line"></span><br><span class="line">public class Processes &#123;</span><br><span class="line">    private String[] resourceName;    //系统资源名称</span><br><span class="line">    private boolean[] isDel;          //是否已排除</span><br><span class="line">    private Integer[][] maxNum;       //Pi的需求资源数量（最大需求资源数量）</span><br><span class="line">    private Integer[][] allocation;   //已分配给该进程的资源</span><br><span class="line">    private Integer[][] needNum;      //还需要的资源数量</span><br><span class="line">    private Integer AVAILABLE_COUNT_Y;//资源的种类数量</span><br><span class="line">    private Integer PROCESSES_COUNT;  //进程的个数</span><br><span class="line">    private ArrayList&lt;String&gt; safe;    //安全序列</span><br><span class="line"></span><br><span class="line">    public ArrayList&lt;String&gt; getSafe() &#123;</span><br><span class="line">        return safe;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Processes() &#123;</span><br><span class="line">        Init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public boolean getIsDel(int i) &#123;</span><br><span class="line">        return isDel[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Integer getAVAILABLE_COUNT_Y() &#123;</span><br><span class="line">        return AVAILABLE_COUNT_Y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Integer getPROCESSES_COUNT() &#123;</span><br><span class="line">        return PROCESSES_COUNT;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getResourceName(int j) &#123;</span><br><span class="line">        return resourceName[j];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Integer getMaxNum(int i,int j) &#123;</span><br><span class="line">        return maxNum[i][j];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Integer getAllocation(int i,int j) &#123;</span><br><span class="line">        return allocation[i][j];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setAllocation(int i,int j,Integer allo) &#123;</span><br><span class="line">        allocation[i][j] = allo;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Integer getNeedNum(int i,int j) &#123;</span><br><span class="line">        return needNum[i][j];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setNeedNum(int i,int j,Integer need) &#123;</span><br><span class="line">        needNum[i][j] = need;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 初始化</span><br><span class="line">     */</span><br><span class="line">    public void Init() &#123;</span><br><span class="line">        System.out.print(&quot;请输入资源的种类数量：&quot;);</span><br><span class="line">        Scanner input = new Scanner(System.in);</span><br><span class="line">        AVAILABLE_COUNT_Y = input.nextInt();</span><br><span class="line">        resourceName = new String[AVAILABLE_COUNT_Y];</span><br><span class="line">        System.out.println(&quot;请输入各类资源的名称：&quot;);</span><br><span class="line">        for (int i = 0; i &lt; AVAILABLE_COUNT_Y; i++) &#123;</span><br><span class="line">            System.out.print(&quot;资源&quot; + (i+1) + &quot;的名称：&quot;);</span><br><span class="line">            resourceName[i] = input.next();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;请输入进程的个数：&quot;);</span><br><span class="line">        PROCESSES_COUNT = input.nextInt();</span><br><span class="line">        maxNum = new Integer[PROCESSES_COUNT][AVAILABLE_COUNT_Y];</span><br><span class="line">        allocation = new Integer[PROCESSES_COUNT][AVAILABLE_COUNT_Y];</span><br><span class="line">        needNum = new Integer[PROCESSES_COUNT][AVAILABLE_COUNT_Y];</span><br><span class="line">        for (int i = 0; i &lt; PROCESSES_COUNT; i++) &#123;</span><br><span class="line">            System.out.println(&quot;请输入进程P&quot; + i + &quot;对&quot; + AVAILABLE_COUNT_Y + &quot;类资源的最大需求：&quot;);</span><br><span class="line">            for (int j = 0; j &lt; AVAILABLE_COUNT_Y; j++) &#123;</span><br><span class="line">                System.out.print(resourceName[j] + &quot;：&quot;);</span><br><span class="line">                maxNum[i][j] = input.nextInt();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            System.out.println(&quot;请输入进程P&quot; + i + &quot;已申请到的各类资源数：&quot;);</span><br><span class="line">            for (int j = 0; j &lt; AVAILABLE_COUNT_Y; j++) &#123;</span><br><span class="line">                System.out.print(resourceName[j] + &quot;：&quot;);</span><br><span class="line">                allocation[i][j] = input.nextInt();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            for (int j = 0; j &lt; AVAILABLE_COUNT_Y; j++) &#123;</span><br><span class="line">                needNum[i][j] = maxNum[i][j] - allocation[i][j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        isDel = new boolean[PROCESSES_COUNT];</span><br><span class="line">        for (int i = 0; i &lt; PROCESSES_COUNT; i++) &#123;</span><br><span class="line">            isDel[i] = false;</span><br><span class="line">        &#125;</span><br><span class="line">        safe = new ArrayList&lt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void Del(int i)&#123;</span><br><span class="line">        isDel[i] = true;</span><br><span class="line">        safe.add(&quot;P&quot; + i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Banker.class</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 银行家算法</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.Scanner;</span><br><span class="line"></span><br><span class="line">public class Banker &#123;</span><br><span class="line">    private Integer[][] request;  //进程的请求向量</span><br><span class="line">    private Integer[] num;        //资源的总数量</span><br><span class="line">    private Integer[] available;  //可利用资源向量</span><br><span class="line">    private int num1;             //进程编号num</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 设置请求资源量Request</span><br><span class="line">     * @param processes</span><br><span class="line">     */</span><br><span class="line">    public void setRequest(Processes processes) &#123;</span><br><span class="line">        Scanner in = new Scanner(System.in);</span><br><span class="line">        System.out.println(&quot;请输入请求资源的进程编号：&quot;);</span><br><span class="line">        num1 = in.nextInt();//设置全局变量进程编号num</span><br><span class="line">        System.out.println(&quot;请输入请求各资源的数量：&quot;);</span><br><span class="line">        for (int j = 0; j &lt; processes.getAVAILABLE_COUNT_Y(); j++) &#123;</span><br><span class="line">            request[num1][j] = in.nextInt();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(&quot;即进程P&quot; + num1 + &quot;对各资源请求Request：(&quot; + request[num1][0] + &quot;,&quot; + request[num1][1] + &quot;,&quot; + request[num1][2] + &quot;).&quot;);</span><br><span class="line">        BankBegin(processes);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 银行家算法</span><br><span class="line">     */</span><br><span class="line">    public Processes Bank() &#123;</span><br><span class="line">        Processes processes = new Processes();</span><br><span class="line">        Scanner input = new Scanner(System.in);</span><br><span class="line">        System.out.println(&quot;请输入各类资源的数量：&quot;);</span><br><span class="line">        num = new Integer[processes.getAVAILABLE_COUNT_Y()];</span><br><span class="line">        for (int i = 0; i &lt; processes.getAVAILABLE_COUNT_Y(); i++) &#123;</span><br><span class="line">            System.out.print(processes.getResourceName(i) + &quot;：&quot;);</span><br><span class="line">            num[i] = input.nextInt();</span><br><span class="line">        &#125;</span><br><span class="line">        request = new Integer[processes.getPROCESSES_COUNT()][processes.getAVAILABLE_COUNT_Y()];</span><br><span class="line">        available = new Integer[processes.getAVAILABLE_COUNT_Y()];</span><br><span class="line">        //给系统可利用资源向量赋值</span><br><span class="line">        available = num;</span><br><span class="line">        for (int i = 0; i &lt; processes.getPROCESSES_COUNT(); i++) &#123;</span><br><span class="line">            for (int j = 0; j &lt; processes.getAVAILABLE_COUNT_Y(); j++) &#123;</span><br><span class="line">                available[j] = available[j] - processes.getAllocation(i, j);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(&quot;T0时刻的安全性：&quot;);</span><br><span class="line">        printSystemVariable(processes);</span><br><span class="line">        if (Safity(processes))&#123;</span><br><span class="line">            System.out.print(&quot;此时存在一个安全序列&quot;);</span><br><span class="line">            System.out.println(&quot;故当前可分配！&quot;);</span><br><span class="line">            //给请求向量赋值</span><br><span class="line">            setRequest(processes);</span><br><span class="line"></span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            System.out.println(&quot;当前系统处于不安全状态，故不存在安全序列。&quot;);</span><br><span class="line">            System.exit(0);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return processes;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 开始执行算法</span><br><span class="line">     * @param processes</span><br><span class="line">     */</span><br><span class="line">    public void BankBegin(Processes processes) &#123;</span><br><span class="line">        //判断是否能都满足请求条件</span><br><span class="line">        boolean T = true;</span><br><span class="line">        int trueCount = 0;</span><br><span class="line">        for (int j = 0; j &lt; processes.getAVAILABLE_COUNT_Y(); j++) &#123;</span><br><span class="line">            if (request[num1][j] &lt;= processes.getNeedNum(num1, j)) &#123;//判断Request是否小于Need</span><br><span class="line">                if (request[num1][j] &lt;= available[j]) &#123;//判断Request是否小于Alloction</span><br><span class="line">                    trueCount++;</span><br><span class="line">                    if (trueCount == processes.getAVAILABLE_COUNT_Y()) &#123;</span><br><span class="line">                        for (int i = 0; i &lt; processes.getAVAILABLE_COUNT_Y(); i++) &#123;</span><br><span class="line">                            available[i] = available[i] - request[num1][i];</span><br><span class="line">                            processes.setAllocation(num1, i, (processes.getAllocation(num1, i) + request[num1][i]));</span><br><span class="line">                            processes.setNeedNum(num1, i, (processes.getNeedNum(num1, i) - request[num1][i]));</span><br><span class="line">                        &#125;</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    System.out.println(&quot;当前没有足够的资源可分配，进程P&quot; + num1 + &quot;需等待。&quot;);</span><br><span class="line">                    T = false;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                System.out.println(&quot;进程P&quot; + num1 + &quot;请求已经超出最大需求量Need.&quot;);</span><br><span class="line">                T = false;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if (T == true) &#123;</span><br><span class="line">            printSystemVariable(processes);</span><br><span class="line">            System.out.println(&quot;预分配完成，进入安全性算法：&quot;);</span><br><span class="line">            if (Safity(processes))&#123;</span><br><span class="line">                System.out.print(&quot;此时存在一个安全序列&quot;);</span><br><span class="line">                System.out.print(&quot;，&quot;);</span><br><span class="line">                System.out.println(&quot;故当前可分配！&quot;);</span><br><span class="line">            &#125;else &#123;</span><br><span class="line">                System.out.println(&quot;当前系统处于不安全状态，故不存在安全序列。&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 安全性算法</span><br><span class="line">     */</span><br><span class="line">    public boolean Safity(Processes processes) &#123;</span><br><span class="line">        Integer[] work = new Integer[processes.getAVAILABLE_COUNT_Y()];     //工作向量Work</span><br><span class="line">        for (int i = 0; i &lt; processes.getAVAILABLE_COUNT_Y(); i++) &#123;</span><br><span class="line">            work[i] = available[i];</span><br><span class="line">        &#125;</span><br><span class="line">        String[] finish = new String[processes.getPROCESSES_COUNT()];       //工作向量Finish</span><br><span class="line">        for (int j = 0; j &lt; finish.length; j++) &#123;</span><br><span class="line">            finish[j] = &quot;false&quot;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        for (int i = 0; i &lt; processes.getPROCESSES_COUNT(); i++) &#123;</span><br><span class="line">            ArrayList&lt;String&gt; isFind = new ArrayList&lt;&gt;();</span><br><span class="line">            //如果进程没有被排除，则进行判断</span><br><span class="line">            if (!(processes.getIsDel(i))) &#123;</span><br><span class="line">                //判断第二步的条件</span><br><span class="line">                if (finish[i].compareTo(&quot;false&quot;) == 0) &#123;</span><br><span class="line">                    for (int j = 0; j &lt; processes.getAVAILABLE_COUNT_Y(); j++) &#123;</span><br><span class="line">                        if (processes.getNeedNum(i, j) &lt;= work[j]) &#123;</span><br><span class="line">                            isFind.add(&quot;true&quot;);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            //Pi所需资源均满足第二步条件时，顺利执行</span><br><span class="line">            if (isFind.size() == processes.getAVAILABLE_COUNT_Y()) &#123;</span><br><span class="line">                for (int k = 0; k &lt; processes.getAVAILABLE_COUNT_Y(); k++) &#123;</span><br><span class="line">                    work[k] = work[k] + processes.getAllocation(i, k);</span><br><span class="line">                    finish[i] = &quot;true&quot;;</span><br><span class="line">                &#125;</span><br><span class="line">                processes.Del(i);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 打印资源数据</span><br><span class="line">     */</span><br><span class="line">    public void printSystemVariable(Processes processes) &#123;</span><br><span class="line">        System.out.println(&quot;此时资源分配量如下：&quot;);</span><br><span class="line">        System.out.println(&quot;进程  &quot; + &quot;   Max   &quot; + &quot;   Alloction &quot; + &quot;    Need  &quot; + &quot;     Available &quot;);</span><br><span class="line">        for (int i = 0; i &lt; processes.getPROCESSES_COUNT(); i++) &#123;</span><br><span class="line">            System.out.print(&quot;P&quot; + i + &quot;     &quot;);</span><br><span class="line">            for (int j = 0; j &lt; processes.getAVAILABLE_COUNT_Y(); j++) &#123;</span><br><span class="line">                System.out.print(processes.getMaxNum(i, j) + &quot;  &quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.print(&quot;|  &quot;);</span><br><span class="line">            for (int j = 0; j &lt; processes.getAVAILABLE_COUNT_Y(); j++) &#123;</span><br><span class="line">                System.out.print(processes.getAllocation(i, j) + &quot;  &quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.print(&quot;|  &quot;);</span><br><span class="line">            for (int j = 0; j &lt; processes.getAVAILABLE_COUNT_Y(); j++) &#123;</span><br><span class="line">                System.out.print(processes.getNeedNum(i, j) + &quot;  &quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.print(&quot;|  &quot;);</span><br><span class="line">            if (i == 0) &#123;</span><br><span class="line">                for (int j = 0; j &lt; processes.getAVAILABLE_COUNT_Y(); j++) &#123;</span><br><span class="line">                    System.out.print(available[j] + &quot;  &quot;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>BankerTest.class</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 银行家算法测试类</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">import java.util.Scanner;</span><br><span class="line"></span><br><span class="line">public class BankerTest &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        //是否继续请求</span><br><span class="line">        boolean Choose = true;</span><br><span class="line">        String string;</span><br><span class="line">        Scanner in = new Scanner(System.in);</span><br><span class="line">        Banker banker = new Banker();</span><br><span class="line">        Processes processes = banker.Bank();</span><br><span class="line">        while (Choose == true) &#123;</span><br><span class="line">            banker.setRequest(processes);</span><br><span class="line">            System.out.println(&quot;您是否还要进行请求：y/n?&quot;);</span><br><span class="line">            string = in.nextLine();</span><br><span class="line">            if (string.endsWith(&quot;n&quot;)) &#123;</span><br><span class="line">                Choose = false;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Allen Xue</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><strong>To be or not to be,that is a question.<strong></strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/Java-SE/"># Java_SE</a>
+                    
+                        <a href="/tag/操作系统/"># 操作系统</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2019/11/17/操作系统实验之银行家算法（Java版）/">操作系统实验之银行家算法（Java版）</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Allen Xue | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+    
+        <script type="text/javascript" color="0,0,0" opacity="0.3" zindex="-2" count="99" src="/js/canvas-nest.js"></script>
+    
+</body>
+</html>
