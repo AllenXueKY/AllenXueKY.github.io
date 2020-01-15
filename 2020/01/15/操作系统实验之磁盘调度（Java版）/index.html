@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>操作系统实验之磁盘调度（Java版） | Allen Xue&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Allen Xue&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Allen Xue&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">操作系统实验之磁盘调度（Java版）</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Allen Xue</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">January 15, 2020&nbsp;&nbsp;14:09:27</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/操作系统/">操作系统</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="一、实验内容"><a href="#一、实验内容" class="headerlink" title="一、实验内容"></a>一、实验内容</h2><p><strong>模拟电梯调度算法，实现对磁盘的调度</strong>。 </p>
+<h2 id="二、实验目的"><a href="#二、实验目的" class="headerlink" title="二、实验目的"></a>二、实验目的</h2><p>磁盘是一种高速、大量旋转型、可直接存取的存储设备。它作为计算机系统的辅助存储器，负担着繁重的输入输出任务，在多道程序设计系统中，往往同时会有若干个要求访问磁盘的输入输出请示等待处理。系统可采用一种策略，尽可能按最佳次序执行要求访问磁盘的诸输入输出请求，这就叫磁盘调度，使用的算法称磁盘调度算法。磁盘调度能降低为若干个输入输出请求服务所须的总时间，从而提高系统效率。本实验要求学生模拟设计一个磁盘调度程序，观察磁盘调度程序的动态运行过程。</p>
+<h2 id="三、实验原理"><a href="#三、实验原理" class="headerlink" title="三、实验原理"></a>三、实验原理</h2><p>模拟电梯调度算法，对磁盘调度。<br><strong>磁盘是要供多个进程共享的存储设备，但一个磁盘每个时刻只能为一个进程服务</strong>。</p>
+<p><strong>当有进程在访问某个磁盘时，其他想访问该磁盘的进程必须等待，直到磁盘一次工作结束</strong>。</p>
+<p><strong>当有多个进程提出输入输出请求处于等待状态，可用电梯调度算法从若干个等待访问者中选择一个进程，让它访问磁盘</strong>。</p>
+<p><strong>当存取臂仅需移到一个方向最远的所请求的柱面后,如果没有访问请求了,存取臂就改变方向</strong>。</p>
+<p>假设磁盘有200个磁道，用编程语言随机函数随机生成一个磁道请求序列（不少于15个）放入模拟的磁盘请求队列中，假定当前磁头在100号磁道上，并向磁道号增加的方向上移动。请给出按电梯调度算法进行磁盘调度时满足请求的次序,并计算出它们的平均寻道长度。</p>
+<h2 id="四、算法流程图"><a href="#四、算法流程图" class="headerlink" title="四、算法流程图"></a>四、算法流程图</h2><p><img src="/2020/01/15/操作系统实验之磁盘调度（Java版）/1.png" alt="image"></p>
+<h2 id="五、源程序及注释"><a href="#五、源程序及注释" class="headerlink" title="五、源程序及注释"></a>五、源程序及注释</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.Collections;</span><br><span class="line">import java.util.Comparator;</span><br><span class="line">import java.util.Random;</span><br><span class="line">public class Test4 &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        int sign = 0;//标记</span><br><span class="line">        Random random = new Random();</span><br><span class="line">        ArrayList r = new ArrayList();</span><br><span class="line">        int i;</span><br><span class="line">        double aver=0;</span><br><span class="line">        //生成随机数</span><br><span class="line">        for (i = 0; i &lt; 20; i++)&#123;</span><br><span class="line">            r.add(random.nextInt(200));</span><br><span class="line">        &#125;</span><br><span class="line">        Collections.sort(r);</span><br><span class="line">        //确定磁头位置</span><br><span class="line">        for (i = 0; i &lt; r.size(); i++)&#123;</span><br><span class="line">            if((Integer)r.get(i) &gt;= 100)&#123;</span><br><span class="line">                sign = i;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //增加方向</span><br><span class="line">        System.out.println(&quot;（从100号磁道开始，向磁道号增加方向访问）\n&quot;);</span><br><span class="line">        System.out.println(&quot;  被访问的\t\t移动距离\n下一个磁道号\t\t（磁道数）\n&quot;);</span><br><span class="line">        for(i = sign; i &lt; r.size(); i++)&#123;</span><br><span class="line">            if(i == sign)&#123;</span><br><span class="line">                System.out.println(&quot;\t&quot; + (Integer)r.get(i) + &quot;\t\t\t  &quot; + ((Integer)r.get(i)-100));</span><br><span class="line">                aver += (Integer)r.get(i)-100;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                System.out.println(&quot;\t&quot; + r.get(i) + &quot;\t\t\t  &quot; + ((Integer)r.get(i) - (Integer)r.get(i-1)));</span><br><span class="line">                aver+=(Integer)r.get(i) - (Integer)r.get(i-1);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //降低方向</span><br><span class="line">        for(i = sign-1; i &gt;= 0; i--)&#123;</span><br><span class="line">            if(i==sign-1)&#123;</span><br><span class="line">                System.out.println(&quot;\t&quot; + (Integer)r.get(i) + &quot;\t\t\t  &quot; + ((Integer)r.get(19) - (Integer)r.get(i)));</span><br><span class="line">                aver += (Integer)r.get(19) - (Integer)r.get(i);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                System.out.println(&quot;\t&quot; + (Integer)r.get(i) + &quot;\t\t\t  &quot; + ((Integer)r.get(i+1) - (Integer)r.get(i)));</span><br><span class="line">                aver += (Integer)r.get(i+1) - (Integer)r.get(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.printf(&quot;平均寻道长度 %.1f&quot;,aver/15);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="六、打印的程序运行时初值和运行结果"><a href="#六、打印的程序运行时初值和运行结果" class="headerlink" title="六、打印的程序运行时初值和运行结果"></a>六、打印的程序运行时初值和运行结果</h2><p> <img src="/2020/01/15/操作系统实验之磁盘调度（Java版）/2.png" alt="image"> </p>
+<p><img src="/2020/01/15/操作系统实验之磁盘调度（Java版）/3.png" alt="image"></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Allen Xue</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><strong>To be or not to be,that is a question.<strong></strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/Java-SE/"># Java_SE</a>
+                    
+                        <a href="/tag/操作系统/"># 操作系统</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/01/15/操作系统实验之主存储器空间的分配和回收（Java版）/">操作系统实验之主存储器空间的分配和回收（Java版）</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Allen Xue | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+    
+        <script type="text/javascript" color="0,0,0" opacity="0.3" zindex="-2" count="99" src="/js/canvas-nest.js"></script>
+    
+</body>
+</html>
