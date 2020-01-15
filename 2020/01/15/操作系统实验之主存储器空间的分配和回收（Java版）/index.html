@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>操作系统实验之主存储器空间的分配和回收（Java版） | Allen Xue&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Allen Xue&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Allen Xue&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">操作系统实验之主存储器空间的分配和回收（Java版）</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Allen Xue</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">January 15, 2020&nbsp;&nbsp;13:33:06</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/操作系统/">操作系统</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="一、实验内容"><a href="#一、实验内容" class="headerlink" title="一、实验内容"></a>一、实验内容</h2><p><strong>主存储器空间的分配和回收。</strong></p>
+<h2 id="二、实验目的"><a href="#二、实验目的" class="headerlink" title="二、实验目的"></a>二、实验目的</h2><p>一个好的计算机系统不仅要有一个足够容量的、存取速度高的、稳定可靠的主存储器，而且要能合理地分配和使用这些存储空间。当用户提出申请存储器空间时，存储管理必须根据申请者的要求，按一定的策略分析主存空间的使用情况，找出足够的空闲区域分配给申请者。当作业撤离或主动归还主存资源时，则存储管理要收回作业占用的主存空间或归还部分主存空间。主存的分配和回收的实现与主存储器的管理方式有关的，通过本实验帮助学生理解在可变分区管理方式下应怎样实现主存空间的分配和回收。</p>
+<h2 id="三、实验原理"><a href="#三、实验原理" class="headerlink" title="三、实验原理"></a>三、实验原理</h2><p>模拟在可变分区管理方式下采用最先适应算法实现主存分配和回收。</p>
+<p>(1) <strong>可变分区方式是按作业需要的主存空间大小来分割分区的</strong>。当要装入一个作业时，根据作业需要的主存量查看是否有足够的空闲空间，若有，则按需要量分割一个分区分配给该作业；若无，则作业不能装入。随着作业的装入、撤离，主存空间被分成许多个分区，有的分区被作业占用，而有的分区是空闲的。例如：</p>
+<p><img src="/2020/01/15/操作系统实验之主存储器空间的分配和回收（Java版）/1.png" alt="image"></p>
+<p>为了说明哪些区是空闲的，可以用来装入新作业，必须要有一张空闲区说明表，格式如下：</p>
+<p><img src="/2020/01/15/操作系统实验之主存储器空间的分配和回收（Java版）/2.png" alt="image"></p>
+<p>其中，起址——指出一个空闲区的主存起始地址。<br>      长度——指出从起始地址开始的一个连续空闲的长度。<br>      状态——有两种状态，一种是“未分配”状态，指出对应的由起址指出的某个长度的区域是空闲区。</p>
+<p>(2) <strong>当有一个新作业要求装入主存时，必须查空闲区说明表，从中找出一个足够大的空闲区</strong>。有时找到的空闲区可能大于作业需要量，这时应把原来的空闲区变成两部分：一部分分给作业占用；另一部分又成为一个较小的空闲区。为了尽量减少由于分割造成的空闲区，而尽量保存高地址部分有较大的连续空闲区域，以利于大型作业的装入。为此，在空闲区说明表中，把每个空闲区按其地址顺序登记，即每个后继的空闲区其起始地址总是比前者大。</p>
+<p>(3) <strong>采用最先适应算法（顺序分配算法）分配主存空间</strong>。<br>按照作业的需要量，查空闲区说明表，顺序查看登记栏，找到第一个能满足要求的空闲区。当空闲区大于需要量时，一部分用来装入作业，另一部分仍为空闲区登记在空闲区说明表中。<br>由于本实验是模拟主存的分配，所以把主存区分配给作业后并不实际启动装入程序装入作业，而用输出“分配情况”来代替。</p>
+<p>(4) <strong>当一个作业执行结束撤离时，作业所占的区域应该归还，归还的区域如果与其它空闲区相邻，则应合成一个较大的空闲区，登记在空闲区说明表中</strong>。</p>
+<p>(5) <strong>请按最先适应算法设计主存分配和回收的程序</strong>。假设初始时主存中没有作业，现按下面序列进行内存的申请与释放：<br><code>作业1申请300K，
+作业2申请100K，
+作业1释放300K，
+作业3申请150K，
+作业4申请30K， 
+作业5申请40K， 
+作业6申请60K，
+作业4释放30K。</code><br>请你为它们进行主存分配和回收，把空闲区说明表的初值以及每次分配或回收后的变化显示出来或打印出来。</p>
+<h2 id="四、算法流程图"><a href="#四、算法流程图" class="headerlink" title="四、算法流程图"></a>四、算法流程图</h2><p><img src="/2020/01/15/操作系统实验之主存储器空间的分配和回收（Java版）/3.png" alt="image"> </p>
+<ul>
+<li>归还主存时的回收算法流程图</li>
+</ul>
+<p><img src="/2020/01/15/操作系统实验之主存储器空间的分配和回收（Java版）/4.png" alt="image"></p>
+<h2 id="五、源程序及注释"><a href="#五、源程序及注释" class="headerlink" title="五、源程序及注释"></a>五、源程序及注释</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br></pre></td><td class="code"><pre><span class="line">//RAM内存类</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.Random;</span><br><span class="line">import java.util.Scanner;</span><br><span class="line"></span><br><span class="line">public class RAM &#123;</span><br><span class="line">    Scanner input = new Scanner(System.in);</span><br><span class="line">    static IdlePartition idle = new IdlePartition();</span><br><span class="line">    private Integer size;               //总内存大小</span><br><span class="line">    private Integer initialAddress;     //起址</span><br><span class="line">    private Integer endAddress;         //末址</span><br><span class="line">    private Integer blockNum ;          //块数</span><br><span class="line">    private ArrayList blockSize;        //块大小</span><br><span class="line">    private ArrayList blockAddress;     //每块的起址</span><br><span class="line">    private ArrayList blockStatus;      //每块的状态</span><br><span class="line"></span><br><span class="line">    public RAM(Integer size, Integer initialAddress) &#123;</span><br><span class="line">        this.size = size;</span><br><span class="line">        this.initialAddress = initialAddress;</span><br><span class="line">        this.endAddress = this.initialAddress + this.size;</span><br><span class="line">        this.blockNum = 10;</span><br><span class="line">        Random random = new Random();</span><br><span class="line">        Integer sum = 0;</span><br><span class="line">        this.blockSize = new ArrayList();</span><br><span class="line">        this.blockAddress = new ArrayList();</span><br><span class="line">        this.blockStatus = new ArrayList();</span><br><span class="line">        for (int i = 0; i &lt; 9; i++) &#123;</span><br><span class="line">            this.blockAddress.add(sum);</span><br><span class="line">            this.blockSize.add(random.nextInt(100)+30);</span><br><span class="line">            sum += (Integer)(this.blockSize.get(i));</span><br><span class="line">            this.blockStatus.add(&quot;未分配&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        this.blockSize.add(this.size - sum);</span><br><span class="line">        this.blockAddress.add(sum);</span><br><span class="line">        this.blockStatus.add(&quot;未分配&quot;);</span><br><span class="line">        Printer();</span><br><span class="line">    &#125;</span><br><span class="line">    public IdlePartition Changing()&#123;</span><br><span class="line">        ArrayList initialAddress1 = new ArrayList(); //起始地址</span><br><span class="line">        ArrayList lenth = new ArrayList();          //长度</span><br><span class="line">        ArrayList status = new ArrayList();          //状态</span><br><span class="line">        for (int i = 0; i &lt; this.blockNum; i++) &#123;</span><br><span class="line">            if (this.blockStatus.get(i) == &quot;未分配&quot;)&#123;</span><br><span class="line">                initialAddress1.add(this.blockAddress.get(i));</span><br><span class="line">                lenth.add(this.blockSize.get(i));</span><br><span class="line">                status.add(this.blockStatus.get(i));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        idle.setInitialAddress(initialAddress1);</span><br><span class="line">        idle.setLenth(lenth);</span><br><span class="line">        idle.setStatus(status);</span><br><span class="line">        return idle;</span><br><span class="line">    &#125;</span><br><span class="line">    public void Printer()&#123;</span><br><span class="line">        System.out.println(&quot;***********内存分块说明表*************&quot;);</span><br><span class="line">        System.out.printf(&quot;%-7s%-10s%-10s%-10s\n&quot;,&quot;编号&quot;,&quot;起址&quot;,&quot;长度&quot;,&quot;状态&quot;);</span><br><span class="line">        for (int i = 0; i &lt; this.blockNum; i++) &#123;</span><br><span class="line">            System.out.printf( &quot;%2d%10d%s%10d%s%10s\n&quot;,i+1,this.blockAddress.get(i),&quot;K&quot;</span><br><span class="line">                    ,this.blockSize.get(i) ,&quot;K&quot;,this.blockStatus.get(i) );</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public void Printer1(IdlePartition idlePartition)&#123;</span><br><span class="line">        System.out.println(&quot;***********空闲说明表*************&quot;);</span><br><span class="line">        System.out.printf(&quot;%-7s%-10s%-10s%-10s\n&quot;,&quot;编号&quot;,&quot;起址&quot;,&quot;长度&quot;,&quot;状态&quot;);</span><br><span class="line">        for (int i = 0; i &lt; idlePartition.getStatus().size(); i++) &#123;</span><br><span class="line">            System.out.printf( &quot;%2d%10d%s%10d%s%10s\n&quot;,i+1,idlePartition.getInitialAddress().get(i),&quot;K&quot;</span><br><span class="line">                    ,idlePartition.getLenth().get(i) ,&quot;K&quot;,idlePartition.getStatus().get(i) );</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 查找空闲分区</span><br><span class="line">     */</span><br><span class="line">    public void FindingIdlePartition(IdlePartition idlePartition,Integer size,Integer a)&#123;</span><br><span class="line">        for (int i = 0; i &lt; idlePartition.getStatus().size(); i++) &#123;</span><br><span class="line">            if (size == 0) &#123;</span><br><span class="line">                System.out.println(&quot;申请无效！&quot;);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            if ((Integer)(this.blockSize.get(i)) &gt;= size &amp;&amp; this.blockStatus.get(i).equals(&quot;未分配&quot;))  &#123;</span><br><span class="line">                this.blockStatus.set(i,&quot;作业&quot; + a + &quot;正在使用中&quot;);</span><br><span class="line">                if ((Integer)(idlePartition.getLenth().get(i)) == size)&#123;</span><br><span class="line">                    this.blockSize.set(i,size);</span><br><span class="line">                    return;</span><br><span class="line">                &#125;else &#123;</span><br><span class="line">                    //使用空间，并建立新的空闲分区</span><br><span class="line">                    this.blockAddress.add(i+1,(Integer)(this.blockAddress.get(i)) + size);</span><br><span class="line">                    this.blockStatus.add(i+1,&quot;未分配&quot;);</span><br><span class="line">                    this.blockSize.add(i+1,((Integer)this.blockSize.get(i)) - size);</span><br><span class="line">                    this.blockSize.set(i,size);</span><br><span class="line">                    this.blockNum++;</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(&quot;未找到适当的内存，请重新申请！！！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 作业i申请空间</span><br><span class="line">     */</span><br><span class="line">    public void Applying(Integer i)&#123;</span><br><span class="line">        System.out.print(&quot;请输入要申请的作业&quot; + i + &quot;占用内存：&quot;);</span><br><span class="line">        FindingIdlePartition(idle,input.nextInt(),i);</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 作业i释放空间</span><br><span class="line">     */</span><br><span class="line">    public void Freeing(Integer i)&#123;</span><br><span class="line">        for (int j = 0; j &lt; this.blockNum; j++) &#123;</span><br><span class="line">            if (this.blockStatus.get(j).equals(&quot;作业&quot; + i + &quot;正在使用中&quot;))&#123;</span><br><span class="line">                this.blockStatus.set(j,&quot;未分配&quot;);</span><br><span class="line">             this.blockSize.set(j,(Integer)this.blockSize.get(j)+(Integer)this.blockSize.get(j+1));</span><br><span class="line">                this.blockSize.remove(j+1);</span><br><span class="line">                this.blockAddress.remove(j+1);</span><br><span class="line">                this.blockStatus.remove(j+1);</span><br><span class="line">                this.blockNum--;</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(&quot;未找到作业&quot; + i + &quot;正在使用中，请重新输入！！！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public ArrayList getBlockAddress() &#123;</span><br><span class="line">        return blockAddress;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public ArrayList getBlockStatus() &#123;</span><br><span class="line">        return blockStatus;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Integer getBlockNum() &#123;</span><br><span class="line">        return blockNum;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public ArrayList getBlockSize() &#123;</span><br><span class="line">        return blockSize;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Integer getSize() &#123;</span><br><span class="line">        return size;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setSize(Integer size) &#123;</span><br><span class="line">        this.size = size;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Integer getInitialAddress() &#123;</span><br><span class="line">        return initialAddress;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setInitialAddress(Integer initialAddress) &#123;</span><br><span class="line">        this.initialAddress = initialAddress;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Integer getEndAddress() &#123;</span><br><span class="line">        return endAddress;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">// IdlePartition空闲区类</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">public class IdlePartition &#123;</span><br><span class="line">    private ArrayList initialAddress; //起始地址</span><br><span class="line">    private ArrayList lenth;          //长度</span><br><span class="line">    private ArrayList status;          //状态</span><br><span class="line">    public IdlePartition() &#123;&#125;</span><br><span class="line">    public ArrayList getInitialAddress() &#123;</span><br><span class="line">        return initialAddress;</span><br><span class="line">    &#125;</span><br><span class="line">    public void setInitialAddress(ArrayList initialAddress) &#123;</span><br><span class="line">        this.initialAddress = initialAddress;</span><br><span class="line">    &#125;</span><br><span class="line">    public ArrayList getLenth() &#123;</span><br><span class="line">        return lenth;</span><br><span class="line">    &#125;</span><br><span class="line">    public void setLenth(ArrayList lenth) &#123;</span><br><span class="line">        this.lenth = lenth;</span><br><span class="line">    &#125;</span><br><span class="line">    public ArrayList getStatus() &#123;</span><br><span class="line">        return status;</span><br><span class="line">    &#125;</span><br><span class="line">    public void setStatus(ArrayList status) &#123;</span><br><span class="line">        this.status = status;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">//Test测试类</span><br><span class="line">import java.util.Scanner;</span><br><span class="line"></span><br><span class="line">public class Test &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        RAM ram = new RAM(1024,0);</span><br><span class="line">        ram.Changing();</span><br><span class="line">        ram.Printer1(ram.Changing());</span><br><span class="line">        Scanner input = new Scanner(System.in);</span><br><span class="line">        while(true)&#123;</span><br><span class="line">            System.out.println(&quot;1、申请\t2、释放（输入其它数字退出）&quot;);</span><br><span class="line">            System.out.print(&quot;请输入要对作业进行的操作序号：&quot;);</span><br><span class="line">            switch (input.nextInt())&#123;</span><br><span class="line">                case 1:</span><br><span class="line">                    System.out.print(&quot;请输入要申请的作业序号：&quot;);</span><br><span class="line">                    ram.Applying(input.nextInt());</span><br><span class="line">                    break;</span><br><span class="line">                case 2:</span><br><span class="line">                    System.out.print(&quot;请输入要释放的作业序号：&quot;);</span><br><span class="line">                    ram.Freeing(input.nextInt());</span><br><span class="line">                    break;</span><br><span class="line">                default:</span><br><span class="line">                    System.exit(0);</span><br><span class="line">                    break;</span><br><span class="line">            &#125;</span><br><span class="line">            ram.Changing();</span><br><span class="line">            ram.Printer1(ram.Changing());</span><br><span class="line">            ram.Printer();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="六、打印的程序运行时初值和运行结果"><a href="#六、打印的程序运行时初值和运行结果" class="headerlink" title="六、打印的程序运行时初值和运行结果"></a>六、打印的程序运行时初值和运行结果</h2><p><img src="/2020/01/15/操作系统实验之主存储器空间的分配和回收（Java版）/5.png" alt="image"></p>
+<p><img src="/2020/01/15/操作系统实验之主存储器空间的分配和回收（Java版）/6.png" alt="image"></p>
+<p><img src="/2020/01/15/操作系统实验之主存储器空间的分配和回收（Java版）/7.png" alt="image"></p>
+<p><img src="/2020/01/15/操作系统实验之主存储器空间的分配和回收（Java版）/8.png" alt="image"></p>
+<p><img src="/2020/01/15/操作系统实验之主存储器空间的分配和回收（Java版）/9.png" alt="image"></p>
+<p><img src="/2020/01/15/操作系统实验之主存储器空间的分配和回收（Java版）/10.png" alt="image"></p>
+<p><img src="/2020/01/15/操作系统实验之主存储器空间的分配和回收（Java版）/11.png" alt="image"></p>
+<p><img src="/2020/01/15/操作系统实验之主存储器空间的分配和回收（Java版）/12.png" alt="image"></p>
+<p><img src="/2020/01/15/操作系统实验之主存储器空间的分配和回收（Java版）/13.png" alt="image"></p>
+<p><img src="/2020/01/15/操作系统实验之主存储器空间的分配和回收（Java版）/14.png" alt="image"></p>
+<p><img src="/2020/01/15/操作系统实验之主存储器空间的分配和回收（Java版）/15.png" alt="image"></p>
+<p><img src="/2020/01/15/操作系统实验之主存储器空间的分配和回收（Java版）/16.png" alt="image"></p>
+<p><img src="/2020/01/15/操作系统实验之主存储器空间的分配和回收（Java版）/17.png" alt="image"></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Allen Xue</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><strong>To be or not to be,that is a question.<strong></strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/Java-SE/"># Java_SE</a>
+                    
+                        <a href="/tag/操作系统/"># 操作系统</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/01/15/操作系统实验之银行家算法（Java升级版）/">操作系统实验之银行家算法（Java升级版）</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Allen Xue | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+    
+        <script type="text/javascript" color="0,0,0" opacity="0.3" zindex="-2" count="99" src="/js/canvas-nest.js"></script>
+    
+</body>
+</html>
