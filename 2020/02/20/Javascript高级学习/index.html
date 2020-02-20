@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Javascript高级学习 | Allen Xue&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Allen Xue&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Allen Xue&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Javascript高级学习</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Allen Xue</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">February 20, 2020&nbsp;&nbsp;0:02:23</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/JavaWeb/">JavaWeb</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="一、DOM简单学习"><a href="#一、DOM简单学习" class="headerlink" title="一、DOM简单学习"></a>一、DOM简单学习</h2><p><em>为了满足案例要求</em></p>
+<ul>
+<li><p>功能：控制html文档的内容</p>
+</li>
+<li><p>获取页面标签(元素)对象：Element</p>
+<ul>
+<li>document.getElementById(“id值”):通过元素的id获取元素对象</li>
+</ul>
+</li>
+<li><p>操作Element对象：</p>
+<ol>
+<li>修改属性值：<ol>
+<li>明确获取的对象是哪一个？</li>
+<li>查看API文档，找其中有哪些属性可以设置</li>
+</ol>
+</li>
+<li>修改标签体内容：<ul>
+<li>属性：innerHTML</li>
+</ul>
+<ol>
+<li>获取元素对象</li>
+<li>使用innerHTML属性修改标签体内容</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="二、事件简单学习"><a href="#二、事件简单学习" class="headerlink" title="二、事件简单学习"></a>二、事件简单学习</h2><ul>
+<li>功能： 某些组件被执行了某些操作后，触发某些代码的执行。</li>
+<li>如何绑定事件<ul>
+<li>直接在html标签上，指定事件的属性(操作)，属性值就是js代码<ul>
+<li>事件：onclick— 单击事件</li>
+</ul>
+</li>
+<li>通过js获取元素对象，指定事件属性，设置一个函数</li>
+</ul>
+</li>
+</ul>
+<h2 id="三、案例1：电灯开关"><a href="#三、案例1：电灯开关" class="headerlink" title="三、案例1：电灯开关"></a>三、案例1：电灯开关</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;电灯开关&lt;/title&gt;</span><br><span class="line"></span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;img id=&quot;light&quot; src=&quot;img/off.gif&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    /*</span><br><span class="line">        分析：</span><br><span class="line">            1.获取图片对象</span><br><span class="line">            2.绑定单击事件</span><br><span class="line">            3.每次点击切换图片</span><br><span class="line">                * 规则：</span><br><span class="line">                    * 如果灯是开的 on,切换图片为 off</span><br><span class="line">                    * 如果灯是关的 off,切换图片为 on</span><br><span class="line">                * 使用标记flag来完成</span><br><span class="line"></span><br><span class="line">     */</span><br><span class="line"></span><br><span class="line">    //1.获取图片对象</span><br><span class="line">    var light = document.getElementById(&quot;light&quot;);</span><br><span class="line"></span><br><span class="line">    var flag = false;//代表灯是灭的。 off图片</span><br><span class="line"></span><br><span class="line">    //2.绑定单击事件</span><br><span class="line">    light.onclick = function()&#123;</span><br><span class="line">        if(flag)&#123;//判断如果灯是开的，则灭掉</span><br><span class="line">            light.src = &quot;img/off.gif&quot;;</span><br><span class="line">            flag = false;</span><br><span class="line"></span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            //如果灯是灭的，则打开</span><br><span class="line"></span><br><span class="line">            light.src = &quot;img/on.gif&quot;;</span><br><span class="line">            flag = true;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、BOM"><a href="#四、BOM" class="headerlink" title="四、BOM"></a>四、BOM</h2><h3 id="1-概念"><a href="#1-概念" class="headerlink" title="1. 概念"></a>1. 概念</h3><p>Browser Object Model 浏览器对象模型</p>
+<ul>
+<li>将浏览器的各个组成部分封装成对象</li>
+</ul>
+<h3 id="2-组成"><a href="#2-组成" class="headerlink" title="2. 组成"></a>2. 组成</h3><ul>
+<li>Window：窗口对象</li>
+<li>Navigator：浏览器对象</li>
+<li>Screen：显示器屏幕对象</li>
+<li>History：历史记录对象</li>
+<li>Location：地址栏对象</li>
+</ul>
+<h3 id="3-Window：窗口对象"><a href="#3-Window：窗口对象" class="headerlink" title="3. Window：窗口对象"></a>3. Window：窗口对象</h3><ol>
+<li>创建</li>
+<li>方法</li>
+</ol>
+<ul>
+<li><p>与弹出框有关的方法：<br></p>
+<ul>
+<li>alert()    显示带有一段消息和一个确认按钮的警告框。</li>
+<li>confirm()    显示带有一段消息以及确认按钮和取消按钮的对话框。<ul>
+<li>如果用户点击确定按钮，则方法返回true</li>
+<li>如果用户点击取消按钮，则方法返回false</li>
+</ul>
+</li>
+<li>prompt()    显示可提示用户输入的对话框。<ul>
+<li>返回值：获取用户输入的值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>与打开关闭有关的方法：</p>
+<ul>
+<li>close()    关闭浏览器窗口。<ul>
+<li>谁调用我 ，我关谁</li>
+</ul>
+</li>
+<li>open()    打开一个新的浏览器窗口<ul>
+<li>返回新的Window对象</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>与定时器有关的方式</p>
+<ul>
+<li><p>setTimeout()    在指定的毫秒数后调用函数或计算表达式。</p>
+<ul>
+<li>参数：<ol>
+<li>js代码或者方法对象</li>
+<li>毫秒值</li>
+</ol>
+</li>
+<li>返回值：唯一标识，用于取消定时器</li>
+</ul>
+</li>
+<li><p>clearTimeout()    取消由 setTimeout() 方法设置的 timeout。</p>
+</li>
+<li><p>setInterval()    </p>
+<ul>
+<li>按照指定的周期（以毫秒计）来调用函数或计算表达式。</li>
+</ul>
+</li>
+<li><p>clearInterval()    </p>
+<ul>
+<li>取消由 setInterval() 设置的 timeout。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>属性：</li>
+</ol>
+<ul>
+<li>获取其他BOM对象：<br>  history<br>  location<br>  Navigator<br>  Screen</li>
+<li>获取DOM对象:<br>  document</li>
+</ul>
+<ol start="4">
+<li>特点<ul>
+<li>Window对象不需要创建可以直接使用 window使用。 window.方法名();</li>
+<li>window引用可以省略。  方法名();</li>
+</ul>
+</li>
+</ol>
+<h3 id="4-Location：地址栏对象"><a href="#4-Location：地址栏对象" class="headerlink" title="4. Location：地址栏对象"></a>4. Location：地址栏对象</h3><ol>
+<li>创建(获取)：</li>
+</ol>
+<ul>
+<li>window.location</li>
+<li>location</li>
+</ul>
+<ol start="2">
+<li>方法：</li>
+</ol>
+<ul>
+<li>reload()    重新加载当前文档。刷新</li>
+</ul>
+<ol start="3">
+<li>属性</li>
+</ol>
+<ul>
+<li>href    设置或返回完整的 URL。</li>
+</ul>
+<h3 id="5-History：历史记录对象"><a href="#5-History：历史记录对象" class="headerlink" title="5. History：历史记录对象"></a>5. History：历史记录对象</h3><ol>
+<li>创建(获取)：</li>
+</ol>
+<ul>
+<li>window.history</li>
+<li>history</li>
+</ul>
+<ol start="2">
+<li>方法：</li>
+</ol>
+<ul>
+<li>back()    加载 history 列表中的前一个 URL。</li>
+<li>forward()    加载 history 列表中的下一个 URL。</li>
+<li>go(参数)    加载 history 列表中的某个具体页面。<ul>
+<li>参数：<ul>
+<li>正数：前进几个历史记录</li>
+<li>负数：后退几个历史记录</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>属性：</li>
+</ol>
+<ul>
+<li>length    返回当前窗口历史列表中的 URL 数量。</li>
+</ul>
+<h2 id="五、DOM"><a href="#五、DOM" class="headerlink" title="五、DOM"></a>五、DOM</h2><ul>
+<li><p>概念： Document Object Model 文档对象模型</p>
+<ul>
+<li>将标记语言文档的各个组成部分，封装为对象。可以使用这些对象，对标记语言文档进行CRUD的动态操作</li>
+</ul>
+</li>
+<li><p>W3C DOM 标准被分为 3 个不同的部分：</p>
+<ul>
+<li><p>核心 DOM - 针对任何结构化文档的标准模型</p>
+<ul>
+<li><p>Document：文档对象</p>
+</li>
+<li><p>Element：元素对象</p>
+</li>
+<li><p>Attribute：属性对象</p>
+</li>
+<li><p>Text：文本对象</p>
+</li>
+<li><p>Comment:注释对象</p>
+</li>
+<li><p>Node：节点对象，其他5个的父对象</p>
+</li>
+</ul>
+</li>
+<li><p>XML DOM - 针对 XML 文档的标准模型</p>
+</li>
+<li><p>HTML DOM - 针对 HTML 文档的标准模型</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>核心DOM模型：<ul>
+<li>Document：文档对象<ol>
+<li>创建(获取)：在html dom模型中可以使用window对象来获取<ol>
+<li>window.document</li>
+<li>document</li>
+</ol>
+</li>
+<li>方法：<ol>
+<li>获取Element对象：<ol>
+<li>getElementById()    ： 根据id属性值获取元素对象。id属性值一般唯一</li>
+<li>getElementsByTagName()：根据元素名称获取元素对象们。返回值是一个数组</li>
+<li>getElementsByClassName():根据Class属性值获取元素对象们。返回值是一个数组</li>
+<li>getElementsByName(): 根据name属性值获取元素对象们。返回值是一个数组</li>
+</ol>
+</li>
+<li>创建其他DOM对象：<br> createAttribute(name)<br> createComment()<br> createElement()<br> createTextNode()</li>
+</ol>
+</li>
+<li>属性</li>
+</ol>
+</li>
+<li>Element：元素对象<ol>
+<li>获取/创建：通过document来获取和创建</li>
+<li>方法：<ol>
+<li>removeAttribute()：删除属性</li>
+<li>setAttribute()：设置属性</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>Node：节点对象，其他5个的父对象<ul>
+<li>特点：所有dom对象都可以被认为是一个节点</li>
+<li>方法：<ul>
+<li>CRUD dom树：<ul>
+<li>appendChild()：向节点的子节点列表的结尾添加新的子节点。</li>
+<li>removeChild()    ：删除（并返回）当前节点的指定子节点。</li>
+<li>replaceChild()：用新节点替换一个子节点。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>属性：<ul>
+<li>parentNode 返回节点的父节点。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>HTML DOM<ol>
+<li>标签体的设置和获取：innerHTML</li>
+<li>使用html元素对象的属性</li>
+<li>控制元素样式<ol>
+<li>使用元素的style属性来设置<br> 如：<pre><code> //修改样式方式1
+div1.style.border = &quot;1px solid red&quot;;
+div1.style.width = &quot;200px&quot;;
+//font-size--&gt; fontSize
+div1.style.fontSize = &quot;20px&quot;;</code></pre></li>
+<li>提前定义好类选择器的样式，通过元素的className属性来设置其class属性值。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="五、事件监听机制"><a href="#五、事件监听机制" class="headerlink" title="五、事件监听机制"></a>五、事件监听机制</h2><ul>
+<li>概念：某些组件被执行了某些操作后，触发某些代码的执行。    </li>
+<li>事件：某些操作。如： 单击，双击，键盘按下了，鼠标移动了</li>
+<li>事件源：组件。如： 按钮 文本输入框…</li>
+<li>监听器：代码。</li>
+<li>注册监听：将事件，事件源，监听器结合在一起。 当事件源上发生了某个事件，则触发执行某个监听器代码。</li>
+</ul>
+<ul>
+<li><p>常见的事件：</p>
+<ol>
+<li><p>点击事件：</p>
+<ol>
+<li>onclick：单击事件</li>
+<li>ondblclick：双击事件</li>
+</ol>
+</li>
+<li><p>焦点事件</p>
+<ol>
+<li>onblur：失去焦点</li>
+<li>onfocus:元素获得焦点。</li>
+</ol>
+</li>
+<li><p>加载事件：</p>
+<ol>
+<li>onload：一张页面或一幅图像完成加载。</li>
+</ol>
+</li>
+<li><p>鼠标事件：</p>
+<ol>
+<li>onmousedown    鼠标按钮被按下。</li>
+<li>onmouseup    鼠标按键被松开。</li>
+<li>onmousemove    鼠标被移动。</li>
+<li>onmouseover    鼠标移到某元素之上。</li>
+<li>onmouseout    鼠标从某元素移开。</li>
+</ol>
+</li>
+<li><p>键盘事件：</p>
+<ol>
+<li>onkeydown    某个键盘按键被按下。    </li>
+<li>onkeyup        某个键盘按键被松开。</li>
+<li>onkeypress    某个键盘按键被按下并松开。</li>
+</ol>
+</li>
+<li><p>选择和改变</p>
+<ol>
+<li>onchange    域的内容被改变。</li>
+<li>onselect    文本被选中。</li>
+</ol>
+</li>
+<li><p>表单事件：</p>
+<ol>
+<li>onsubmit    确认按钮被点击。</li>
+<li>onreset    重置按钮被点击。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="六、案例2：表单验证"><a href="#六、案例2：表单验证" class="headerlink" title="六、案例2：表单验证"></a>六、案例2：表单验证</h2><p>代码实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;注册页面&lt;/title&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        *&#123;</span><br><span class="line">            margin: 0px;</span><br><span class="line">            padding: 0px;</span><br><span class="line">            box-sizing: border-box;</span><br><span class="line">        &#125;</span><br><span class="line">        body&#123;</span><br><span class="line">            background: url(&quot;img/register_bg.png&quot;) no-repeat center;</span><br><span class="line">            padding-top: 25px;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .rg_layout&#123;</span><br><span class="line">            width: 900px;</span><br><span class="line">            height: 500px;</span><br><span class="line">            border: 8px solid #EEEEEE;</span><br><span class="line">            background-color: white;</span><br><span class="line">            /*让div水平居中*/</span><br><span class="line">            margin: auto;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .rg_left&#123;</span><br><span class="line">            /*border: 1px solid red;*/</span><br><span class="line">            float: left;</span><br><span class="line">            margin: 15px;</span><br><span class="line">        &#125;</span><br><span class="line">        .rg_left &gt; p:first-child&#123;</span><br><span class="line">            color:#FFD026;</span><br><span class="line">            font-size: 20px;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .rg_left &gt; p:last-child&#123;</span><br><span class="line">            color:#A6A6A6;</span><br><span class="line">            font-size: 20px;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        .rg_center&#123;</span><br><span class="line">            float: left;</span><br><span class="line">            /* border: 1px solid red;*/</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .rg_right&#123;</span><br><span class="line">            /*border: 1px solid red;*/</span><br><span class="line">            float: right;</span><br><span class="line">            margin: 15px;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .rg_right &gt; p:first-child&#123;</span><br><span class="line">            font-size: 15px;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        .rg_right p a &#123;</span><br><span class="line">            color:pink;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .td_left&#123;</span><br><span class="line">            width: 100px;</span><br><span class="line">            text-align: right;</span><br><span class="line">            height: 45px;</span><br><span class="line">        &#125;</span><br><span class="line">        .td_right&#123;</span><br><span class="line">            padding-left: 50px ;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        #username,#password,#email,#name,#tel,#birthday,#checkcode&#123;</span><br><span class="line">            width: 251px;</span><br><span class="line">            height: 32px;</span><br><span class="line">            border: 1px solid #A6A6A6 ;</span><br><span class="line">            /*设置边框圆角*/</span><br><span class="line">            border-radius: 5px;</span><br><span class="line">            padding-left: 10px;</span><br><span class="line">        &#125;</span><br><span class="line">        #checkcode&#123;</span><br><span class="line">            width: 110px;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        #img_check&#123;</span><br><span class="line">            height: 32px;</span><br><span class="line">            vertical-align: middle;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        #btn_sub&#123;</span><br><span class="line">            width: 150px;</span><br><span class="line">            height: 40px;</span><br><span class="line">            background-color: #FFD026;</span><br><span class="line">            border: 1px solid #FFD026 ;</span><br><span class="line">        &#125;</span><br><span class="line">        .error&#123;</span><br><span class="line">            color:red;</span><br><span class="line">        &#125;</span><br><span class="line">        #td_sub&#123;</span><br><span class="line">            padding-left: 150px;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line"></span><br><span class="line">        /*</span><br><span class="line">            分析：</span><br><span class="line">                1.给表单绑定onsubmit事件。监听器中判断每一个方法校验的结果。</span><br><span class="line">                    如果都为true，则监听器方法返回true</span><br><span class="line">                    如果有一个为false，则监听器方法返回false</span><br><span class="line"></span><br><span class="line">                2.定义一些方法分别校验各个表单项。</span><br><span class="line">                3.给各个表单项绑定onblur事件。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         */</span><br><span class="line"></span><br><span class="line">        window.onload = function()&#123;</span><br><span class="line">            //1.给表单绑定onsubmit事件</span><br><span class="line">            document.getElementById(&quot;form&quot;).onsubmit = function()&#123;</span><br><span class="line">                //调用用户校验方法   chekUsername();</span><br><span class="line">                //调用密码校验方法   chekPassword();</span><br><span class="line">                //return checkUsername() &amp;&amp; checkPassword();</span><br><span class="line"></span><br><span class="line">                return checkUsername() &amp;&amp; checkPassword() &amp;&amp; checkEmail() &amp;&amp; checkName() &amp;&amp; checkTel() &amp;&amp; checkCheckcode();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            //给用户名和密码框分别绑定离焦事件</span><br><span class="line">            document.getElementById(&quot;username&quot;).onblur = checkUsername;</span><br><span class="line">            document.getElementById(&quot;password&quot;).onblur = checkPassword;</span><br><span class="line">            document.getElementById(&quot;email&quot;).onblur = checkEmail;</span><br><span class="line">            document.getElementById(&quot;name&quot;).onblur = checkName;</span><br><span class="line">            document.getElementById(&quot;tel&quot;).onblur = checkTel;</span><br><span class="line">            document.getElementById(&quot;checkcode&quot;).onblur = checkCheckcode;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //校验用户名</span><br><span class="line">        function checkUsername()&#123;</span><br><span class="line">            //1.获取用户名的值</span><br><span class="line">            var username = document.getElementById(&quot;username&quot;).value;</span><br><span class="line">            //2.定义正则表达式</span><br><span class="line">            var reg_username = /^\w&#123;6,12&#125;$/;</span><br><span class="line">            //3.判断值是否符合正则的规则</span><br><span class="line">            var flag = reg_username.test(username);</span><br><span class="line">            //4.提示信息</span><br><span class="line">            var s_username = document.getElementById(&quot;s_username&quot;);</span><br><span class="line"></span><br><span class="line">            if(flag)&#123;</span><br><span class="line">                //提示绿色对勾</span><br><span class="line">                s_username.innerHTML = &quot;&lt;img width=&apos;35&apos; height=&apos;25&apos; src=&apos;img/gou.png&apos;/&gt;&quot;;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                //提示红色有误</span><br><span class="line">                s_username.innerHTML = &quot;用户名格式有误&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">            return flag;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //校验密码</span><br><span class="line">        function checkPassword()&#123;</span><br><span class="line">            //1.获取用户名的值</span><br><span class="line">            var password = document.getElementById(&quot;password&quot;).value;</span><br><span class="line">            //2.定义正则表达式</span><br><span class="line">            var reg_password = /^\w&#123;6,12&#125;$/;</span><br><span class="line">            //3.判断值是否符合正则的规则</span><br><span class="line">            var flag = reg_password.test(password);</span><br><span class="line">            //4.提示信息</span><br><span class="line">            var s_password = document.getElementById(&quot;s_password&quot;);</span><br><span class="line"></span><br><span class="line">            if(flag)&#123;</span><br><span class="line">                //提示绿色对勾</span><br><span class="line">                s_password.innerHTML = &quot;&lt;img width=&apos;35&apos; height=&apos;25&apos; src=&apos;img/gou.png&apos;/&gt;&quot;;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                //提示红色有误</span><br><span class="line">                s_password.innerHTML = &quot;密码格式有误&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">            return flag;</span><br><span class="line">        &#125;</span><br><span class="line">        //校验电子邮箱</span><br><span class="line">        function checkEmail()&#123;</span><br><span class="line">            //1.获取用户名的值</span><br><span class="line">            var email = document.getElementById(&quot;email&quot;).value;</span><br><span class="line">            //2.定义正则表达式</span><br><span class="line">            var reg_email =  /^\w+@[a-z0-9]+\.[a-z]&#123;2,4&#125;$/;</span><br><span class="line">            //3.判断值是否符合正则的规则</span><br><span class="line">            var flag = reg_email.test(email);</span><br><span class="line">            //4.提示信息</span><br><span class="line">            var s_email = document.getElementById(&quot;s_email&quot;);</span><br><span class="line"></span><br><span class="line">            if(flag)&#123;</span><br><span class="line">                //提示绿色对勾</span><br><span class="line">                s_email.innerHTML = &quot;&lt;img width=&apos;35&apos; height=&apos;25&apos; src=&apos;img/gou.png&apos;/&gt;&quot;;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                //提示红色有误</span><br><span class="line">                s_email.innerHTML = &quot;邮箱格式有误&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">            return flag;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //校验姓名</span><br><span class="line">        function checkName()&#123;</span><br><span class="line">            //1.获取用户名的值</span><br><span class="line">            var name = document.getElementById(&quot;name&quot;).value;</span><br><span class="line">            //2.定义正则表达式</span><br><span class="line">            var reg_name =  /^[\u4e00-\u9fa5]&#123;2,6&#125;$/;</span><br><span class="line">            //3.判断值是否符合正则的规则</span><br><span class="line">            var flag = reg_name.test(name);</span><br><span class="line">            //4.提示信息</span><br><span class="line">            var s_name = document.getElementById(&quot;s_name&quot;);</span><br><span class="line"></span><br><span class="line">            if(flag)&#123;</span><br><span class="line">                //提示绿色对勾</span><br><span class="line">                s_name.innerHTML = &quot;&lt;img width=&apos;35&apos; height=&apos;25&apos; src=&apos;img/gou.png&apos;/&gt;&quot;;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                //提示红色有误</span><br><span class="line">                s_name.innerHTML = &quot;姓名格式有误&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">            return flag;</span><br><span class="line">        &#125;</span><br><span class="line">        //校验手机号</span><br><span class="line">        function checkTel()&#123;</span><br><span class="line">            //1.获取用户名的值</span><br><span class="line">            var tel = document.getElementById(&quot;tel&quot;).value;</span><br><span class="line">            //2.定义正则表达式</span><br><span class="line">            var reg_tel =  /^\d&#123;11&#125;$/;</span><br><span class="line">            //3.判断值是否符合正则的规则</span><br><span class="line">            var flag = reg_tel.test(tel);</span><br><span class="line">            //4.提示信息</span><br><span class="line">            var s_tel = document.getElementById(&quot;s_tel&quot;);</span><br><span class="line"></span><br><span class="line">            if(flag)&#123;</span><br><span class="line">                //提示绿色对勾</span><br><span class="line">                s_tel.innerHTML = &quot;&lt;img width=&apos;35&apos; height=&apos;25&apos; src=&apos;img/gou.png&apos;/&gt;&quot;;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                //提示红色有误</span><br><span class="line">                s_tel.innerHTML = &quot;手机号格式有误&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">            return flag;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //校验验证码</span><br><span class="line">        function checkCheckcode()&#123;</span><br><span class="line">            //1.获取用户名的值</span><br><span class="line">            var checkcode = document.gecheckcodeementById(&quot;checkcode&quot;).value;</span><br><span class="line">            //2.定义正则表达式</span><br><span class="line">            var reg_checkcode =  /^\w&#123;5&#125;$/;</span><br><span class="line">            //3.判断值是否符合正则的规则</span><br><span class="line">            var flag = reg_checkcode.test(checkcode);</span><br><span class="line">            //4.提示信息</span><br><span class="line">            var s_checkcode = document.gecheckcodeementById(&quot;s_checkcode&quot;);</span><br><span class="line"></span><br><span class="line">            if(flag)&#123;</span><br><span class="line">                //提示绿色对勾</span><br><span class="line">                s_checkcode.innerHTML = &quot;&lt;img width=&apos;35&apos; height=&apos;25&apos; src=&apos;img/gou.png&apos;/&gt;&quot;;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                //提示红色有误</span><br><span class="line">                s_checkcode.innerHTML = &quot;验证码格式有误&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">            return flag;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;div class=&quot;rg_layout&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;rg_left&quot;&gt;</span><br><span class="line">        &lt;p&gt;新用户注册&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;USER REGISTER&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div class=&quot;rg_center&quot;&gt;</span><br><span class="line">        &lt;div class=&quot;rg_form&quot;&gt;</span><br><span class="line">            &lt;!--定义表单 form--&gt;</span><br><span class="line">            &lt;form action=&quot;#&quot; id=&quot;form&quot; method=&quot;get&quot;&gt;</span><br><span class="line">                &lt;table&gt;</span><br><span class="line">                    &lt;tr&gt;</span><br><span class="line">                        &lt;td class=&quot;td_left&quot;&gt;&lt;label for=&quot;username&quot;&gt;用户名&lt;/label&gt;&lt;/td&gt;</span><br><span class="line">                        &lt;td class=&quot;td_right&quot;&gt;</span><br><span class="line">                            &lt;input type=&quot;text&quot; name=&quot;username&quot; id=&quot;username&quot; placeholder=&quot;请输入用户名&quot;&gt;</span><br><span class="line">                            &lt;span id=&quot;s_username&quot; class=&quot;error&quot;&gt;&lt;/span&gt;</span><br><span class="line">                        &lt;/td&gt;</span><br><span class="line">                    &lt;/tr&gt;</span><br><span class="line"></span><br><span class="line">                    &lt;tr&gt;</span><br><span class="line">                        &lt;td class=&quot;td_left&quot;&gt;&lt;label for=&quot;password&quot;&gt;密码&lt;/label&gt;&lt;/td&gt;</span><br><span class="line">                        &lt;td class=&quot;td_right&quot;&gt;</span><br><span class="line">                            &lt;input type=&quot;password&quot; name=&quot;password&quot; id=&quot;password&quot; placeholder=&quot;请输入密码&quot;&gt;</span><br><span class="line">                            &lt;span id=&quot;s_password&quot; class=&quot;error&quot;&gt;&lt;/span&gt;</span><br><span class="line">                        &lt;/td&gt;</span><br><span class="line">                    &lt;/tr&gt;</span><br><span class="line"></span><br><span class="line">                    &lt;tr&gt;</span><br><span class="line">                        &lt;td class=&quot;td_left&quot;&gt;&lt;label for=&quot;email&quot;&gt;Email&lt;/label&gt;&lt;/td&gt;</span><br><span class="line">                        &lt;td class=&quot;td_right&quot;&gt;&lt;input type=&quot;email&quot; name=&quot;email&quot; id=&quot;email&quot; placeholder=&quot;请输入邮箱&quot;&gt;</span><br><span class="line">                            &lt;span id=&quot;s_email&quot; class=&quot;error&quot;&gt;&lt;/span&gt;</span><br><span class="line">                        &lt;/td&gt;</span><br><span class="line">                    &lt;/tr&gt;</span><br><span class="line"></span><br><span class="line">                    &lt;tr&gt;</span><br><span class="line">                        &lt;td class=&quot;td_left&quot;&gt;&lt;label for=&quot;name&quot;&gt;姓名&lt;/label&gt;&lt;/td&gt;</span><br><span class="line">                        &lt;td class=&quot;td_right&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;name&quot; id=&quot;name&quot; placeholder=&quot;请输入姓名&quot;&gt;</span><br><span class="line">                            &lt;span id=&quot;s_name&quot; class=&quot;error&quot;&gt;&lt;/span&gt;</span><br><span class="line">                        &lt;/td&gt;</span><br><span class="line">                    &lt;/tr&gt;</span><br><span class="line"></span><br><span class="line">                    &lt;tr&gt;</span><br><span class="line">                        &lt;td class=&quot;td_left&quot;&gt;&lt;label for=&quot;tel&quot;&gt;手机号&lt;/label&gt;&lt;/td&gt;</span><br><span class="line">                        &lt;td class=&quot;td_right&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;tel&quot; id=&quot;tel&quot; placeholder=&quot;请输入手机号&quot;&gt;</span><br><span class="line">                            &lt;span id=&quot;s_tel&quot; class=&quot;error&quot;&gt;&lt;/span&gt;</span><br><span class="line">                        &lt;/td&gt;</span><br><span class="line">                    &lt;/tr&gt;</span><br><span class="line"></span><br><span class="line">                    &lt;tr&gt;</span><br><span class="line">                        &lt;td class=&quot;td_left&quot;&gt;&lt;label&gt;性别&lt;/label&gt;&lt;/td&gt;</span><br><span class="line">                        &lt;td class=&quot;td_right&quot;&gt;</span><br><span class="line">                            &lt;input type=&quot;radio&quot; name=&quot;gender&quot; value=&quot;male&quot; checked&gt; 男</span><br><span class="line">                            &lt;input type=&quot;radio&quot; name=&quot;gender&quot; value=&quot;female&quot;&gt; 女</span><br><span class="line">                        &lt;/td&gt;</span><br><span class="line">                    &lt;/tr&gt;</span><br><span class="line"></span><br><span class="line">                    &lt;tr&gt;</span><br><span class="line">                        &lt;td class=&quot;td_left&quot;&gt;&lt;label for=&quot;birthday&quot;&gt;出生日期&lt;/label&gt;&lt;/td&gt;</span><br><span class="line">                        &lt;td class=&quot;td_right&quot;&gt;&lt;input type=&quot;date&quot; name=&quot;birthday&quot; id=&quot;birthday&quot; placeholder=&quot;请输入出生日期&quot;&gt;&lt;/td&gt;</span><br><span class="line">                    &lt;/tr&gt;</span><br><span class="line"></span><br><span class="line">                    &lt;tr&gt;</span><br><span class="line">                        &lt;td class=&quot;td_left&quot;&gt;&lt;label for=&quot;checkcode&quot; &gt;验证码&lt;/label&gt;&lt;/td&gt;</span><br><span class="line">                        &lt;td class=&quot;td_right&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;checkcode&quot; id=&quot;checkcode&quot; placeholder=&quot;请输入验证码&quot;&gt;</span><br><span class="line">                            &lt;span id=&quot;s_checkcode&quot; class=&quot;error&quot;&gt;&lt;/span&gt;</span><br><span class="line">                            &lt;img id=&quot;img_check&quot; src=&quot;img/verify_code.jpg&quot;&gt;</span><br><span class="line">                        &lt;/td&gt;</span><br><span class="line">                    &lt;/tr&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                    &lt;tr&gt;</span><br><span class="line">                        &lt;td colspan=&quot;2&quot; id=&quot;td_sub&quot;&gt;&lt;input type=&quot;submit&quot; id=&quot;btn_sub&quot; value=&quot;注册&quot;&gt;&lt;/td&gt;</span><br><span class="line">                    &lt;/tr&gt;</span><br><span class="line">                &lt;/table&gt;</span><br><span class="line"></span><br><span class="line">            &lt;/form&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div class=&quot;rg_right&quot;&gt;</span><br><span class="line">        &lt;p&gt;已有账号?&lt;a href=&quot;#&quot;&gt;立即登录&lt;/a&gt;&lt;/p&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>效果图展示：<br></p>
+<ul>
+<li>填写有误时，不能提交<br><img src="/2020/02/20/Javascript高级学习/1.png" alt="image"></li>
+<li>全部无误，才可提交<br><img src="/2020/02/20/Javascript高级学习/2.png" alt="image"><br><img src="/2020/02/20/Javascript高级学习/3.png" alt="image"></li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Allen Xue</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><strong>To be or not to be,that is a question.<strong></strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/JavaWeb/"># JavaWeb</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/02/18/Javascript基础学习/">Javascript基础学习</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Allen Xue | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+    
+        <script type="text/javascript" color="0,0,0" opacity="0.3" zindex="-2" count="99" src="/js/canvas-nest.js"></script>
+    
+</body>
+</html>
