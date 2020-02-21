@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Java_SE加强学习之【注解】 | Allen Xue&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Allen Xue&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Allen Xue&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Java_SE加强学习之【注解】</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Allen Xue</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">February 22, 2020&nbsp;&nbsp;0:44:53</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/Java-SE/">Java_SE</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="Java-SE之注解"><a href="#Java-SE之注解" class="headerlink" title="Java_SE之注解"></a>Java_SE之注解</h2><h3 id="一、注解相关概念"><a href="#一、注解相关概念" class="headerlink" title="一、注解相关概念"></a>一、注解相关概念</h3><ul>
+<li><p>概念：<strong>说明程序的。给计算机看的</strong></p>
+</li>
+<li><p>注释：用文字描述程序的。给程序员看的</p>
+</li>
+<li><p>定义：<strong>注解</strong>（Annotation），也叫<strong>元数据</strong>。一种代码级别的说明。它是<strong>JDK1.5</strong>及以后版本引入的一个特性，与类、接口、枚举是在同一个层次。它可以声明在包、类、字段、方法、局部变量、方法参数等的前面，用来对这些元素进行说明，注释。</p>
+</li>
+<li><p>概念描述：</p>
+<ul>
+<li><strong>JDK1.5之后的新特性</strong></li>
+<li><strong>说明程序的</strong></li>
+<li>使用注解：<code>@注解名称</code></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>作用分类：<br>①<strong>编写文档</strong>：通过代码里标识的注解生成文档【生成文档doc文档】<br>②<strong>代码分析</strong>：通过代码里标识的注解对代码进行分析【使用反射】<br>③<strong>编译检查</strong>：通过代码里标识的注解让编译器能够实现基本的编译检查【Override】</li>
+</ul>
+<h3 id="二、JDK中预定义的一些注解"><a href="#二、JDK中预定义的一些注解" class="headerlink" title="二、JDK中预定义的一些注解"></a>二、JDK中预定义的一些注解</h3><ul>
+<li><code>@Override</code>    ：检测被该注解标注的方法是否是继承自父类(接口)的</li>
+<li><code>@Deprecated</code>：该注解标注的内容，表示已过时</li>
+<li><code>@SuppressWarnings</code>：压制警告<ul>
+<li>一般传递参数all  <code>@SuppressWarnings(&quot;all&quot;)</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="三、自定义注解"><a href="#三、自定义注解" class="headerlink" title="三、自定义注解"></a>三、自定义注解</h3><h4 id="1、格式"><a href="#1、格式" class="headerlink" title="1、格式"></a>1、格式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">元注解</span><br><span class="line">public @interface 注解名称&#123;</span><br><span class="line">	属性列表;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2、本质"><a href="#2、本质" class="headerlink" title="2、本质"></a>2、本质</h4><p>注解本质上就是一个<strong>接口</strong>，<strong>该接口默认继承Annotation接口</strong></p>
+<ul>
+<li>反编译后得到的代码<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public interface MyAnno extends java.lang.annotation.Annotation &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="3、属性"><a href="#3、属性" class="headerlink" title="3、属性"></a>3、属性</h4><p><strong>接口中的抽象方法</strong></p>
+<ul>
+<li><p>要求：</p>
+<ul>
+<li><p>属性的返回值类型有下列取值</p>
+<ul>
+<li><strong>基本数据类型</strong></li>
+<li><strong>String</strong></li>
+<li><strong>枚举</strong></li>
+<li><strong>注解</strong></li>
+<li><strong>以上类型的数组</strong></li>
+</ul>
+</li>
+<li><p>定义了属性，在使用时需要给属性赋值</p>
+<ul>
+<li>如果定义属性时，使用default关键字给属性默认初始化值，则使用注解时，可以不进行属性的赋值。</li>
+<li>如果只有一个属性需要赋值，并且属性的名称是value，则value可以省略，直接定义值即可。</li>
+<li>数组赋值时，值使用{}包裹。如果数组中只有一个值，则{}可以省略</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="4、元注解"><a href="#4、元注解" class="headerlink" title="4、元注解"></a>4、元注解</h4><p>用于描述注解的注解</p>
+<ul>
+<li><code>@Target</code>：描述注解能够作用的位置<ul>
+<li><code>ElementType</code>取值：<ul>
+<li>TYPE：可以作用于类上</li>
+<li>METHOD：可以作用于方法上</li>
+<li>FIELD：可以作用于成员变量上</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>@Retention</code>：描述注解被保留的阶段<ul>
+<li><code>@Retention(RetentionPolicy.RUNTIME)</code>：当前被描述的注解，会保留到class字节码文件中，并被JVM读取到</li>
+</ul>
+</li>
+<li><code>@Documented</code>：描述注解是否被抽取到api文档中</li>
+<li><code>@Inherited</code>：描述注解是否被子类继承</li>
+</ul>
+<h3 id="四、在程序使用-解析-注解"><a href="#四、在程序使用-解析-注解" class="headerlink" title="四、在程序使用(解析)注解"></a>四、在程序使用(解析)注解</h3><p>获取注解中定义的属性值</p>
+<ul>
+<li>步骤如下：</li>
+</ul>
+<ol>
+<li>获取注解定义的位置的对象  （Class，Method,Field）</li>
+<li>获取指定的注解<ul>
+<li><code>getAnnotation(Class)</code><br>//其实就是在内存中生成了一个该注解接口的子类实现对象</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><strong>第2步操作相当于以下代码</strong>：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class ProImpl implements Pro&#123;</span><br><span class="line">    public String className()&#123;</span><br><span class="line">        return &quot;cn.itcast.annotation.Demo1&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    public String methodName()&#123;</span><br><span class="line">        return &quot;show&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="3">
+<li>调用注解中的抽象方法获取配置的属性值</li>
+</ol>
+<h3 id="五、案例：简单的测试框架"><a href="#五、案例：简单的测试框架" class="headerlink" title="五、案例：简单的测试框架"></a>五、案例：简单的测试框架</h3><ul>
+<li><p>需求：小明写了一个简单的计算器类，现在要我帮他测试一下</p>
+</li>
+<li><p>小明的计算器代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 小明定义的计算器类</span><br><span class="line"> */</span><br><span class="line">public class Calculator &#123;</span><br><span class="line"></span><br><span class="line">    //加法</span><br><span class="line">    @Check</span><br><span class="line">    public void add()&#123;</span><br><span class="line">        String str = null;</span><br><span class="line">        str.toString();</span><br><span class="line">        System.out.println(&quot;1 + 0 =&quot; + (1 + 0));</span><br><span class="line">    &#125;</span><br><span class="line">    //减法</span><br><span class="line">    @Check</span><br><span class="line">    public void sub()&#123;</span><br><span class="line">        System.out.println(&quot;1 - 0 =&quot; + (1 - 0));</span><br><span class="line">    &#125;</span><br><span class="line">    //乘法</span><br><span class="line">    @Check</span><br><span class="line">    public void mul()&#123;</span><br><span class="line">        System.out.println(&quot;1 * 0 =&quot; + (1 * 0));</span><br><span class="line">    &#125;</span><br><span class="line">    //除法</span><br><span class="line">    @Check</span><br><span class="line">    public void div()&#123;</span><br><span class="line">        System.out.println(&quot;1 / 0 =&quot; + (1 / 0));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public void show()&#123;</span><br><span class="line">        System.out.println(&quot;永无bug...&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>自定义的注解代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.annotation.ElementType;</span><br><span class="line">import java.lang.annotation.Retention;</span><br><span class="line">import java.lang.annotation.RetentionPolicy;</span><br><span class="line">import java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(ElementType.METHOD)</span><br><span class="line">public @interface Check &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试框架代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">import java.io.BufferedWriter;</span><br><span class="line">import java.io.FileWriter;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.lang.reflect.InvocationTargetException;</span><br><span class="line">import java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 简单的测试框架</span><br><span class="line"> *</span><br><span class="line"> * 当主方法执行后，会自动执行被检测的所有方法（加了check注解的方法），判断方法是否有异常，记录在文件中</span><br><span class="line"> */</span><br><span class="line">public class TestCheck &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws IOException &#123;</span><br><span class="line">        //1、创建计算器对象</span><br><span class="line">        Calculator c =new Calculator();</span><br><span class="line">        //2、获取字节码文件对象</span><br><span class="line">        Class cls = c.getClass();</span><br><span class="line">        //3、获取所有方法</span><br><span class="line">        Method[] methods = cls.getMethods();</span><br><span class="line"></span><br><span class="line">        int number = 0;//出现异常的次数</span><br><span class="line">        BufferedWriter bw = new BufferedWriter(new FileWriter(&quot;bug.txt&quot;));</span><br><span class="line">        for (Method method : methods) &#123;</span><br><span class="line">            //4、判断方法上是否有check注解</span><br><span class="line">            if(method.isAnnotationPresent(Check.class))&#123;</span><br><span class="line">                //5、有就执行</span><br><span class="line">                try &#123;</span><br><span class="line">                    method.invoke(c);</span><br><span class="line">                &#125; catch (Exception e) &#123;</span><br><span class="line">                    //6、捕获异常</span><br><span class="line">                    //记录到文件中</span><br><span class="line">                    number++;</span><br><span class="line"></span><br><span class="line">                    bw.write(method.getName()+&quot;方法出异常了&quot;);</span><br><span class="line">                    bw.newLine();</span><br><span class="line">                    bw.write(&quot;异常名称：&quot; + e.getCause().getClass().getSimpleName());</span><br><span class="line">                    bw.newLine();</span><br><span class="line">                    bw.write(&quot;异常原因：&quot; + e.getCause().getMessage());</span><br><span class="line">                    bw.newLine();</span><br><span class="line">                    bw.write(&quot;-----------------------------&quot;);</span><br><span class="line">                    bw.newLine();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        bw.write(&quot;本次测试一共出现&quot; + number + &quot;次异常&quot;);</span><br><span class="line">        bw.flush();</span><br><span class="line">        bw.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>得到的测试结果文件截图<br><img src="/2020/02/22/Java-SE加强学习之【注解】/1.png" alt="image"></p>
+</li>
+</ul>
+<h3 id="六、小结"><a href="#六、小结" class="headerlink" title="六、小结"></a>六、小结</h3><ol>
+<li>以后大多数时候，我们<strong>会使用注解，而不是自定义注解</strong></li>
+<li>注解给谁用？</li>
+</ol>
+<ul>
+<li>编译器</li>
+<li>给解析程序用</li>
+</ul>
+<ol start="3">
+<li><strong>注解不是程序的一部分，可以理解为注解就是一个标签</strong></li>
+</ol>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Allen Xue</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><strong>To be or not to be,that is a question.<strong></strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/Java-SE/"># Java_SE</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/02/22/Java-SE加强学习之【反射】/">Java_SE加强学习之【反射】</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Allen Xue | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+    
+        <script type="text/javascript" color="0,0,0" opacity="0.3" zindex="-2" count="99" src="/js/canvas-nest.js"></script>
+    
+</body>
+</html>
