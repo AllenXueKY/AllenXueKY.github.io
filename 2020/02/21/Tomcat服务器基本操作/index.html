@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Tomcat服务器基本操作 | Allen Xue&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Allen Xue&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Allen Xue&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Tomcat服务器基本操作</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Allen Xue</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">February 21, 2020&nbsp;&nbsp;23:50:59</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/JavaWeb/">JavaWeb</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="一、web相关概念回顾"><a href="#一、web相关概念回顾" class="headerlink" title="一、web相关概念回顾"></a>一、web相关概念回顾</h2><h3 id="1-软件架构"><a href="#1-软件架构" class="headerlink" title="1. 软件架构"></a>1. 软件架构</h3><ul>
+<li>C/S：客户端/服务器端</li>
+<li>B/S：浏览器/服务器端</li>
+</ul>
+<h3 id="2-资源分类"><a href="#2-资源分类" class="headerlink" title="2. 资源分类"></a>2. 资源分类</h3><ul>
+<li>静态资源：所有用户访问后，得到的结果都是一样的，称为静态资源.静态资源可以直接被浏览器解析<ul>
+<li>如： html,css,JavaScript</li>
+</ul>
+</li>
+<li>动态资源:每个用户访问相同资源后，得到的结果可能不一样。称为动态资源。动态资源被访问后，需要先转换为静态资源，在返回给浏览器<ul>
+<li>如：servlet/jsp,php,asp….<br><img src="/2020/02/21/Tomcat服务器基本操作/0.png" alt="image">    </li>
+</ul>
+</li>
+</ul>
+<h3 id="3-网络通信三要素"><a href="#3-网络通信三要素" class="headerlink" title="3. 网络通信三要素"></a>3. 网络通信三要素</h3><ul>
+<li>IP：电子设备(计算机)在网络中的唯一标识。</li>
+<li>端口：应用程序在计算机中的唯一标识。 0~65536</li>
+<li>传输协议：规定了数据传输的规则<ul>
+<li>基础协议：<ul>
+<li>tcp:安全协议，三次握手。 速度稍慢</li>
+<li>udp：不安全协议。 速度快</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="二、web服务器软件"><a href="#二、web服务器软件" class="headerlink" title="二、web服务器软件"></a>二、web服务器软件</h2><ul>
+<li><strong>服务器</strong>：安装了服务器软件的计算机</li>
+<li><strong>服务器软件</strong>：接收用户的请求，处理请求，做出响应</li>
+<li><strong>web服务器软件</strong>：<strong>接收用户的请求，处理请求，做出响应</strong>。<ul>
+<li>在web服务器软件中，可以部署web项目，让用户通过浏览器来访问这些项目</li>
+<li><strong>web容器</strong></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>常见的java相关的web服务器软件：<ul>
+<li>webLogic：oracle公司，大型的JavaEE服务器，支持所有的JavaEE规范，收费的。</li>
+<li>webSphere：IBM公司，大型的JavaEE服务器，支持所有的JavaEE规范，收费的。</li>
+<li>JBOSS：JBOSS公司的，大型的JavaEE服务器，支持所有的JavaEE规范，收费的。</li>
+<li><strong>Tomcat</strong>：Apache基金组织，<strong>中小型的JavaEE服务器，仅仅支持少量的JavaEE规范servlet/jsp。开源的，免费的</strong>。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><strong>JavaEE</strong>：Java语言在企业级开发中使用的技术规范的总和，一共规定了<strong>13项大的规范</strong></li>
+</ul>
+<h2 id="三、Tomcat：web服务器软件"><a href="#三、Tomcat：web服务器软件" class="headerlink" title="三、Tomcat：web服务器软件"></a>三、Tomcat：web服务器软件</h2><h3 id="1、下载"><a href="#1、下载" class="headerlink" title="1、下载"></a>1、下载</h3><p><a href="http://tomcat.apache.org/" target="_blank" rel="noopener">http://tomcat.apache.org/</a></p>
+<h3 id="2、安装"><a href="#2、安装" class="headerlink" title="2、安装"></a>2、安装</h3><p>解压压缩包即可。</p>
+<ul>
+<li>注意：安装目录建议不要有中文和空格</li>
+</ul>
+<h3 id="3、卸载"><a href="#3、卸载" class="headerlink" title="3、卸载"></a>3、卸载</h3><p>删除目录即可</p>
+<h3 id="4、启动"><a href="#4、启动" class="headerlink" title="4、启动"></a>4、启动</h3><ul>
+<li><p>在bin目录下查找<strong>startup.bat</strong> ,双击运行该文件即可</p>
+</li>
+<li><p>访问：浏览器输入：<a href="http://localhost:8080" target="_blank" rel="noopener">http://localhost:8080</a> 回车访问自己<br>http://别人的ip:8080 访问别人</p>
+</li>
+<li><p><strong>可能遇到的问题</strong>：</p>
+<ol>
+<li><p><strong>黑窗口一闪而过</strong>：</p>
+<ul>
+<li>原因： 没有正确配置JAVA_HOME环境变量</li>
+<li>解决方案：正确配置JAVA_HOME环境变量</li>
+</ul>
+</li>
+<li><p><strong>启动报错</strong>：</p>
+<ol>
+<li><p>暴力：找到占用的端口号，并且找到对应的进程，杀死该进程</p>
+<ul>
+<li>netstat -ano</li>
+</ul>
+</li>
+<li><p>温柔：修改自身的端口号</p>
+<ul>
+<li><p>找到conf目录下的server.xml中，添加以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector port=&quot;8888&quot; protocol=&quot;HTTP/1.1&quot;</span><br><span class="line">            connectionTimeout=&quot;20000&quot;</span><br><span class="line">            redirectPort=&quot;8445&quot; /&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>一般会将tomcat的默认端口号修改为80。<strong>80端口号是http协议的默认端口号</strong>。这样做的 好处：在访问时，就不用输入端口号</p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="5、关闭"><a href="#5、关闭" class="headerlink" title="5、关闭"></a>5、关闭</h3><ul>
+<li>正常关闭：<ul>
+<li>双击bin目录下的<strong>shutdown.bat</strong></li>
+<li>在打开的startup.bat窗口中按下ctrl+c键</li>
+</ul>
+</li>
+<li>强制关闭：<ul>
+<li>点击启动窗口的×</li>
+</ul>
+</li>
+</ul>
+<h3 id="6、配置"><a href="#6、配置" class="headerlink" title="6、配置"></a>6、配置</h3><h4 id="1-部署项目的方式"><a href="#1-部署项目的方式" class="headerlink" title="(1)部署项目的方式"></a>(1)部署项目的方式</h4><p>1、直接将项目放到webapps目录下即可。</p>
+<ul>
+<li>/hello：项目的访问路径–&gt;虚拟目录</li>
+<li>简化部署：将项目打成一个war包，再将war包放置到webapps目录下。<ul>
+<li>war包会自动解压缩</li>
+</ul>
+</li>
+</ul>
+<p>2、配置conf目录下的server.xml文件<br><br>在<host>标签体中配置<code>&lt;Context docBase=&quot;D:\hello&quot; path=&quot;/hehe&quot; /&gt;</code><br>    * docBase:项目存放的路径<br>    * path：虚拟目录</host></p>
+<ol start="3">
+<li>在conf\Catalina\localhost目录下创建任意名称的xml文件。在文件中编写<code>&lt;Context docBase=&quot;D:\hello&quot; /&gt;</code><ul>
+<li>虚拟目录：xml文件的名称</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-静态项目和动态项目"><a href="#2-静态项目和动态项目" class="headerlink" title="(2)静态项目和动态项目"></a>(2)静态项目和动态项目</h4><ul>
+<li>目录结构<ul>
+<li>java动态项目的目录结构：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-- 项目的根目录</span><br><span class="line">	-- WEB-INF目录：</span><br><span class="line">		-- web.xml：web项目的核心配置文件</span><br><span class="line">		-- classes目录：放置字节码文件的目录</span><br><span class="line">		-- lib目录：放置依赖的jar包</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2020/02/21/Tomcat服务器基本操作/1.png" alt="image"></p>
+<ul>
+<li>将Tomcat集成到IDEA中，并且创建JavaEE的项目，部署项目。</li>
+</ul>
+<h2 id="四、IDEA与tomcat的相关配置"><a href="#四、IDEA与tomcat的相关配置" class="headerlink" title="四、IDEA与tomcat的相关配置"></a>四、IDEA与tomcat的相关配置</h2><ol>
+<li><p>IDEA会为每一个tomcat部署的项目单独建立一份配置文件</p>
+<ul>
+<li>查看控制台的log：<code>Using CATALINA_BASE:   &quot;C:\Users\fqy\.IntelliJIdea2018.1\system\tomcat\_itcast&quot;</code></li>
+</ul>
+</li>
+<li><p>工作空间项目和tomcat部署的web项目</p>
+<ul>
+<li>tomcat真正访问的是“tomcat部署的web项目”，”tomcat部署的web项目”对应着”工作空间项目” 的web目录下的所有资源</li>
+<li><strong>WEB-INF目录下的资源不能被浏览器直接访问</strong>。</li>
+</ul>
+</li>
+<li><p><strong>断点调试：使用”小虫子”启动 dubug 启动</strong></p>
+</li>
+</ol>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Allen Xue</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><strong>To be or not to be,that is a question.<strong></strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/JavaWeb/"># JavaWeb</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/02/20/XML可扩展标记语言基础/">XML可扩展标记语言基础</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Allen Xue | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+    
+        <script type="text/javascript" color="0,0,0" opacity="0.3" zindex="-2" count="99" src="/js/canvas-nest.js"></script>
+    
+</body>
+</html>
