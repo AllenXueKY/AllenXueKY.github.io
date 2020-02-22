@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Servlet基础入门 | Allen Xue&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Allen Xue&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Allen Xue&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Servlet基础入门</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Allen Xue</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">February 22, 2020&nbsp;&nbsp;22:13:20</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/JavaWeb/">JavaWeb</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="Servlet：server-applet"><a href="#Servlet：server-applet" class="headerlink" title="Servlet：server applet"></a>Servlet：server applet</h2><h3 id="1、概念"><a href="#1、概念" class="headerlink" title="1、概念"></a>1、概念</h3><p>运行在服务器端的小程序</p>
+<ul>
+<li>Servlet就是一个接口，定义了Java类被浏览器访问到(tomcat识别)的规则。</li>
+<li>将来我们自定义一个类，实现Servlet接口，复写方法。<br><img src="/2020/02/22/Servlet基础入门/1.png" alt="image"></li>
+</ul>
+<h3 id="2、快速入门"><a href="#2、快速入门" class="headerlink" title="2、快速入门"></a>2、快速入门</h3><p>1、创建JavaEE项目<br><br>2、定义一个类，实现Servlet接口<br><br>    * <code>public class ServletDemo1 implements Servlet</code><br><br>3、实现接口中的抽象方法<br><br>4、配置Servlet<br><br>     在web.xml中配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--配置Servlet --&gt;</span><br><span class="line">&lt;servlet&gt;</span><br><span class="line">    &lt;servlet-name&gt;demo1&lt;/servlet-name&gt;</span><br><span class="line">    &lt;servlet-class&gt;cn.itcast.web.servlet.ServletDemo1&lt;/servlet-class&gt;</span><br><span class="line">&lt;/servlet&gt;</span><br><span class="line"></span><br><span class="line">&lt;servlet-mapping&gt;</span><br><span class="line">    &lt;servlet-name&gt;demo1&lt;/servlet-name&gt;</span><br><span class="line">    &lt;url-pattern&gt;/demo1&lt;/url-pattern&gt;</span><br><span class="line">&lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、执行原理"><a href="#3、执行原理" class="headerlink" title="3、执行原理"></a>3、执行原理</h3><p>1、当服务器接受到客户端浏览器的请求后，会解析请求URL路径，获取访问的Servlet的资源路径<br><br>2、查找<code>web.xml</code>文件，是否有对应的<code>&lt;url-pattern&gt;</code>标签体内容。<br><br>3、如果有，则在找到对应的<code>&lt;servlet-class&gt;</code>全类名<br><br>4、tomcat会将字节码文件加载进内存，并且创建其对象<br><br>5、调用其方法<br><br><img src="/2020/02/22/Servlet基础入门/2.png" alt="image"></p>
+<h3 id="4、Servlet中的生命周期方法"><a href="#4、Servlet中的生命周期方法" class="headerlink" title="4、Servlet中的生命周期方法"></a>4、Servlet中的生命周期方法</h3><ul>
+<li><p>被创建：执行init方法，只执行一次</p>
+<ul>
+<li><p>Servlet什么时候被创建？</p>
+<ul>
+<li>默认情况下，第一次被访问时，Servlet被创建</li>
+<li>可以配置执行Servlet的创建时机。<ul>
+<li>在<servlet>标签下配置<ol>
+<li>第一次被访问时，创建<ul>
+<li><load-on-startup>的值为负数</load-on-startup></li>
+</ul>
+</li>
+<li>在服务器启动时，创建<ul>
+<li><load-on-startup>的值为0或正整数</load-on-startup></li>
+</ul>
+</li>
+</ol>
+</servlet></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Servlet的init方法，只执行一次，说明一个Servlet在内存中只存在一个对象，Servlet是单例的</p>
+<ul>
+<li>多个用户同时访问时，可能存在线程安全问题。</li>
+<li>解决：尽量不要在Servlet中定义成员变量。即使定义了成员变量，也不要对修改值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>提供服务：执行service方法，执行多次</p>
+<ul>
+<li>每次访问Servlet时，Service方法都会被调用一次。</li>
+</ul>
+</li>
+<li><p>被销毁：执行destroy方法，只执行一次</p>
+<ul>
+<li>Servlet被销毁时执行。服务器关闭时，Servlet被销毁</li>
+<li>只有服务器正常关闭时，才会执行destroy方法。</li>
+<li>destroy方法在Servlet被销毁之前执行，一般用于释放资源</li>
+</ul>
+</li>
+</ul>
+<h3 id="5、Servlet3-0"><a href="#5、Servlet3-0" class="headerlink" title="5、Servlet3.0"></a>5、Servlet3.0</h3><ul>
+<li><p>好处：</p>
+<ul>
+<li>支持注解配置。可以不需要web.xml了。</li>
+</ul>
+</li>
+<li><p>步骤：</p>
+<ul>
+<li>创建JavaEE项目，选择Servlet的版本3.0以上，可以不创建web.xml</li>
+<li>定义一个类，实现Servlet接口</li>
+<li>复写方法</li>
+<li>在类上使用<code>@WebServlet</code>注解，进行配置<ul>
+<li><code>@WebServlet(&quot;资源路径&quot;)</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>@WebServlet源码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">@Target(&#123;ElementType.TYPE&#125;)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Documented</span><br><span class="line">public @interface WebServlet &#123;</span><br><span class="line">    String name() default &quot;&quot;;//相当于&lt;Servlet-name&gt;</span><br><span class="line"></span><br><span class="line">    String[] value() default &#123;&#125;;//代表urlPatterns()属性配置</span><br><span class="line"></span><br><span class="line">    String[] urlPatterns() default &#123;&#125;;//相当于&lt;url-pattern&gt;</span><br><span class="line"></span><br><span class="line">    int loadOnStartup() default -1;//相当于&lt;load-on-startup&gt;</span><br><span class="line"></span><br><span class="line">    WebInitParam[] initParams() default &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    boolean asyncSupported() default false;</span><br><span class="line"></span><br><span class="line">    String smallIcon() default &quot;&quot;;</span><br><span class="line"></span><br><span class="line">    String largeIcon() default &quot;&quot;;</span><br><span class="line"></span><br><span class="line">    String description() default &quot;&quot;;</span><br><span class="line"></span><br><span class="line">    String displayName() default &quot;&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="6、Servlet的体系结构"><a href="#6、Servlet的体系结构" class="headerlink" title="6、Servlet的体系结构"></a>6、Servlet的体系结构</h3><pre><code>Servlet -- 接口
+    |
+GenericServlet -- 抽象类
+    |
+HttpServlet  -- 抽象类
+
+* GenericServlet：将Servlet接口中其他的方法做了默认空实现，只将service()方法作为抽象
+    * 将来定义Servlet类时，可以继承GenericServlet，实现service()方法即可
+
+* HttpServlet：对http协议的一种封装，简化操作
+    1. 定义类继承HttpServlet
+    2. 复写doGet/doPost方法</code></pre><h3 id="7、Servlet相关配置"><a href="#7、Servlet相关配置" class="headerlink" title="7、Servlet相关配置"></a>7、Servlet相关配置</h3><ul>
+<li><code>urlpartten</code>：Servlet访问路径<ul>
+<li>一个Servlet可以定义多个访问路径 ：<code>@WebServlet({&quot;/d4&quot;,&quot;/dd4&quot;,&quot;/ddd4&quot;})</code></li>
+<li>路径定义规则：<ul>
+<li>/xxx：路径匹配</li>
+<li>/xxx/xxx:多层路径，目录结构</li>
+<li>*.do：扩展名匹配</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Allen Xue</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><strong>To be or not to be,that is a question.<strong></strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/JavaWeb/"># JavaWeb</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/02/22/Java-SE加强学习之【注解】/">Java_SE加强学习之【注解】</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Allen Xue | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+    
+        <script type="text/javascript" color="0,0,0" opacity="0.3" zindex="-2" count="99" src="/js/canvas-nest.js"></script>
+    
+</body>
+</html>
