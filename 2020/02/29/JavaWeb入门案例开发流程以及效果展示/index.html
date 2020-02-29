@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>JavaWeb入门案例开发流程以及效果展示 | Allen Xue&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Allen Xue&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Allen Xue&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">JavaWeb入门案例开发流程以及效果展示</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Allen Xue</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">February 29, 2020&nbsp;&nbsp;11:21:28</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/JavaWeb/">JavaWeb</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>从2020年二月十七日开始学习JavaWeb，到今天已经经历了十一个日日夜夜了，在这期间算是对JavaWeb中所涉及的一些内容有了了解，算是有点小成果吧，所以在第十天的学习结束之后，便萌生了想要自己做一个东西的想法。于是经过两天的开发测试终于做好了<strong>一个简单的小型用户管理网页（主要是后端，前端在一些基础上加了一些功能）</strong>。</p>
+<h2 id="二、案例开发流程"><a href="#二、案例开发流程" class="headerlink" title="二、案例开发流程"></a>二、案例开发流程</h2><p>这个小项目的主要功能就是用户信息列表展示以及一些增删改查的操作加上用户登录，但其中有很多细节部分，对新手来说不是很友好，要考虑的细节很多。</p>
+<ul>
+<li><strong>以其中的主要功能用户信息的增删改查操作为例，介绍开发流程。</strong></li>
+</ul>
+<h3 id="1、需求：用户信息的增删改查操作"><a href="#1、需求：用户信息的增删改查操作" class="headerlink" title="1、需求：用户信息的增删改查操作"></a>1、需求：用户信息的增删改查操作</h3><h3 id="2、设计（架构师完成）"><a href="#2、设计（架构师完成）" class="headerlink" title="2、设计（架构师完成）"></a>2、设计（架构师完成）</h3><ul>
+<li><strong>技术选型</strong>：Servlet+JSP+MySQL+JDBCTempleat+Duird+BeanUtils+tomcat</li>
+</ul>
+<p><em>由于还未接触到框架所以用的都是学过的Web开发基础内容</em></p>
+<ul>
+<li><p><strong>数据库设计</strong>：</p>
+<ul>
+<li><p>存放用户信息数据的user表   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">create database day10; -- 创建数据库</span><br><span class="line">use day10; 			   -- 使用数据库</span><br><span class="line">create table user(   -- 创建表</span><br><span class="line">	id int primary key auto_increment,</span><br><span class="line">	name varchar(20) not null,</span><br><span class="line">	gender varchar(5),</span><br><span class="line">	age int,</span><br><span class="line">	address varchar(32),</span><br><span class="line">	qq	varchar(20),</span><br><span class="line">	email varchar(50)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>存放管理员信息数据的admin表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `admin` (</span><br><span class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `username` varchar(30) NOT NULL,</span><br><span class="line">  `password` varchar(30) NOT NULL,</span><br><span class="line">  `lastTime` datetime NOT NULL,</span><br><span class="line">  `status` varchar(30) NOT NULL,</span><br><span class="line">  PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="3、开发（程序员完成，也就是我）"><a href="#3、开发（程序员完成，也就是我）" class="headerlink" title="3、开发（程序员完成，也就是我）"></a>3、开发（程序员完成，也就是我）</h3><ul>
+<li><strong>环境搭建</strong><ul>
+<li><strong>创建数据库环境</strong></li>
+<li><strong>创建项目，导入需要的jar包</strong></li>
+</ul>
+</li>
+<li><strong>编码</strong></li>
+</ul>
+<h3 id="4、测试"><a href="#4、测试" class="headerlink" title="4、测试"></a>4、测试</h3><p><strong>白盒测试为主</strong></p>
+<h3 id="5、部署运维"><a href="#5、部署运维" class="headerlink" title="5、部署运维"></a>5、部署运维</h3><p>项目过小，部署在本地Tomcat服务器中即可。</p>
+<h2 id="三、具体功能介绍以及分析"><a href="#三、具体功能介绍以及分析" class="headerlink" title="三、具体功能介绍以及分析"></a>三、具体功能介绍以及分析</h2><h3 id="1、简单功能"><a href="#1、简单功能" class="headerlink" title="1、简单功能"></a>1、简单功能</h3><ul>
+<li><strong>登录</strong><ul>
+<li>输入正确的用户名、密码以及验证码校验后进行登录</li>
+</ul>
+</li>
+<li><strong>列表查询</strong><ul>
+<li>进入管理界面初始化展示所有的用户信息数据表</li>
+</ul>
+</li>
+<li><strong>添加</strong><ul>
+<li>添加用户，并加入了前端的信息校验，若无效信息则提交失败</li>
+<li>分析实现过程<br><img src="/2020/02/29/JavaWeb入门案例开发流程以及效果展示/13.png" alt="image"></li>
+</ul>
+</li>
+<li><strong>删除</strong><ul>
+<li>删除用户</li>
+<li>分析实现过程<br><img src="/2020/02/29/JavaWeb入门案例开发流程以及效果展示/14.png" alt="image"></li>
+</ul>
+</li>
+<li><strong>修改</strong><ul>
+<li>修改用户信息，对所有可修改数据进行校验，若无效信息则提交失败</li>
+<li>分析实现过程<br><img src="/2020/02/29/JavaWeb入门案例开发流程以及效果展示/15.png" alt="image"><h3 id="2、复杂功能"><a href="#2、复杂功能" class="headerlink" title="2、复杂功能"></a>2、复杂功能</h3></li>
+</ul>
+</li>
+<li><strong>删除选中</strong><ul>
+<li>删除选中的用户信息数据</li>
+<li>分析实现过程<br><img src="/2020/02/29/JavaWeb入门案例开发流程以及效果展示/16.png" alt="image"></li>
+</ul>
+</li>
+<li><strong>分页查询</strong><ul>
+<li>好处：<ol>
+<li>减轻服务器内存的开销</li>
+<li>提升用户体验</li>
+</ol>
+</li>
+<li>分析实现过程</li>
+<li>第一步：分页查询显示总页数和信息总条数<br><img src="/2020/02/29/JavaWeb入门案例开发流程以及效果展示/17.png" alt="image"></li>
+<li>第二步：完成分页后每页的信息展示<br><img src="/2020/02/29/JavaWeb入门案例开发流程以及效果展示/18.png" alt="image"></li>
+</ul>
+</li>
+<li><strong>复杂条件查询</strong><ul>
+<li>设定三个常用的条件查询栏，可以同时输入进行查询也可以仅输入其中的部分数据进行查询，并分页展示</li>
+<li>分析实现过程<br><img src="/2020/02/29/JavaWeb入门案例开发流程以及效果展示/19.png" alt="image"></li>
+</ul>
+</li>
+</ul>
+<h2 id="四、具体功能的细节"><a href="#四、具体功能的细节" class="headerlink" title="四、具体功能的细节"></a>四、具体功能的细节</h2><ul>
+<li>删除和删除选中功能中加入了警告信息，是否删除<br><img src="/2020/02/29/JavaWeb入门案例开发流程以及效果展示/20.png" alt="image"></li>
+<li>分页查询中，用户在使用左侧和右侧小按键进行跳转时，如果在首页和末尾页我无法进行跳转，否则会出错<br><img src="/2020/02/29/JavaWeb入门案例开发流程以及效果展示/21.png" alt="image"></li>
+<li>从管理界面index.jsp转到用户信息界面时，将分页功能中所创建的分页对象的两个属性进行设定。防止跳转出错</li>
+<li>登录功能中的验证码使用Servlet简单地进行随机生成，登录后还可以显示上一次登录的时间</li>
+</ul>
+<h2 id="五、效果展示"><a href="#五、效果展示" class="headerlink" title="五、效果展示"></a>五、效果展示</h2><h3 id="1、登录功能（login-jsp-UserLoginServlet-checkCodeServlet验证码生成器）"><a href="#1、登录功能（login-jsp-UserLoginServlet-checkCodeServlet验证码生成器）" class="headerlink" title="1、登录功能（login.jsp+UserLoginServlet+checkCodeServlet验证码生成器）"></a>1、登录功能（login.jsp+UserLoginServlet+checkCodeServlet验证码生成器）</h3><p><img src="/2020/02/29/JavaWeb入门案例开发流程以及效果展示/1.png" alt="image"><br><img src="/2020/02/29/JavaWeb入门案例开发流程以及效果展示/2.png" alt="image"><br><img src="/2020/02/29/JavaWeb入门案例开发流程以及效果展示/3.png" alt="image"><br><img src="/2020/02/29/JavaWeb入门案例开发流程以及效果展示/4.png" alt="image"></p>
+<h3 id="2、-简单的管理界面（index-jsp）"><a href="#2、-简单的管理界面（index-jsp）" class="headerlink" title="2、 简单的管理界面（index.jsp）"></a>2、 简单的管理界面（index.jsp）</h3><p><img src="/2020/02/29/JavaWeb入门案例开发流程以及效果展示/5.png" alt="image"></p>
+<h3 id="3、用户信息展示以及分页（list-jsp-UserFindByPageServlet）"><a href="#3、用户信息展示以及分页（list-jsp-UserFindByPageServlet）" class="headerlink" title="3、用户信息展示以及分页（list.jsp+UserFindByPageServlet）"></a>3、用户信息展示以及分页（list.jsp+UserFindByPageServlet）</h3><p><img src="/2020/02/29/JavaWeb入门案例开发流程以及效果展示/7.png" alt="image"></p>
+<h3 id="4、用户信息修改（update-jsp-UserUpdateServlet-UserFindServlet信息回显）"><a href="#4、用户信息修改（update-jsp-UserUpdateServlet-UserFindServlet信息回显）" class="headerlink" title="4、用户信息修改（update.jsp+UserUpdateServlet+UserFindServlet信息回显）"></a>4、用户信息修改（update.jsp+UserUpdateServlet+UserFindServlet信息回显）</h3><p><img src="/2020/02/29/JavaWeb入门案例开发流程以及效果展示/8.png" alt="image"><br><img src="/2020/02/29/JavaWeb入门案例开发流程以及效果展示/9.png" alt="image"><br><img src="/2020/02/29/JavaWeb入门案例开发流程以及效果展示/10.png" alt="image"></p>
+<h3 id="5、添加用户（add-jsp-UserAddServlet）"><a href="#5、添加用户（add-jsp-UserAddServlet）" class="headerlink" title="5、添加用户（add.jsp+UserAddServlet）"></a>5、添加用户（add.jsp+UserAddServlet）</h3><p><img src="/2020/02/29/JavaWeb入门案例开发流程以及效果展示/11.png" alt="image"></p>
+<h3 id="6、条件查询（list-jsp-UserFindByPageServlet分页）"><a href="#6、条件查询（list-jsp-UserFindByPageServlet分页）" class="headerlink" title="6、条件查询（list.jsp+UserFindByPageServlet分页）"></a>6、条件查询（list.jsp+UserFindByPageServlet分页）</h3><p><img src="/2020/02/29/JavaWeb入门案例开发流程以及效果展示/12.png" alt="image"></p>
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p><em>整个项目虽然不大，但是也算是这些天学习的见证。</em></p>
+<ul>
+<li>需要改进的方面：前端页面的设计以及表单中籍贯选择器，在登录的Servlet中加入Cookie和Session并设置存活时间，使得系统更加安全。</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Allen Xue</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><strong>To be or not to be,that is a question.<strong></strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/JavaWeb/"># JavaWeb</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/02/26/JDBC之数据库连接池/">JDBC之数据库连接池</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Allen Xue | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+    
+        <script type="text/javascript" color="0,0,0" opacity="0.3" zindex="-2" count="99" src="/js/canvas-nest.js"></script>
+    
+</body>
+</html>
