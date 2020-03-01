@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>JQuery基础学习 | Allen Xue&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Allen Xue&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Allen Xue&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">JQuery基础学习</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Allen Xue</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">March 1, 2020&nbsp;&nbsp;21:39:16</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/JavaWeb/">JavaWeb</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="JQuery-基础"><a href="#JQuery-基础" class="headerlink" title="JQuery 基础"></a>JQuery 基础</h1><h2 id="1、概念"><a href="#1、概念" class="headerlink" title="1、概念"></a>1、概念</h2><p>一个JavaScript框架。简化JS开发</p>
+<ul>
+<li><p><strong>JQuery</strong>是<strong>一个快速、简洁的JavaScript框架</strong>，是继Prototype之后又一个优秀的JavaScript代码库（或JavaScript框架）。<strong>JQuery设计的宗旨</strong>是“<strong>write Less，Do More</strong>”，即倡导写更少的代码，做更多的事情。它封装JavaScript常用的功能代码，提供一种简便的JavaScript设计模式，<strong>优化HTML文档操作、事件处理、动画设计和Ajax交互。</strong></p>
+</li>
+<li><p>JavaScript框架：<strong>本质上就是一些js文件，封装了js的原生代码而已</strong></p>
+</li>
+</ul>
+<h2 id="2-快速入门"><a href="#2-快速入门" class="headerlink" title="2. 快速入门"></a>2. 快速入门</h2><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ul>
+<li><p><strong>下载JQuery</strong></p>
+<ul>
+<li><p>目前jQuery有三个大版本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1.x：兼容ie678,使用最为广泛的，官方只做BUG维护，</span><br><span class="line">	 功能不再新增。因此一般项目来说，使用1.x版本就可以了，</span><br><span class="line">	 最终版本：1.12.4 (2016年5月20日)</span><br><span class="line">2.x：不兼容ie678，很少有人使用，官方只做BUG维护，</span><br><span class="line">	 功能不再新增。如果不考虑兼容低版本的浏览器可以使用2.x，</span><br><span class="line">	 最终版本：2.2.4 (2016年5月20日)</span><br><span class="line">3.x：不兼容ie678，只支持最新的浏览器。除非特殊要求，</span><br><span class="line">	 一般不会使用3.x版本的，很多老的jQuery插件不支持这个版本。</span><br><span class="line">	 目前该版本是官方主要更新维护的版本。最新版本：3.2.1（2017年3月20日）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>jquery-xxx.js</code>与<code>jquery-xxx.min.js</code><strong>区别：</strong></p>
+<ul>
+<li><strong>jquery-xxx.js</strong>：<strong>开发版本。给程序员看的，有良好的缩进和注释。体积大一些</strong></li>
+<li><strong>jquery-xxx.min.js</strong>：<strong>生产版本。程序中使用，没有缩进。体积小一些。程序加载更快</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>导入JQuery的js文件</strong>：<strong>导入min.js文件</strong></p>
+</li>
+<li><p><strong>简单使用</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var div1 = $(&quot;#div1&quot;);</span><br><span class="line">   alert(div1.html());</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="3、JQuery对象和JS对象区别与转换"><a href="#3、JQuery对象和JS对象区别与转换" class="headerlink" title="3、JQuery对象和JS对象区别与转换"></a>3、JQuery对象和JS对象区别与转换</h2><ul>
+<li>JQuery对象在操作时，更加<strong>方便</strong>。</li>
+<li>JQuery对象和js对象方法<strong>不通用</strong>的.</li>
+<li><strong>两者相互转换</strong><ul>
+<li>jq – &gt; js : <code>jq对象[索引]</code> 或者 <code>jq对象.get(索引)</code></li>
+<li>js – &gt; jq : <code>$(js对象)</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="4、选择器"><a href="#4、选择器" class="headerlink" title="4、选择器"></a>4、选择器</h2><p><strong>筛选具有相似特征的元素(标签)</strong></p>
+<h3 id="（1）基本操作学习"><a href="#（1）基本操作学习" class="headerlink" title="（1）基本操作学习"></a>（1）基本操作学习</h3><ul>
+<li><p><strong>事件绑定</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//1.获取b1按钮</span><br><span class="line">$(&quot;#b1&quot;).click(function()&#123;</span><br><span class="line">    alert(&quot;abc&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>入口函数</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(function () &#123;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>window.onload</code>和<code>$(function)</code><strong>区别:</strong></p>
+<ul>
+<li><code>window.onload</code> 只能定义<strong>一次</strong>,如果定义多次，后边的会将前边的<strong>覆盖</strong>掉</li>
+<li><code>$(function)</code>可以<strong>定义多次</strong>的。</li>
+</ul>
+</li>
+<li><p><strong>样式控制：css方法</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$(&quot;#div1&quot;).css(&quot;background-color&quot;,&quot;red&quot;);</span><br><span class="line">$(&quot;#div2&quot;).css(&quot;backgroundColor&quot;,&quot;pink&quot;);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="（2）分类"><a href="#（2）分类" class="headerlink" title="（2）分类"></a>（2）分类</h3><h4 id="a、基本选择器"><a href="#a、基本选择器" class="headerlink" title="a、基本选择器"></a>a、基本选择器</h4><pre><code>1. 标签选择器（元素选择器）
+    * 语法： $(&quot;html标签名&quot;) 获得所有匹配标签名称的元素
+2. id选择器 
+    * 语法： $(&quot;#id的属性值&quot;) 获得与指定id属性值匹配的元素
+3. 类选择器
+    * 语法： $(&quot;.class的属性值&quot;) 获得与指定的class属性值匹配的元素
+4. 并集选择器：
+    * 语法： $(&quot;选择器1,选择器2....&quot;) 获取多个选择器选中的所有元素</code></pre><h4 id="b、层级选择器"><a href="#b、层级选择器" class="headerlink" title="b、层级选择器"></a>b、层级选择器</h4><pre><code>1. 后代选择器
+    * 语法： $(&quot;A B &quot;) 选择A元素内部的所有B元素        
+2. 子选择器
+    * 语法： $(&quot;A &gt; B&quot;) 选择A元素内部的所有B子元素</code></pre><h4 id="c、属性选择器"><a href="#c、属性选择器" class="headerlink" title="c、属性选择器"></a>c、属性选择器</h4><pre><code>1. 属性名称选择器 
+    * 语法： $(&quot;A[属性名]&quot;) 包含指定属性的选择器
+2. 属性选择器
+    * 语法： $(&quot;A[属性名=&apos;值&apos;]&quot;) 包含指定属性等于指定值的选择器
+3. 复合属性选择器
+    * 语法： $(&quot;A[属性名=&apos;值&apos;][]...&quot;) 包含多个属性条件的选择器</code></pre><h4 id="d、过滤选择器"><a href="#d、过滤选择器" class="headerlink" title="d、过滤选择器"></a>d、过滤选择器</h4><pre><code>1. 首元素选择器 
+    * 语法： :first 获得选择的元素中的第一个元素
+2. 尾元素选择器 
+    * 语法： :last 获得选择的元素中的最后一个元素
+3. 非元素选择器
+    * 语法： :not(selector) 不包括指定内容的元素
+4. 偶数选择器
+    * 语法： :even 偶数，从 0 开始计数
+5. 奇数选择器
+    * 语法： :odd 奇数，从 0 开始计数
+6. 等于索引选择器
+    * 语法： :eq(index) 指定索引元素
+7. 大于索引选择器 
+    * 语法： :gt(index) 大于指定索引元素
+8. 小于索引选择器 
+    * 语法： :lt(index) 小于指定索引元素
+9. 标题选择器
+    * 语法： :header 获得标题（h1~h6）元素，固定写法</code></pre><h4 id="e、表单过滤选择器"><a href="#e、表单过滤选择器" class="headerlink" title="e、表单过滤选择器"></a>e、表单过滤选择器</h4><pre><code>1. 可用元素选择器 
+    * 语法： :enabled 获得可用元素
+2. 不可用元素选择器 
+    * 语法： :disabled 获得不可用元素
+3. 选中选择器 
+    * 语法： :checked 获得单选/复选框选中的元素
+4. 选中选择器 
+    * 语法： :selected 获得下拉框选中的元素</code></pre><h2 id="5、DOM操作"><a href="#5、DOM操作" class="headerlink" title="5、DOM操作"></a>5、DOM操作</h2><h3 id="（1）内容操作"><a href="#（1）内容操作" class="headerlink" title="（1）内容操作"></a>（1）内容操作</h3><ul>
+<li><code>html()</code>: <strong>获取/设置元素的标签体内容</strong> <code>&lt;a&gt;&lt;font&gt;内容&lt;/font&gt;&lt;/a&gt;</code>  –&gt; <code>&lt;font&gt;内容&lt;/font&gt;</code></li>
+<li><code>text()</code>: <strong>获取/设置元素的标签体纯文本内容</strong> <code>&lt;a&gt;&lt;font&gt;内容&lt;/font&gt;&lt;/a&gt;</code> –&gt; <code>内容</code></li>
+<li><code>val()</code>： <strong>获取/设置元素的value属性值</strong></li>
+</ul>
+<h3 id="（2）属性操作"><a href="#（2）属性操作" class="headerlink" title="（2）属性操作"></a>（2）属性操作</h3><h4 id="a、通用属性操作"><a href="#a、通用属性操作" class="headerlink" title="a、通用属性操作"></a>a、通用属性操作</h4><pre><code>1. attr(): 获取/设置元素的属性
+2. removeAttr():删除属性
+3. prop():获取/设置元素的属性
+4. removeProp():删除属性</code></pre><ul>
+<li><strong>attr和prop区别？</strong><ul>
+<li>如果操作的是元素的<strong>固有属性</strong>，则建议<strong>使用prop</strong></li>
+<li>如果操作的是元素<strong>自定义的属性</strong>，则建议<strong>使用attr</strong></li>
+</ul>
+</li>
+</ul>
+<h4 id="b、对class属性操作"><a href="#b、对class属性操作" class="headerlink" title="b、对class属性操作"></a>b、对class属性操作</h4><pre><code>1. addClass():添加class属性值
+2. removeClass():删除class属性值
+3. toggleClass():切换class属性
+    * toggleClass(&quot;one&quot;): 
+        * 判断如果元素对象上存在class=&quot;one&quot;，则将属性值one删除掉。  如果元素对象上不存在class=&quot;one&quot;，则添加
+4. css():样式控制</code></pre><h3 id="（3）CRUD操作"><a href="#（3）CRUD操作" class="headerlink" title="（3）CRUD操作"></a>（3）CRUD操作</h3><pre><code>1. append():父元素将子元素追加到末尾
+    * 对象1.append(对象2): 将对象2添加到对象1元素内部，并且在末尾
+2. prepend():父元素将子元素追加到开头
+    * 对象1.prepend(对象2):将对象2添加到对象1元素内部，并且在开头
+3. appendTo():
+    * 对象1.appendTo(对象2):将对象1添加到对象2内部，并且在末尾
+4. prependTo()：
+    * 对象1.prependTo(对象2):将对象1添加到对象2内部，并且在开头
+5. after():添加元素到元素后边
+    * 对象1.after(对象2)： 将对象2添加到对象1后边。对象1和对象2是兄弟关系
+6. before():添加元素到元素前边
+    * 对象1.before(对象2)： 将对象2添加到对象1前边。对象1和对象2是兄弟关系
+7. insertAfter()
+    * 对象1.insertAfter(对象2)：将对象2添加到对象1后边。对象1和对象2是兄弟关系
+8. insertBefore()
+    * 对象1.insertBefore(对象2)： 将对象2添加到对象1前边。对象1和对象2是兄弟关系
+9. remove():移除元素
+    * 对象.remove():将对象删除掉
+10. empty():清空元素的所有后代元素。
+    * 对象.empty():将对象的后代元素全部清空，但是保留当前对象以及其属性节点</code></pre><h2 id="6、案例"><a href="#6、案例" class="headerlink" title="6、案例"></a>6、案例</h2><h3 id="（1）隔行换色"><a href="#（1）隔行换色" class="headerlink" title="（1）隔行换色"></a>（1）隔行换色</h3><ul>
+<li><p>代码实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">	&lt;head&gt;</span><br><span class="line">		&lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">		&lt;title&gt;&lt;/title&gt;</span><br><span class="line">		&lt;script  src=&quot;../../js/jquery-3.3.1.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">		</span><br><span class="line">		&lt;script&gt;</span><br><span class="line">			//需求：将数据行的奇数行背景色设置为 pink，偶数行背景色设置为 yellow</span><br><span class="line">			$(function () &#123;</span><br><span class="line">				//1、获取奇数行的tr，设置背景色为pink</span><br><span class="line">				$(&quot;tr:gt(1):odd&quot;).css(&quot;backgroundColor&quot;,&quot;pink&quot;);</span><br><span class="line">				//2、获取偶数行的tr，设置背景色为yellow</span><br><span class="line">                $(&quot;tr:gt(1):even&quot;).css(&quot;backgroundColor&quot;,&quot;yellow&quot;);</span><br><span class="line">            &#125;);</span><br><span class="line">		&lt;/script&gt;</span><br><span class="line">	&lt;/head&gt;</span><br><span class="line">	&lt;body&gt;</span><br><span class="line">		&lt;table id=&quot;tab1&quot; border=&quot;1&quot; width=&quot;800&quot; align=&quot;center&quot; &gt;</span><br><span class="line">			&lt;tr&gt;</span><br><span class="line">				&lt;td colspan=&quot;5&quot;&gt;&lt;input type=&quot;button&quot; value=&quot;删除&quot;&gt;&lt;/td&gt;</span><br><span class="line">			&lt;/tr&gt;</span><br><span class="line">			&lt;tr style=&quot;background-color: #999999;&quot;&gt;</span><br><span class="line">				&lt;th&gt;&lt;input type=&quot;checkbox&quot;&gt;&lt;/th&gt;</span><br><span class="line">				&lt;th&gt;分类ID&lt;/th&gt;</span><br><span class="line">				&lt;th&gt;分类名称&lt;/th&gt;</span><br><span class="line">				&lt;th&gt;分类描述&lt;/th&gt;</span><br><span class="line">				&lt;th&gt;操作&lt;/th&gt;</span><br><span class="line">			&lt;/tr&gt;</span><br><span class="line">			&lt;tr&gt;</span><br><span class="line">				&lt;td&gt;&lt;input type=&quot;checkbox&quot;&gt;&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;1&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;手机数码&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;手机数码类商品&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;&lt;a href=&quot;&quot;&gt;修改&lt;/a&gt;|&lt;a href=&quot;&quot;&gt;删除&lt;/a&gt;&lt;/td&gt;</span><br><span class="line">			&lt;/tr&gt;</span><br><span class="line">			&lt;tr&gt;</span><br><span class="line">				&lt;td&gt;&lt;input type=&quot;checkbox&quot;&gt;&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;2&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;电脑办公&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;电脑办公类商品&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;&lt;a href=&quot;&quot;&gt;修改&lt;/a&gt;|&lt;a href=&quot;&quot;&gt;删除&lt;/a&gt;&lt;/td&gt;</span><br><span class="line">			&lt;/tr&gt;</span><br><span class="line">			&lt;tr&gt;</span><br><span class="line">				&lt;td&gt;&lt;input type=&quot;checkbox&quot;&gt;&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;3&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;鞋靴箱包&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;鞋靴箱包类商品&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;&lt;a href=&quot;&quot;&gt;修改&lt;/a&gt;|&lt;a href=&quot;&quot;&gt;删除&lt;/a&gt;&lt;/td&gt;</span><br><span class="line">			&lt;/tr&gt;</span><br><span class="line">			&lt;tr&gt;</span><br><span class="line">				&lt;td&gt;&lt;input type=&quot;checkbox&quot;&gt;&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;4&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;家居饰品&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;家居饰品类商品&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;&lt;a href=&quot;&quot;&gt;修改&lt;/a&gt;|&lt;a href=&quot;&quot;&gt;删除&lt;/a&gt;&lt;/td&gt;</span><br><span class="line">			&lt;/tr&gt;</span><br><span class="line">		&lt;/table&gt;</span><br><span class="line">	&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>效果展示：<br><img src="https://img-blog.csdnimg.cn/20200301212510546.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0NTA0NjI2,size_16,color_FFFFFF,t_70" alt="\[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-orQf4LRS-1583069087603)(JQuery基础学习/1.png)\]"></p>
+</li>
+</ul>
+<h3 id="（2）QQ表情选择"><a href="#（2）QQ表情选择" class="headerlink" title="（2）QQ表情选择"></a>（2）QQ表情选择</h3><ul>
+<li><p>代码实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot; /&gt;</span><br><span class="line">    &lt;title&gt;QQ表情选择&lt;/title&gt;</span><br><span class="line">	 &lt;script  src=&quot;../../js/jquery-3.3.1.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;style type=&quot;text/css&quot;&gt;</span><br><span class="line">    *&#123;margin: 0;padding: 0;list-style: none;&#125;</span><br><span class="line"></span><br><span class="line">    .emoji&#123;margin:50px;&#125;</span><br><span class="line">    ul&#123;overflow: hidden;&#125;</span><br><span class="line">    li&#123;float: left;width: 48px;height: 48px;cursor: pointer;&#125;</span><br><span class="line">    .emoji img&#123; cursor: pointer; &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">	&lt;script&gt;</span><br><span class="line">        //需求：点击qq表情，将其追加到发言框中</span><br><span class="line">        $(function () &#123;</span><br><span class="line">            //1、给gif图片添加onclick事件</span><br><span class="line">            $(&quot;ul img&quot;).click(function () &#123;</span><br><span class="line">                //2、追加到p标签中即可</span><br><span class="line">                $(&quot;.word&quot;).append($(this).clone());</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">		</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">	</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div class=&quot;emoji&quot;&gt;</span><br><span class="line">        &lt;ul&gt;</span><br><span class="line">            &lt;li&gt;&lt;img src=&quot;img/01.gif&quot; height=&quot;22&quot; width=&quot;22&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;</span><br><span class="line">            &lt;li&gt;&lt;img src=&quot;img/02.gif&quot; height=&quot;22&quot; width=&quot;22&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;</span><br><span class="line">            &lt;li&gt;&lt;img src=&quot;img/03.gif&quot; height=&quot;22&quot; width=&quot;22&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;</span><br><span class="line">            &lt;li&gt;&lt;img src=&quot;img/04.gif&quot; height=&quot;22&quot; width=&quot;22&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;</span><br><span class="line">            &lt;li&gt;&lt;img src=&quot;img/05.gif&quot; height=&quot;22&quot; width=&quot;22&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;</span><br><span class="line">            &lt;li&gt;&lt;img src=&quot;img/06.gif&quot; height=&quot;22&quot; width=&quot;22&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;</span><br><span class="line">            &lt;li&gt;&lt;img src=&quot;img/07.gif&quot; height=&quot;22&quot; width=&quot;22&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;</span><br><span class="line">            &lt;li&gt;&lt;img src=&quot;img/08.gif&quot; height=&quot;22&quot; width=&quot;22&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;</span><br><span class="line">            &lt;li&gt;&lt;img src=&quot;img/09.gif&quot; height=&quot;22&quot; width=&quot;22&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;</span><br><span class="line">            &lt;li&gt;&lt;img src=&quot;img/10.gif&quot; height=&quot;22&quot; width=&quot;22&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;</span><br><span class="line">            &lt;li&gt;&lt;img src=&quot;img/11.gif&quot; height=&quot;22&quot; width=&quot;22&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;</span><br><span class="line">            &lt;li&gt;&lt;img src=&quot;img/12.gif&quot; height=&quot;22&quot; width=&quot;22&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;</span><br><span class="line">        &lt;/ul&gt;</span><br><span class="line">        &lt;p class=&quot;word&quot;&gt;</span><br><span class="line">            &lt;strong&gt;请发言：&lt;/strong&gt;</span><br><span class="line">            &lt;img src=&quot;img/12.gif&quot; height=&quot;22&quot; width=&quot;22&quot; alt=&quot;&quot; /&gt;</span><br><span class="line">        &lt;/p&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>效果展示：<br><img src="https://img-blog.csdnimg.cn/20200301212517777.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0NTA0NjI2,size_16,color_FFFFFF,t_70" alt="\[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-EJGbI2tE-1583069087605)(JQuery基础学习/2.png)\]"></p>
+</li>
+</ul>
+<h3 id="（3）多选下拉列表左右移动"><a href="#（3）多选下拉列表左右移动" class="headerlink" title="（3）多选下拉列表左右移动"></a>（3）多选下拉列表左右移动</h3><ul>
+<li><p>代码实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">	&lt;head&gt;</span><br><span class="line">		&lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">		&lt;title&gt;&lt;/title&gt;</span><br><span class="line">		&lt;script  src=&quot;../../js/jquery-3.3.1.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		&lt;style&gt;</span><br><span class="line">			#leftName , #btn,#rightName&#123;</span><br><span class="line">				float: left;</span><br><span class="line">				width: 100px;</span><br><span class="line">				height: 300px;</span><br><span class="line">			&#125;</span><br><span class="line">			#toRight,#toLeft&#123;</span><br><span class="line">				margin-top:100px ;</span><br><span class="line">				margin-left:30px;</span><br><span class="line">				width: 50px;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			.border&#123;</span><br><span class="line">				height: 500px;</span><br><span class="line">				padding: 100px;</span><br><span class="line">			&#125;</span><br><span class="line">		&lt;/style&gt;</span><br><span class="line"></span><br><span class="line">		&lt;script&gt;</span><br><span class="line"></span><br><span class="line">			//需求：实现下拉列表选择条目左右选择功能</span><br><span class="line">			$(function () &#123;</span><br><span class="line">			    //→</span><br><span class="line">				$(&quot;#toRight&quot;).click(function () &#123;</span><br><span class="line">					//获取右边的下拉列表对象.append（左边下拉列表选中的option）</span><br><span class="line">					$(&quot;#rightName&quot;).append($(&quot;#leftName &gt; option:selected&quot;));</span><br><span class="line">                &#125;);</span><br><span class="line"></span><br><span class="line">				//←</span><br><span class="line">                $(&quot;#toLeft&quot;).click(function () &#123;</span><br><span class="line">					//获取右边的下拉列表对象.appendTo（左边下拉列表选中的option）</span><br><span class="line">                    $(&quot;#rightName &gt; option:selected&quot;).appendTo($(&quot;#leftName&quot;));</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">		&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&lt;/head&gt;</span><br><span class="line">	&lt;body&gt;</span><br><span class="line">		&lt;div class=&quot;border&quot;&gt;</span><br><span class="line">			&lt;select id=&quot;leftName&quot; multiple=&quot;multiple&quot;&gt;</span><br><span class="line">				&lt;option&gt;张三&lt;/option&gt;</span><br><span class="line">				&lt;option&gt;李四&lt;/option&gt;</span><br><span class="line">				&lt;option&gt;王五&lt;/option&gt;</span><br><span class="line">				&lt;option&gt;赵六&lt;/option&gt;</span><br><span class="line">			&lt;/select&gt;</span><br><span class="line">			&lt;div id=&quot;btn&quot;&gt;</span><br><span class="line">				&lt;input type=&quot;button&quot; id=&quot;toRight&quot; value=&quot;--&gt;&quot;&gt;&lt;br&gt;</span><br><span class="line">				&lt;input type=&quot;button&quot; id=&quot;toLeft&quot; value=&quot;&lt;--&quot;&gt;</span><br><span class="line"></span><br><span class="line">			&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">			&lt;select id=&quot;rightName&quot; multiple=&quot;multiple&quot;&gt;</span><br><span class="line">				&lt;option&gt;钱七&lt;/option&gt;</span><br><span class="line">			&lt;/select&gt;</span><br><span class="line"></span><br><span class="line">		&lt;/div&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>效果展示：<br><img src="https://img-blog.csdnimg.cn/20200301213148696.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0NTA0NjI2,size_16,color_FFFFFF,t_70" alt="\[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-KZpyUdcI-1583069087606)(JQuery基础学习/3.png)\]"></p>
+</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Allen Xue</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><strong>To be or not to be,that is a question.<strong></strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/JavaWeb/"># JavaWeb</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/03/01/JQuery高级学习/">JQuery高级学习</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Allen Xue | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+    
+        <script type="text/javascript" color="0,0,0" opacity="0.3" zindex="-2" count="99" src="/js/canvas-nest.js"></script>
+    
+</body>
+</html>
