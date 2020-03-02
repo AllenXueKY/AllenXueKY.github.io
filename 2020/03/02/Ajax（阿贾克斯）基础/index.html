@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Ajax（阿贾克斯）基础 | Allen Xue&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Allen Xue&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Allen Xue&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Ajax（阿贾克斯）基础</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Allen Xue</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">March 2, 2020&nbsp;&nbsp;23:24:37</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/JavaWeb/">JavaWeb</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h1><h2 id="1、概念"><a href="#1、概念" class="headerlink" title="1、概念"></a>1、概念</h2><p><strong>ASynchronous JavaScript And XML    异步的JavaScript 和 XML</strong></p>
+<h3 id="异步和同步"><a href="#异步和同步" class="headerlink" title="异步和同步"></a>异步和同步</h3><p><strong>客户端和服务器端相互通信的基础上</strong></p>
+<ul>
+<li><p><strong>同步：客户端必须等待服务器端的响应</strong>。在等待的期间客户端不能做其他操作。</p>
+</li>
+<li><p><strong>异步：客户端不需要等待服务器端的响应</strong>。在服务器处理请求的过程中，客户端可以进行其他的操作。<br><img src="/2020/03/02/Ajax（阿贾克斯）基础/1.png" alt="image"></p>
+</li>
+<li><p><strong>Ajax</strong>是一种在无需重新加载整个网页的情况下，能够更新部分网页的技术。</p>
+</li>
+<li><p>通过在后台与服务器进行少量数据交换，<strong>Ajax可 以使网页实现异步更新</strong>。这意味着可以在不重新加载整个网页的情况下，<strong>对网页的某部分进行更新</strong>。<br>传统的网页（不使用Ajax）如果需要更新内容，必须重载整个网页页面。</p>
+</li>
+<li><p><strong>提升用户的体验</strong></p>
+</li>
+</ul>
+<h2 id="2、实现方式"><a href="#2、实现方式" class="headerlink" title="2、实现方式"></a>2、实现方式</h2><h3 id="（1）原生的JS实现方式（了解即可）"><a href="#（1）原生的JS实现方式（了解即可）" class="headerlink" title="（1）原生的JS实现方式（了解即可）"></a>（1）原生的JS实现方式（了解即可）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"> //1.创建核心对象</span><br><span class="line">var xmlhttp;</span><br><span class="line">if (window.XMLHttpRequest)</span><br><span class="line">&#123;// code for IE7+, Firefox, Chrome, Opera, Safari</span><br><span class="line">    xmlhttp=new XMLHttpRequest();</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;// code for IE6, IE5</span><br><span class="line">    xmlhttp=new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//2. 建立连接</span><br><span class="line">/*</span><br><span class="line">    参数：</span><br><span class="line">        1. 请求方式：GET、POST</span><br><span class="line">            * get方式，请求参数在URL后边拼接。send方法为空参</span><br><span class="line">            * post方式，请求参数在send方法中定义</span><br><span class="line">        2. 请求的URL：</span><br><span class="line">        3. 同步或异步请求：true（异步）或 false（同步）</span><br><span class="line"></span><br><span class="line"> */</span><br><span class="line">xmlhttp.open(&quot;GET&quot;,&quot;ajaxServlet?username=tom&quot;,true);</span><br><span class="line"></span><br><span class="line">//3.发送请求</span><br><span class="line">xmlhttp.send();</span><br><span class="line"></span><br><span class="line">//4.接受并处理来自服务器的响应结果</span><br><span class="line">//获取方式 ：xmlhttp.responseText</span><br><span class="line">//什么时候获取？当服务器响应成功后再获取</span><br><span class="line"></span><br><span class="line">//当xmlhttp对象的就绪状态改变时，触发事件onreadystatechange。</span><br><span class="line">xmlhttp.onreadystatechange=function()</span><br><span class="line">&#123;</span><br><span class="line">    //判断readyState就绪状态是否为4，判断status响应状态码是否为200</span><br><span class="line">    if (xmlhttp.readyState==4 &amp;&amp; xmlhttp.status==200)</span><br><span class="line">    &#123;</span><br><span class="line">       //获取服务器的响应结果</span><br><span class="line">        var responseText = xmlhttp.responseText;</span><br><span class="line">        alert(responseText);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）JQeury实现方式"><a href="#（2）JQeury实现方式" class="headerlink" title="（2）JQeury实现方式"></a>（2）JQeury实现方式</h3><h4 id="ajax"><a href="#ajax" class="headerlink" title="$.ajax()"></a>$.ajax()</h4><ul>
+<li>语法：<code>$.ajax({键值对});</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//使用$.ajax()发送异步请求</span><br><span class="line">$.ajax(&#123;</span><br><span class="line">    url:&quot;ajaxServlet1111&quot; , // 请求路径</span><br><span class="line">    type:&quot;POST&quot; , //请求方式</span><br><span class="line">    //data: &quot;username=jack&amp;age=23&quot;,//请求参数</span><br><span class="line">    data:&#123;&quot;username&quot;:&quot;jack&quot;,&quot;age&quot;:23&#125;,</span><br><span class="line">    success:function (data) &#123;</span><br><span class="line">        alert(data);</span><br><span class="line">    &#125;,//响应成功后的回调函数</span><br><span class="line">    error:function () &#123;</span><br><span class="line">        alert(&quot;出错啦...&quot;)</span><br><span class="line">    &#125;,//表示如果请求响应出现错误，会执行的回调函数</span><br><span class="line"></span><br><span class="line">    dataType:&quot;text&quot;//设置接受到的响应数据的格式</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="get-发送get请求"><a href="#get-发送get请求" class="headerlink" title="$.get()发送get请求"></a>$.get()发送get请求</h4><ul>
+<li>语法：<code>$.get(url, [data], [callback], [type])</code><ul>
+<li>参数：<ul>
+<li><strong>url</strong>：请求路径</li>
+<li><strong>data</strong>：请求参数</li>
+<li><strong>callback</strong>：回调函数</li>
+<li><strong>type</strong>：响应结果的类型<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$.get(&quot;ajaxServlet&quot;,&#123;username:&quot;rose&quot;&#125;,function (data) &#123;</span><br><span class="line">                alert(data);</span><br><span class="line">            &#125;,&quot;text&quot;);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="post-发送post请求"><a href="#post-发送post请求" class="headerlink" title="$.post()发送post请求"></a>$.post()发送post请求</h4><ul>
+<li>语法：<code>$.post(url, [data], [callback], [type])</code><ul>
+<li>参数：<ul>
+<li><strong>url</strong>：请求路径</li>
+<li><strong>data</strong>：请求参数</li>
+<li><strong>callback</strong>：回调函数</li>
+<li><strong>type</strong>：响应结果的类型<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$.post(&quot;ajaxServlet&quot;,&#123;username:&quot;rose&quot;&#125;,function (data) &#123;</span><br><span class="line">                alert(data);</span><br><span class="line">            &#125;,&quot;text&quot;);</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Allen Xue</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><strong>To be or not to be,that is a question.<strong></strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/JavaWeb/"># JavaWeb</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/03/01/JQuery基础学习/">JQuery基础学习</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Allen Xue | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+    
+        <script type="text/javascript" color="0,0,0" opacity="0.3" zindex="-2" count="99" src="/js/canvas-nest.js"></script>
+    
+</body>
+</html>
