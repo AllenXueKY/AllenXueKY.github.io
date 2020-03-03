@@ -103,6 +103,68 @@
             <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
 
     
     <article class="post-wrap">
@@ -120,12 +182,214 @@
                         </span>
                     
                     
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/JavaWeb/">JavaWeb</a>
+                            
+                        </span>
+                    
                 </div>
             
         </header>
 
         <div class="post-content">
-            
+            <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="1、概念"><a href="#1、概念" class="headerlink" title="1、概念"></a>1、概念</h2><p><strong>Redis是一款高性能的NOSQL系列的非关系型数据库</strong></p>
+<h3 id="1-1、什么是NOSQL"><a href="#1-1、什么是NOSQL" class="headerlink" title="1.1、什么是NOSQL"></a>1.1、什么是NOSQL</h3><p><strong>NoSQL(NoSQL = Not Only SQL)</strong>，意即“<strong>不仅仅是SQL</strong>”，<strong>是一项全新的数据库理念，泛指非关系型的数据库</strong>。<br>随着互联网web2.0网站的兴起，传统的关系数据库在应付web2.0网站，特别是超大规模和高并发的SNS类型的web2.0纯动态网站已经显得力不从心，暴露了很多难以克服的问题，而非关系型的数据库则由于其本身的特点得到了非常迅速的发展。<strong>NoSQL数据库的产生就是为了解决大规模数据集合多重数据种类带来的挑战，尤其是大数据应用难题。</strong></p>
+<h4 id="1-1-1、NOSQL和关系型数据库比较"><a href="#1-1-1、NOSQL和关系型数据库比较" class="headerlink" title="1.1.1、NOSQL和关系型数据库比较"></a>1.1.1、NOSQL和关系型数据库比较</h4><p><img src="/2020/03/03/Redis的安装配置以及常用命令（小白一看秒会，简单易上手）/3.png" alt="image"></p>
+<ul>
+<li><p><strong>优点</strong>：</p>
+<ul>
+<li><strong>成本</strong>：nosql数据库简单易部署，基本都是开源软件，不需要像使用oracle那样花费大量成本购买使用，相比关系型数据库价格便宜。</li>
+<li><strong>查询速度</strong>：nosql数据库将数据存储于缓存之中，关系型数据库将数据存储在硬盘中，自然查询速度远不及nosql数据库。</li>
+<li><strong>存储数据的格式</strong>：nosql的存储格式是key,value形式、文档形式、图片形式等等，所以可以存储基础类型以及对象或者是集合等各种格式，而数据库则只支持基础类型。</li>
+<li><strong>扩展性</strong>：关系型数据库有类似join这样的多表查询机制的限制导致扩展很艰难。</li>
+</ul>
+</li>
+<li><p><strong>缺点</strong>：</p>
+<ul>
+<li>维护的工具和资料有限，因为nosql是属于新的技术，不能和关系型数据库10几年的技术同日而语。</li>
+<li><strong>不提供对sql的支持</strong>，如果不支持sql这样的工业标准，将产生一定用户的学习和使用成本。</li>
+<li><strong>不提供关系型数据库对事务的处理</strong>。</li>
+</ul>
+</li>
+</ul>
+<h4 id="1-1-2、非关系型数据库的优势"><a href="#1-1-2、非关系型数据库的优势" class="headerlink" title="1.1.2、非关系型数据库的优势"></a>1.1.2、非关系型数据库的优势</h4><ul>
+<li><strong>性能NOSQL是基于键值对的</strong>，可以想象成表中的主键和值的对应关系，而且不需要经过SQL层的解析，所以性能非常高。</li>
+<li><strong>可扩展性同样也是因为基于键值对，数据之间没有耦合性，所以非常容易水平扩展</strong>。</li>
+</ul>
+<h4 id="1-1-3、总的来说"><a href="#1-1-3、总的来说" class="headerlink" title="1.1.3、总的来说"></a>1.1.3、总的来说</h4><ul>
+<li><strong>关系型数据库与NoSQL数据库并非对立而是互补的关系</strong>，即通常情况下使用关系型数据库，在适合使用NoSQL的时候使用NoSQL数据库</li>
+<li><strong>让NoSQL数据库对关系型数据库的不足进行弥补</strong>。</li>
+<li>一般会将数据存储在关系型数据库中，<strong>在nosql数据库中备份存储关系型数据库的数据</strong></li>
+</ul>
+<h3 id="1-2、主流的NOSQL产品"><a href="#1-2、主流的NOSQL产品" class="headerlink" title="1.2、主流的NOSQL产品"></a>1.2、主流的NOSQL产品</h3><h4 id="键值-Key-Value-存储数据库"><a href="#键值-Key-Value-存储数据库" class="headerlink" title="键值(Key-Value)存储数据库"></a>键值(Key-Value)存储数据库</h4><ul>
+<li>相关产品： Tokyo Cabinet/Tyrant、<strong>Redis</strong>、Voldemort、Berkeley DB</li>
+<li>典型应用： <strong>内容缓存</strong>，主要用于处理大量数据的高访问负载。 </li>
+<li>数据模型： <strong>一系列键值对</strong></li>
+<li>优势： <strong>快速查询</strong></li>
+<li>劣势： <strong>存储的数据缺少结构化</strong></li>
+</ul>
+<h4 id="列存储数据库"><a href="#列存储数据库" class="headerlink" title="列存储数据库"></a>列存储数据库</h4><ul>
+<li>相关产品：Cassandra, <strong>HBase</strong>, Riak</li>
+<li>典型应用：<strong>分布式的文件系统</strong></li>
+<li>数据模型：以列簇式存储，将同一列数据存在一起</li>
+<li>优势：<strong>查找速度快，可扩展性强，更容易进行分布式扩展</strong></li>
+<li>劣势：<strong>功能相对局限</strong></li>
+</ul>
+<h4 id="文档型数据库"><a href="#文档型数据库" class="headerlink" title="文档型数据库"></a>文档型数据库</h4><ul>
+<li>相关产品：CouchDB、<strong>MongoDB</strong></li>
+<li>典型应用：Web应用（与Key-Value类似，Value是结构化的）</li>
+<li>数据模型： 一系列键值对</li>
+<li>优势：数据结构要求不严格</li>
+<li>劣势： 查询性能不高，而且缺乏统一的查询语法</li>
+</ul>
+<h4 id="图形-Graph-数据库"><a href="#图形-Graph-数据库" class="headerlink" title="图形(Graph)数据库"></a>图形(Graph)数据库</h4><ul>
+<li>相关数据库：Neo4J、InfoGrid、<strong>Infinite Graph</strong></li>
+<li>典型应用：社交网络</li>
+<li>数据模型：图结构</li>
+<li>优势：利用图结构相关算法。</li>
+<li>劣势：需要对整个图做计算才能得出结果，不容易做分布式的集群方案。</li>
+</ul>
+<h3 id="1-3-什么是Redis"><a href="#1-3-什么是Redis" class="headerlink" title="1.3 什么是Redis"></a>1.3 什么是Redis</h3><p><strong>Redis是用C语言开发的一个开源的高性能键值对（key-value）数据库</strong>，官方提供测试数据，<strong>50个并发执行100000个请求,读的速度是110000次/s,写的速度是81000次/s</strong> ，<strong>且Redis通过提供多种键值数据类型来适应不同场景下的存储需求</strong>，目前为止<strong>Redis支持的键值数据类型</strong>如下：</p>
+<ul>
+<li><strong>字符串类型 string</strong></li>
+<li><strong>哈希类型 hash</strong></li>
+<li><strong>列表类型 list</strong></li>
+<li><strong>集合类型 set</strong></li>
+<li><strong>有序集合类型 sortedset</strong></li>
+</ul>
+<h4 id="Redis的应用场景"><a href="#Redis的应用场景" class="headerlink" title="Redis的应用场景"></a>Redis的应用场景</h4><ul>
+<li><strong>缓存（数据查询、短连接、新闻内容、商品内容等等）</strong></li>
+<li><strong>聊天室的在线好友列表</strong></li>
+<li><strong>任务队列。（秒杀、抢购、12306等等）</strong></li>
+<li><strong>应用排行榜</strong></li>
+<li><strong>网站访问统计</strong></li>
+<li><strong>数据过期处理（可以精确到毫秒）</strong></li>
+<li><strong>分布式集群架构中的session分离</strong></li>
+</ul>
+<h2 id="2、下载安装"><a href="#2、下载安装" class="headerlink" title="2、下载安装"></a>2、下载安装</h2><ul>
+<li>官网：<a href="https://redis.io" target="_blank" rel="noopener">https://redis.io</a>（国内不好用）</li>
+<li><strong>中文网</strong>：<a href="http://www.redis.net.cn/" target="_blank" rel="noopener">http://www.redis.net.cn/</a>（建议访问中文网）</li>
+<li><strong>解压直接可以使用</strong>：<ul>
+<li><strong>redis.windows.conf：配置文件</strong></li>
+<li><strong>redis-cli.exe：redis的客户端</strong></li>
+<li><strong>redis-server.exe：redis服务器端</strong></li>
+</ul>
+</li>
+<li><strong>双击打开redis-server.exe</strong>，Redis就启动成功了<br><img src="/2020/03/03/Redis的安装配置以及常用命令（小白一看秒会，简单易上手）/6.png" alt="image"></li>
+<li><strong>不要关闭redis-server.exe的界面，然后双击打开redis-cli.exe</strong>，就可以开始操作Redis了<br><img src="/2020/03/03/Redis的安装配置以及常用命令（小白一看秒会，简单易上手）/7.png" alt="image"></li>
+</ul>
+<h2 id="3、命令操作"><a href="#3、命令操作" class="headerlink" title="3、命令操作"></a>3、命令操作</h2><h3 id="（1）Redis的数据结构"><a href="#（1）Redis的数据结构" class="headerlink" title="（1）Redis的数据结构"></a>（1）Redis的数据结构</h3><p><img src="/2020/03/03/Redis的安装配置以及常用命令（小白一看秒会，简单易上手）/4.png" alt="image"></p>
+<ul>
+<li><strong>Redis存储</strong>的是：<strong>key,value格式的数据</strong>，其中<strong>key都是字符串</strong>，value有5种不同的数据结构<ul>
+<li><strong>value的数据结构</strong>：<ul>
+<li><strong>字符串类型string</strong></li>
+<li><strong>哈希类型 hash</strong>：map格式  </li>
+<li><strong>列表类型 list</strong>： linkedlist格式。支持重复元素</li>
+<li><strong>集合类型 set</strong>： 不允许重复元素</li>
+<li><strong>有序集合类型 sortedset</strong>：不允许重复元素，且元素有顺序</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="（2）字符串类型-string"><a href="#（2）字符串类型-string" class="headerlink" title="（2）字符串类型 string"></a>（2）字符串类型 string</h3><ul>
+<li><p><strong>存储</strong>： <code>set key value</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; set username zhangsan</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>获取</strong>： <code>get key</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; get username</span><br><span class="line">&quot;zhangsan&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>删除</strong>： <code>del key</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; del age</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="（3）哈希类型-hash"><a href="#（3）哈希类型-hash" class="headerlink" title="（3）哈希类型 hash"></a>（3）哈希类型 hash</h3><ul>
+<li><p><strong>存储</strong>： <code>hset key field value</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; hset myhash username lisi</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; hset myhash password 123</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>获取</strong>： </p>
+<ul>
+<li><p><code>hget key field</code>: <strong>获取指定的field对应的值</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">   127.0.0.1:6379&gt; hget myhash username</span><br><span class="line">&quot;lisi&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>hgetall key</code>：<strong>获取所有的field和value</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">    127.0.0.1:6379&gt; hgetall myhash</span><br><span class="line">	1) &quot;username&quot;</span><br><span class="line">	2) &quot;lisi&quot;</span><br><span class="line">	3) &quot;password&quot;</span><br><span class="line">	4) &quot;123&quot;</span><br><span class="line">	```	</span><br><span class="line">* **删除**： `hdel key field`</span><br><span class="line">```	</span><br><span class="line">127.0.0.1:6379&gt; hdel myhash username</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="（4）列表类型-list"><a href="#（4）列表类型-list" class="headerlink" title="（4）列表类型 list"></a>（4）列表类型 list</h3><p><strong>可以添加一个元素到列表的头部（左边）或者尾部（右边）</strong><br><img src="/2020/03/03/Redis的安装配置以及常用命令（小白一看秒会，简单易上手）/5.png" alt="image"></p>
+<ul>
+<li><p><strong>添加</strong>：</p>
+<ul>
+<li><p><code>lpush key value</code>: <strong>将元素加入列表左表</strong></p>
+</li>
+<li><p><code>rpush key value</code>：<strong>将元素加入列表右边</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; lpush myList a</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; lpush myList b</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; rpush myList c</span><br><span class="line">(integer) 3</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><strong>获取</strong>：</p>
+<ul>
+<li><code>lrange key start end</code>：<strong>范围获取</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; lrange myList 0 -1</span><br><span class="line">1) &quot;b&quot;</span><br><span class="line">2) &quot;a&quot;</span><br><span class="line">3) &quot;c&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><strong>删除</strong>：</p>
+<ul>
+<li><code>lpop key</code>： 删除列表<strong>最左边</strong>的元素，并将元素返回</li>
+<li><code>rpop key</code>： 删除列表<strong>最右边</strong>的元素，并将元素返回</li>
+</ul>
+</li>
+</ul>
+<h3 id="（5）集合类型-set"><a href="#（5）集合类型-set" class="headerlink" title="（5）集合类型 set"></a>（5）集合类型 set</h3><p><strong>不允许重复元素</strong></p>
+<ul>
+<li><p><strong>存储</strong>：<code>sadd key value</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; sadd myset a</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sadd myset a</span><br><span class="line">(integer) 0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>获取</strong>：<code>smembers key</code>:<strong>获取set集合中所有元素</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; smembers myset</span><br><span class="line">1) &quot;a&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>删除</strong>：<code>srem key value</code>:<strong>删除set集合中的某个元素</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; srem myset a</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="（6）有序集合类型-sortedset"><a href="#（6）有序集合类型-sortedset" class="headerlink" title="（6）有序集合类型 sortedset"></a>（6）有序集合类型 sortedset</h3><p><strong>不允许重复元素，且元素有顺序</strong>,每个元素都会<strong>关联一个double类型的分数</strong>。redis正是<strong>通过分数</strong>来为集合中的成员进行<strong>从小到大的排序</strong>。</p>
+<ul>
+<li><p><strong>存储</strong>：<code>zadd key score value</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zadd mysort 60 zhangsan</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; zadd mysort 50 lisi</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; zadd mysort 80 wangwu</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>获取</strong>：<code>zrange key start end [withscores]</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrange mysort 0 -1</span><br><span class="line">1) &quot;lisi&quot;</span><br><span class="line">2) &quot;zhangsan&quot;</span><br><span class="line">3) &quot;wangwu&quot;</span><br><span class="line">127.0.0.1:6379&gt; zrange mysort 0 -1 withscores</span><br><span class="line">1) &quot;zhangsan&quot;</span><br><span class="line">2) &quot;60&quot;</span><br><span class="line">3) &quot;wangwu&quot;</span><br><span class="line">4) &quot;80&quot;</span><br><span class="line">5) &quot;lisi&quot;</span><br><span class="line">6) &quot;500&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>删除</strong>：<code>zrem key value</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrem mysort lisi</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="（7）通用命令"><a href="#（7）通用命令" class="headerlink" title="（7）通用命令"></a>（7）通用命令</h3><ul>
+<li><code>keys *</code>: <strong>查询所有的键</strong></li>
+<li><code>type key</code> ： <strong>获取键对应的value的类型</strong></li>
+<li><code>del key</code>：<strong>删除指定的key value</strong></li>
+</ul>
+<h2 id="4、持久化"><a href="#4、持久化" class="headerlink" title="4、持久化"></a>4、持久化</h2><ul>
+<li><strong>Redis是一个内存数据库</strong>，<strong>当Redis服务器重启，或者电脑重启，数据会丢失</strong>，我们可以将Redis内存中的数据<strong>持久化保存到硬盘的文件中</strong>。</li>
+</ul>
+<h3 id="Redis持久化机制"><a href="#Redis持久化机制" class="headerlink" title="Redis持久化机制"></a>Redis持久化机制</h3><h4 id="（1）RDB（推荐使用）"><a href="#（1）RDB（推荐使用）" class="headerlink" title="（1）RDB（推荐使用）"></a>（1）RDB（推荐使用）</h4><p><strong>默认方式</strong>，不需要进行配置，默认就使用这种机制</p>
+<ul>
+<li><strong>在一定的间隔时间中，检测key的变化情况，然后持久化数据</strong></li>
+</ul>
+<p><strong>1、编辑redis.windwos.conf文件</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#   after 900 sec (15 min) if at least 1 key changed</span><br><span class="line">save 900 1</span><br><span class="line">#   after 300 sec (5 min) if at least 10 keys changed</span><br><span class="line">save 300 10</span><br><span class="line">#   after 60 sec if at least 10000 keys changed</span><br><span class="line">save 60 10000</span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line">**2、重新启动redis服务器，并指定配置文件名称**</span><br><span class="line">找到Redis的安装路径，按住shift右键打开cmd，在cmd中输入`redis-server.exe redis.windows.conf`</span><br><span class="line">如图：</span><br><span class="line">![image](Redis的安装配置以及常用命令（小白一看秒会，简单易上手）/1.png)</span><br><span class="line">	</span><br><span class="line">#### （2）AOF（不建议使用，太耗资源）</span><br><span class="line">**日志记录的方式，可以记录每一条命令的操作。可以每一次命令操作后，持久化数据**</span><br><span class="line"></span><br><span class="line">**1. 编辑redis.windwos.conf文件**&lt;br&gt;</span><br><span class="line">将appendonly no（关闭aof） --&gt; appendonly yes （开启aof）</span><br><span class="line">![image](Redis的安装配置以及常用命令（小白一看秒会，简单易上手）/2.png)</span><br><span class="line">```	</span><br><span class="line"># appendfsync always ： 每一次操作都进行持久化</span><br><span class="line">appendfsync everysec ： 每隔一秒进行一次持久化</span><br><span class="line"># appendfsync no	 ： 不进行持久化</span><br></pre></td></tr></table></figure>
+
+<p><strong>2、重新启动redis服务器，并指定配置文件名称</strong><br>找到Redis的安装路径，按住shift右键打开cmd，在cmd中输入<code>redis-server.exe redis.windows.conf</code><br>如图：<br><img src="/2020/03/03/Redis的安装配置以及常用命令（小白一看秒会，简单易上手）/1.png" alt="image"></p>
+<h2 id="5、Java操作Redis数据库Jedis"><a href="#5、Java操作Redis数据库Jedis" class="headerlink" title="5、Java操作Redis数据库Jedis"></a>5、Java操作Redis数据库Jedis</h2><p>请点击访问<a href="https://blog.csdn.net/qq_34504626/article/details/104638164" target="_blank" rel="noopener">Java操作Redis数据库（小白一看秒会，简单易上手）</a></p>
+
         </div>
 
         
@@ -157,6 +421,10 @@
                 <span>Tag(s):</span>
                 <span class="tag">
                     
+                    
+                        <a href="/tag/JavaWeb/"># JavaWeb</a>
+                    
+                        
                 </span>
             </div>
             <div>
