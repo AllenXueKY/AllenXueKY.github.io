@@ -202,7 +202,7 @@
 <li>世界上没有不存在 bug 的代码，计算机喜欢 bug 就和人们总是喜欢美女帅哥一样。为了追求美为<br>了减少 bug，因此写完了代码，我们还要写一些<strong>单元测试</strong>，然后一个个的运行来检验代码质量。</li>
 <li>再优雅的代码也是要出来卖的。我们后面还需要把代码与各种配置文件、资源整合到一起，<strong>定型打包</strong>，如果是 web 项目，还需要将之发布到服务器，供人蹂躏。</li>
 </ul>
-<h3 id="2、Maven的两个精典作用"><a href="#2、Maven的两个精典作用" class="headerlink" title="2、Maven的两个精典作用"></a>2、Maven的两个精典作用</h3><h4 id="2-1、Maven-的依赖管理"><a href="#2-1、Maven-的依赖管理" class="headerlink" title="2.1、Maven 的依赖管理"></a>2.1、Maven 的依赖管理</h4><p><strong>Maven的一个核心特性就是依赖管理</strong>。当我们涉及到多模块的项目（包含成百个模块或者子项目），管理依赖就变成一项困难的任务。Maven展示出了它对处理这种情形的高度控制。传统的 WEB 项目中，我们必须将工程所依赖的jar包复制到工程中，导致了工程的变得很大。</p>
+<h3 id="2、Maven的两个经典作用"><a href="#2、Maven的两个经典作用" class="headerlink" title="2、Maven的两个经典作用"></a>2、Maven的两个经典作用</h3><h4 id="2-1、Maven-的依赖管理"><a href="#2-1、Maven-的依赖管理" class="headerlink" title="2.1、Maven 的依赖管理"></a>2.1、Maven 的依赖管理</h4><p><strong>Maven的一个核心特性就是依赖管理</strong>。当我们涉及到多模块的项目（包含成百个模块或者子项目），管理依赖就变成一项困难的任务。Maven展示出了它对处理这种情形的高度控制。传统的 WEB 项目中，我们必须将工程所依赖的jar包复制到工程中，导致了工程的变得很大。</p>
 <ul>
 <li><strong>作用：</strong><ul>
 <li><strong>maven工程中不直接将jar包导入到工程中</strong>，而是通过<strong>在pom.xml文件</strong>中添加<strong>所需jar包的坐标</strong>，这样就很好的避免了jar直接引入进来，在需要用到 jar 包的时候，只要查找pom.xml文件，再通过 pom.xml 文件中的坐标，到一个专门用于”存放 jar 包的仓库”(maven 仓库)中根据坐标从<br>而找到这些 jar 包，再把这些jar包拿去运行。<br><img src="/2020/03/04/让Maven管理你的JavaWeb项目吧（Maven基础）/1.png" alt="image"><br><img src="/2020/03/04/让Maven管理你的JavaWeb项目吧（Maven基础）/2.png" alt="image"></li>
