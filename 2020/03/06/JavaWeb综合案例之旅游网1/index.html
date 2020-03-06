@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>JavaWeb综合案例之旅游网1 | Allen Xue&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Allen Xue&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Allen Xue&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">JavaWeb综合案例之旅游网1</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Allen Xue</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">March 6, 2020&nbsp;&nbsp;12:07:05</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/JavaWeb/">JavaWeb</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>学习JavaWeb已经将近二十天了，在学习框架之前，将自己最近学习的东西来一个大融合，既巩固了基础知识，又能在开发过程中查漏补缺，为下来学习框架打好基础。某马旅游网是一个综合性的项目，其中包含了Web项目开发的大多数基本功能的实现，应用的东西很多，很适合现在进行，所以就选择做旅游网了。</p>
+<h2 id="二、准备工作"><a href="#二、准备工作" class="headerlink" title="二、准备工作"></a>二、准备工作</h2><ul>
+<li><strong>编译器</strong>：idea</li>
+<li><strong>数据库</strong>：MySQL 8.0</li>
+<li><strong>Web项目服务器</strong>：Tomcat</li>
+<li><strong>一个半成品的maven项目</strong>（其中包括前端页面以及项目中的实体类）<ul>
+<li>这样做的原因：本人主要是做Java后端开发的，所以一般来说，前后端分离，前端已经有人做好了，只需要导入后，进行后端开发即可。</li>
+<li>如果也想做的话，通过此链接（<a href="https://pan.baidu.com/s/1nOUnZLE5anbDIaUyENiBtQ" target="_blank" rel="noopener">https://pan.baidu.com/s/1nOUnZLE5anbDIaUyENiBtQ</a> 提取码：oplj）下载即可。</li>
+</ul>
+</li>
+</ul>
+<h2 id="三、项目开发过程"><a href="#三、项目开发过程" class="headerlink" title="三、项目开发过程"></a>三、项目开发过程</h2><h3 id="1、项目导入"><a href="#1、项目导入" class="headerlink" title="1、项目导入"></a>1、项目导入</h3><ul>
+<li>点击<strong>绿色＋按钮</strong><br><img src="/2020/03/06/JavaWeb综合案例之旅游网1/1.png" alt="image"></li>
+<li>选择travel项目的<strong>pom.xml文件</strong>，<strong>点击ok</strong>，完成项目导入。<em>需要等待一小会，项目初始化完成</em>。<br><img src="/2020/03/06/JavaWeb综合案例之旅游网1/2.png" alt="image"></li>
+</ul>
+<h3 id="2、启动项目"><a href="#2、启动项目" class="headerlink" title="2、启动项目"></a>2、启动项目</h3><h4 id="方式一："><a href="#方式一：" class="headerlink" title="方式一："></a>方式一：</h4><p><img src="/2020/03/06/JavaWeb综合案例之旅游网1/3.png" alt="image"></p>
+<h4 id="方式二：配置maven快捷启动"><a href="#方式二：配置maven快捷启动" class="headerlink" title="方式二：配置maven快捷启动"></a>方式二：配置maven快捷启动</h4><p><img src="/2020/03/06/JavaWeb综合案例之旅游网1/4.png" alt="image"> <img src="/2020/03/06/JavaWeb综合案例之旅游网1/5.png" alt="image"></p>
+<h3 id="3、技术选型"><a href="#3、技术选型" class="headerlink" title="3、技术选型"></a>3、技术选型</h3><p><strong>三层架构</strong></p>
+<h4 id="（1）Web层"><a href="#（1）Web层" class="headerlink" title="（1）Web层"></a>（1）Web层</h4><ul>
+<li><strong>Servlet：前端控制器</strong></li>
+<li><strong>html：视图</strong></li>
+<li><strong>Filter：过滤器</strong></li>
+<li><strong>BeanUtils：数据封装</strong></li>
+<li><strong>Jackson：json序列化工具</strong></li>
+</ul>
+<h4 id="（2）Service层"><a href="#（2）Service层" class="headerlink" title="（2）Service层"></a>（2）Service层</h4><ul>
+<li><strong>Javamail</strong>：java发送邮件工具</li>
+<li><strong>Redis</strong>：nosql内存数据库</li>
+<li><strong>Jedis</strong>：java的redis客户端</li>
+</ul>
+<h4 id="（3）Dao层"><a href="#（3）Dao层" class="headerlink" title="（3）Dao层"></a>（3）Dao层</h4><ul>
+<li><strong>Mysql</strong>：数据库</li>
+<li><strong>Druid</strong>：数据库连接池</li>
+<li><strong>JdbcTemplate</strong>：jdbc的工具</li>
+</ul>
+<h3 id="4、创建数据库"><a href="#4、创建数据库" class="headerlink" title="4、创建数据库"></a>4、创建数据库</h3><ul>
+<li>数据库表结构<br><img src="/2020/03/06/JavaWeb综合案例之旅游网1/6.png" alt="image"></li>
+<li>建表语句<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line">-- 创建数据库</span><br><span class="line">CREATE DATABASE travel;</span><br><span class="line">-- 使用数据库</span><br><span class="line">USE travel;</span><br><span class="line">--创建表</span><br><span class="line">/*==============================================================*/</span><br><span class="line">/* DBMS name:      MySQL 5.0                                    */</span><br><span class="line">/* Created on:     2018/2/14 23:10:29                           */</span><br><span class="line">/*==============================================================*/</span><br><span class="line">set names utf8;</span><br><span class="line"></span><br><span class="line">drop table if exists tab_favorite;</span><br><span class="line">drop table if exists tab_route_img;</span><br><span class="line">drop table if exists tab_route;</span><br><span class="line">drop table if exists tab_category;</span><br><span class="line">drop table if exists tab_seller;</span><br><span class="line">drop table if exists tab_user;</span><br><span class="line"></span><br><span class="line">/*==============================================================*/</span><br><span class="line">/* Table: tab_category                                          */</span><br><span class="line">/*==============================================================*/</span><br><span class="line">create table tab_category</span><br><span class="line">(</span><br><span class="line">   cid                  int not null auto_increment,</span><br><span class="line">   cname                varchar(100) not null,</span><br><span class="line">   primary key (cid),</span><br><span class="line">   unique key AK_nq_categoryname (cname)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">/*==============================================================*/</span><br><span class="line">/* Table: tab_favorite                                          */</span><br><span class="line">/*==============================================================*/</span><br><span class="line">create table tab_favorite</span><br><span class="line">(</span><br><span class="line">   rid                  int not null,</span><br><span class="line">   date                 date not null,</span><br><span class="line">   uid                  int not null,</span><br><span class="line">   primary key (rid, uid)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">/*==============================================================*/</span><br><span class="line">/* Table: tab_route                                             */</span><br><span class="line">/*==============================================================*/</span><br><span class="line">create table tab_route</span><br><span class="line">(</span><br><span class="line">   rid                  int not null auto_increment,</span><br><span class="line">   rname                varchar(500) not null,</span><br><span class="line">   price                double not null,</span><br><span class="line">   routeIntroduce       varchar(1000),</span><br><span class="line">   rflag                char(1) not null,</span><br><span class="line">   rdate                varchar(19),</span><br><span class="line">   isThemeTour          char(1) not null,</span><br><span class="line">   count                int default 0,</span><br><span class="line">   cid                  int not null,</span><br><span class="line">   rimage               varchar(200),</span><br><span class="line">   sid                  int,</span><br><span class="line">   sourceId             varchar(50),</span><br><span class="line">   primary key (rid),</span><br><span class="line">   unique key AK_nq_sourceId (sourceId)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">/*==============================================================*/</span><br><span class="line">/* Table: tab_route_img                                         */</span><br><span class="line">/*==============================================================*/</span><br><span class="line">create table tab_route_img</span><br><span class="line">(</span><br><span class="line">   rgid                 int not null auto_increment,</span><br><span class="line">   rid                  int not null,</span><br><span class="line">   bigPic               varchar(200) not null,</span><br><span class="line">   smallPic             varchar(200),</span><br><span class="line">   primary key (rgid)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">/*==============================================================*/</span><br><span class="line">/* Table: tab_seller                                            */</span><br><span class="line">/*==============================================================*/</span><br><span class="line">create table tab_seller</span><br><span class="line">(</span><br><span class="line">   sid                  int not null auto_increment,</span><br><span class="line">   sname                varchar(200) not null,</span><br><span class="line">   consphone            varchar(20) not null,</span><br><span class="line">   address              varchar(200),</span><br><span class="line">   primary key (sid),</span><br><span class="line">   unique key AK_Key_2 (sname)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">/*==============================================================*/</span><br><span class="line">/* Table: tab_user                                              */</span><br><span class="line">/*==============================================================*/</span><br><span class="line">create table tab_user</span><br><span class="line">(</span><br><span class="line">   uid                  int not null auto_increment,</span><br><span class="line">   username             varchar(100) not null,</span><br><span class="line">   password             varchar(32) not null,</span><br><span class="line">   name                 varchar(100),</span><br><span class="line">   birthday             date,</span><br><span class="line">   sex                  char(1),</span><br><span class="line">   telephone            varchar(11),</span><br><span class="line">   email                varchar(100),</span><br><span class="line">   status               char(1) ,</span><br><span class="line">   code					varchar(50),</span><br><span class="line">   </span><br><span class="line">   primary key (uid),</span><br><span class="line">   unique key AK_nq_username (username),</span><br><span class="line">   unique key AK_nq_code (code)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">alter table tab_favorite add constraint FK_route_favorite foreign key (rid)</span><br><span class="line">      references tab_route (rid) on delete restrict on update restrict;</span><br><span class="line"></span><br><span class="line">alter table tab_favorite add constraint FK_user_favorite foreign key (uid)</span><br><span class="line">      references tab_user (uid) on delete restrict on update restrict;</span><br><span class="line"></span><br><span class="line">alter table tab_route add constraint FK_category_route foreign key (cid)</span><br><span class="line">      references tab_category (cid) on delete restrict on update restrict;</span><br><span class="line"></span><br><span class="line">alter table tab_route add constraint FK_seller_route foreign key (sid)</span><br><span class="line">      references tab_seller (sid) on delete restrict on update restrict;</span><br><span class="line"></span><br><span class="line">alter table tab_route_img add constraint FK_route_routeimg foreign key (rid)</span><br><span class="line">      references tab_route (rid) on delete restrict on update restrict;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="5、注册功能"><a href="#5、注册功能" class="headerlink" title="5、注册功能"></a>5、注册功能</h3><h4 id="（1）页面效果"><a href="#（1）页面效果" class="headerlink" title="（1）页面效果"></a>（1）页面效果</h4><p><img src="/2020/03/06/JavaWeb综合案例之旅游网1/7.png" alt="image"></p>
+<h4 id="（2）功能分析"><a href="#（2）功能分析" class="headerlink" title="（2）功能分析"></a>（2）功能分析</h4><p><img src="/2020/03/06/JavaWeb综合案例之旅游网1/8.png" alt="image"></p>
+<h4 id="（3）代码实现"><a href="#（3）代码实现" class="headerlink" title="（3）代码实现"></a>（3）代码实现</h4><h5 id="前台代码"><a href="#前台代码" class="headerlink" title="前台代码"></a>前台代码</h5><ul>
+<li><p><strong>表单校验</strong></p>
+<ul>
+<li>提升用户体验，并减轻服务器压力。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">	//校验用户名</span><br><span class="line">    //用户名正则，4到16位（字母，数字，下划线，减号）</span><br><span class="line">	function checkUsername() &#123;</span><br><span class="line">		//1、获取用户名的值</span><br><span class="line">		var username = $(&quot;#username&quot;).val();</span><br><span class="line">		//2、定义正则</span><br><span class="line">		var reg_username = /^[a-zA-Z0-9_-]&#123;4,16&#125;$/;</span><br><span class="line">		//3、判断，给出提示信息</span><br><span class="line">		var flag = reg_username.test(username);</span><br><span class="line">		if(flag)&#123;</span><br><span class="line">		    //用户名合法</span><br><span class="line">            $(&quot;#username&quot;).css(&quot;border&quot;,&quot;&quot;);</span><br><span class="line">		&#125;else &#123;</span><br><span class="line">		    //用户名非法，加一个红色的边框</span><br><span class="line">			$(&quot;#username&quot;).css(&quot;border&quot;,&quot;1px solid red&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		return flag;</span><br><span class="line">    &#125;</span><br><span class="line">    //校验密码</span><br><span class="line">    function checkPassword() &#123;</span><br><span class="line">        var password = $(&quot;#password&quot;).val();</span><br><span class="line">        //2、定义正则</span><br><span class="line">        var reg_password = /^[a-zA-Z0-9_-]&#123;4,16&#125;$/;</span><br><span class="line">        //3、判断，给出提示信息</span><br><span class="line">        var flag = reg_password.test(password);</span><br><span class="line">        if(flag)&#123;</span><br><span class="line">            $(&quot;#password&quot;).css(&quot;border&quot;,&quot;&quot;);</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            $(&quot;#password&quot;).css(&quot;border&quot;,&quot;1px solid red&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        return flag;</span><br><span class="line">    &#125;</span><br><span class="line">    //校验邮箱</span><br><span class="line">    function checkEmail() &#123;</span><br><span class="line">		//1、获取邮箱</span><br><span class="line">		var email = $(&quot;#email&quot;).val();</span><br><span class="line">		//2、定义正则</span><br><span class="line">		var reg_email = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]&#123;2,4&#125;)$/;</span><br><span class="line">		//3、判断</span><br><span class="line">		var flag = reg_email.test(email);</span><br><span class="line">        if(flag)&#123;</span><br><span class="line">            $(&quot;#email&quot;).css(&quot;border&quot;,&quot;&quot;);</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            $(&quot;#email&quot;).css(&quot;border&quot;,&quot;1px solid red&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        return flag;</span><br><span class="line">    &#125;</span><br><span class="line">    //校验姓名</span><br><span class="line">	//汉字</span><br><span class="line">    function checkName() &#123;</span><br><span class="line">        var name = $(&quot;#name&quot;).val();</span><br><span class="line">        //2、定义正则</span><br><span class="line">        var reg_name = /^[\u2E80-\u9FFF]+$/;</span><br><span class="line">        //3、判断</span><br><span class="line">        var flag = reg_name.test(name);</span><br><span class="line">        if(flag)&#123;</span><br><span class="line">            $(&quot;#name&quot;).css(&quot;border&quot;,&quot;&quot;);</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            $(&quot;#name&quot;).css(&quot;border&quot;,&quot;1px solid red&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        return flag;</span><br><span class="line">    &#125;</span><br><span class="line">    //校验手机号</span><br><span class="line">    function checkTelephone() &#123;</span><br><span class="line">        var telephone = $(&quot;#telephone&quot;).val();</span><br><span class="line">        //2、定义正则</span><br><span class="line">        var reg_telephone = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d&#123;8&#125;$/;</span><br><span class="line">        //3、判断</span><br><span class="line">        var flag = reg_telephone.test(telephone);</span><br><span class="line">        if(flag)&#123;</span><br><span class="line">            $(&quot;#telephone&quot;).css(&quot;border&quot;,&quot;&quot;);</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            $(&quot;#telephone&quot;).css(&quot;border&quot;,&quot;1px solid red&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        return flag;</span><br><span class="line">    &#125;</span><br><span class="line">    //校验出生日期</span><br><span class="line">    function checkBirthday() &#123;</span><br><span class="line">        var birthday = $(&quot;#birthday&quot;).val();</span><br><span class="line">        var reg_birthday = /^[1-9]\d&#123;3&#125;-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;</span><br><span class="line">        //判断</span><br><span class="line">        var flag = reg_birthday.test(birthday);</span><br><span class="line">        if(flag)&#123;</span><br><span class="line">            $(&quot;#birthday&quot;).css(&quot;border&quot;,&quot;&quot;);</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            $(&quot;#birthday&quot;).css(&quot;border&quot;,&quot;1px solid red&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        return flag;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //校验验证码</span><br><span class="line">	//4位数字字母组成 ^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]&#123;4&#125;$</span><br><span class="line">    function checkCheck() &#123;</span><br><span class="line">        var check = $(&quot;#check&quot;).val();</span><br><span class="line">        //2、定义正则</span><br><span class="line">        var reg_check = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]&#123;4&#125;$/;</span><br><span class="line">        //3、判断</span><br><span class="line">        var flag = reg_check.test(check);</span><br><span class="line">        if(flag)&#123;</span><br><span class="line">            $(&quot;#check&quot;).css(&quot;border&quot;,&quot;&quot;);</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            $(&quot;#check&quot;).css(&quot;border&quot;,&quot;1px solid red&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        return flag;</span><br><span class="line">    &#125;</span><br><span class="line">    $(function () &#123;</span><br><span class="line">		//当表单提交时，调用所有的校验方法</span><br><span class="line">        $(&quot;#registerForm&quot;).submit(function () &#123;</span><br><span class="line">			//1、发送数据到服务器</span><br><span class="line">			if(checkUsername() &amp;&amp; checkPassword() &amp;&amp; checkEmail() &amp;&amp; checkName() &amp;&amp; checkTelephone() &amp;&amp; checkBirthday() &amp;&amp; checkCheck())&#123;</span><br><span class="line">			    //校验通过，发送ajax请求，提交表单的数据</span><br><span class="line"></span><br><span class="line">				$.post(&quot;registUserServlet&quot;,$(this).serialize(),function (data) &#123;</span><br><span class="line">					//处理服务器响应的数据 data</span><br><span class="line">					if(data.flag)&#123;</span><br><span class="line">					    //注册成功，跳转成功页面</span><br><span class="line">						alert(&quot;正在跳转中，请稍等...&quot;);</span><br><span class="line">						location.href=&quot;register_ok.html&quot;;</span><br><span class="line">					&#125;else &#123;</span><br><span class="line">					    //注册失败</span><br><span class="line">						$(&quot;#error_Msg&quot;).html(data.errorMsg);</span><br><span class="line">					&#125;</span><br><span class="line">                &#125;);</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line">			//2、跳转页面</span><br><span class="line">            return false;</span><br><span class="line">            //如果这个方法没有返回值，或者返回为true，则表单提交，如果返回为false，则表单不提交</span><br><span class="line">        &#125;);</span><br><span class="line">        //当某一个组件失去焦点时，调用对应的校验方法</span><br><span class="line">    	$(&quot;#username&quot;).blur(checkUsername);</span><br><span class="line">        $(&quot;#password&quot;).blur(checkPassword);</span><br><span class="line">        $(&quot;#email&quot;).blur(checkEmail);</span><br><span class="line">        $(&quot;#name&quot;).blur(checkName);</span><br><span class="line">        $(&quot;#telephone&quot;).blur(checkTelephone);</span><br><span class="line">        $(&quot;#birthday&quot;).blur(checkBirthday);</span><br><span class="line">        $(&quot;#check&quot;).blur(checkCheck);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><strong>异步(ajax)提交表单</strong><br>  在此使用异步提交表单是为了获取服务器响应的数据。因为我们前台使用的是html作为视图层，不能够直接从servlet相关的域对象获取值，只能通过ajax获取响应数据<br><img src="/2020/03/06/JavaWeb综合案例之旅游网1/9.png" alt="image"></p>
+</li>
+</ul>
+<h5 id="后台代码实现"><a href="#后台代码实现" class="headerlink" title="后台代码实现"></a><strong>后台代码实现</strong></h5><ul>
+<li><p><strong>编写RegistUserServlet</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">@WebServlet(&quot;/registUserServlet&quot;)</span><br><span class="line">public class RegistUserServlet extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        //验证校验</span><br><span class="line">        String check = request.getParameter(&quot;check&quot;);</span><br><span class="line">        //从sesion中获取验证码</span><br><span class="line">        HttpSession session = request.getSession();</span><br><span class="line">        String checkcode_server = (String) session.getAttribute(&quot;CHECKCODE_SERVER&quot;);</span><br><span class="line">        session.removeAttribute(&quot;CHECKCODE_SERVER&quot;);//为了保证验证码只能使用一次</span><br><span class="line">        //比较</span><br><span class="line">        if(checkcode_server == null || !checkcode_server.equalsIgnoreCase(check))&#123;</span><br><span class="line">            //验证码错误</span><br><span class="line">            ResultInfo info = new ResultInfo();</span><br><span class="line">            //注册失败</span><br><span class="line">            info.setFlag(false);</span><br><span class="line">            info.setErrorMsg(&quot;验证码错误&quot;);</span><br><span class="line">            //将info对象序列化为json</span><br><span class="line">            ObjectMapper mapper = new ObjectMapper();</span><br><span class="line">            String json = mapper.writeValueAsString(info);</span><br><span class="line">            response.setContentType(&quot;application/json;charset=utf-8&quot;);</span><br><span class="line">            response.getWriter().write(json);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //1.获取数据</span><br><span class="line">        Map&lt;String, String[]&gt; map = request.getParameterMap();</span><br><span class="line"></span><br><span class="line">        //2.封装对象</span><br><span class="line">        User user = new User();</span><br><span class="line">        try &#123;</span><br><span class="line">            BeanUtils.populate(user,map);</span><br><span class="line">        &#125; catch (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; catch (InvocationTargetException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //3.调用service完成注册</span><br><span class="line">        UserService service = new UserServiceImpl();</span><br><span class="line">        boolean flag = service.regist(user);</span><br><span class="line">        ResultInfo info = new ResultInfo();</span><br><span class="line">        //4.响应结果</span><br><span class="line">        if(flag)&#123;</span><br><span class="line">            //注册成功</span><br><span class="line">            info.setFlag(true);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            //注册失败</span><br><span class="line">            info.setFlag(false);</span><br><span class="line">            info.setErrorMsg(&quot;注册失败!&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //将info对象序列化为json</span><br><span class="line">        ObjectMapper mapper = new ObjectMapper();</span><br><span class="line">        String json = mapper.writeValueAsString(info);</span><br><span class="line"></span><br><span class="line">        //将json数据写回客户端</span><br><span class="line">        //设置content-type</span><br><span class="line">        response.setContentType(&quot;application/json;charset=utf-8&quot;);</span><br><span class="line">        response.getWriter().write(json);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        this.doPost(request, response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>编写UserService以及UserServiceImpl</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public class UserServiceImpl implements UserService &#123;</span><br><span class="line"></span><br><span class="line">    private UserDao userDao = new UserDaoImpl();</span><br><span class="line">    /**</span><br><span class="line">     * 注册用户</span><br><span class="line">     * @param user</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    public boolean regist(User user) &#123;</span><br><span class="line">        //1.根据用户名查询用户对象</span><br><span class="line">        User u = userDao.findByUsername(user.getUsername());</span><br><span class="line">        //判断u是否为null</span><br><span class="line">        if(u != null)&#123;</span><br><span class="line">            //用户名存在，注册失败</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        //2.保存用户信息</span><br><span class="line">        userDao.save(user);</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>编写UserDao以及UserDaoImpl</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">public class UserDaoImpl implements UserDao &#123;</span><br><span class="line"></span><br><span class="line">    private JdbcTemplate template = new JdbcTemplate(JDBCUtils.getDataSource());</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public User findByUsername(String username) &#123;</span><br><span class="line">        User user = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            //1.定义sql</span><br><span class="line">            String sql = &quot;select * from tab_user where username = ?&quot;;</span><br><span class="line">            //2.执行sql</span><br><span class="line">            user = template.queryForObject(sql, new BeanPropertyRowMapper&lt;User&gt;(User.class), username);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return user;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void save(User user) &#123;</span><br><span class="line">        //1.定义sql</span><br><span class="line">        String sql = &quot;insert into tab_user(username,password,name,birthday,sex,telephone,email) values(?,?,?,?,?,?,?)&quot;;</span><br><span class="line">        //2.执行sql</span><br><span class="line"></span><br><span class="line">        template.update(sql,user.getUsername(),</span><br><span class="line">                    user.getPassword(),</span><br><span class="line">                user.getName(),</span><br><span class="line">                user.getBirthday(),</span><br><span class="line">                user.getSex(),</span><br><span class="line">                user.getTelephone(),</span><br><span class="line">                user.getEmail());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h5 id="邮件激活"><a href="#邮件激活" class="headerlink" title="邮件激活"></a>邮件激活</h5><pre><code>* 为什么要进行邮件激活？为了保证用户填写的邮箱是正确的。将来可以推广一些宣传信息，到用户邮箱中。</code></pre><ul>
+<li><strong>发送邮件</strong><ul>
+<li>申请邮箱</li>
+<li>开启授权码</li>
+<li>在MailUtils中设置自己的邮箱账号和密码(授权码)（我用的是QQ邮箱，在设置中选择帐户，然后向下拉，找到如下图所示的部分）<br><img src="/2020/03/06/JavaWeb综合案例之旅游网1/10.png" alt="image"></li>
+</ul>
+</li>
+<li><strong>邮件工具类</strong>：MailUtils，调用其中sendMail方法可以完成邮件发送</li>
+</ul>
+<h5 id="用户点击邮件激活"><a href="#用户点击邮件激活" class="headerlink" title="用户点击邮件激活"></a>用户点击邮件激活</h5><ul>
+<li><p>经过分析，发现，用户激活其实就是修改用户表中的status为‘Y’<br><img src="/2020/03/06/JavaWeb综合案例之旅游网1/11.png" alt="image"></p>
+</li>
+<li><p><strong>分析</strong>：<br><img src="/2020/03/06/JavaWeb综合案例之旅游网1/12.png" alt="image"></p>
+</li>
+<li><p><strong>发送邮件代码</strong>：<br><img src="/2020/03/06/JavaWeb综合案例之旅游网1/13.png" alt="image"></p>
+</li>
+<li><p>修改保存Dao代码，加上存储status和code 的代码逻辑<br><img src="/2020/03/06/JavaWeb综合案例之旅游网1/14.png" alt="image"></p>
+</li>
+<li><p><strong>激活代码实现</strong>：</p>
+<ul>
+<li><p><strong>ActiveUserServlet</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">//1.获取激活码</span><br><span class="line">String code = request.getParameter(&quot;code&quot;);</span><br><span class="line">if(code != null)&#123;</span><br><span class="line">    //2.调用service完成激活</span><br><span class="line">    UserService service = new UserServiceImpl();</span><br><span class="line">    boolean flag = service.active(code);</span><br><span class="line"></span><br><span class="line">    //3.判断标记</span><br><span class="line">    String msg = null;</span><br><span class="line">    if(flag)&#123;</span><br><span class="line">        //激活成功</span><br><span class="line">        msg = &quot;激活成功，请&lt;a href=&apos;login.html&apos;&gt;登录&lt;/a&gt;&quot;;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        //激活失败</span><br><span class="line">        msg = &quot;激活失败，请联系管理员!&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    response.setContentType(&quot;text/html;charset=utf-8&quot;);</span><br><span class="line">    response.getWriter().write(msg);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>UserService：active</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean active(String code) &#123;</span><br><span class="line">    //1.根据激活码查询用户对象</span><br><span class="line">    User user = userDao.findByCode(code);</span><br><span class="line">    if(user != null)&#123;</span><br><span class="line">        //2.调用dao的修改激活状态的方法</span><br><span class="line">        userDao.updateStatus(user);</span><br><span class="line">        return true;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>UserDao：findByCode    updateStatus</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 根据激活码查询用户对象</span><br><span class="line"> * @param code</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">@Override</span><br><span class="line">public User findByCode(String code) &#123;</span><br><span class="line">    User user = null;</span><br><span class="line">    try &#123;</span><br><span class="line">        String sql = &quot;select * from tab_user where code = ?&quot;;</span><br><span class="line"></span><br><span class="line">        user = template.queryForObject(sql,new BeanPropertyRowMapper&lt;User&gt;(User.class),code);</span><br><span class="line">    &#125; catch (DataAccessException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return user;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 修改指定用户激活状态</span><br><span class="line"> * @param user</span><br><span class="line"> */</span><br><span class="line">@Override</span><br><span class="line">public void updateStatus(User user) &#123;</span><br><span class="line">    String sql = &quot; update tab_user set status = &apos;Y&apos; where uid=?&quot;;</span><br><span class="line">    template.update(sql,user.getUid());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="6、登录"><a href="#6、登录" class="headerlink" title="6、登录"></a>6、登录</h3><h4 id="（1）分析"><a href="#（1）分析" class="headerlink" title="（1）分析"></a>（1）分析</h4><p><img src="/2020/03/06/JavaWeb综合案例之旅游网1/15.png" alt="image"></p>
+<h4 id="（2）代码实现"><a href="#（2）代码实现" class="headerlink" title="（2）代码实现"></a>（2）代码实现</h4><h5 id="前台代码-1"><a href="#前台代码-1" class="headerlink" title="前台代码"></a>前台代码</h5><p><img src="/2020/03/06/JavaWeb综合案例之旅游网1/16.png" alt="image"></p>
+<h5 id="后台代码"><a href="#后台代码" class="headerlink" title="后台代码"></a>后台代码</h5><ul>
+<li><p><strong>LoginServlet</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">//1.获取用户名和密码数据</span><br><span class="line">Map&lt;String, String[]&gt; map = request.getParameterMap();</span><br><span class="line">//2.封装User对象</span><br><span class="line">User user = new User();</span><br><span class="line">try &#123;</span><br><span class="line">    BeanUtils.populate(user,map);</span><br><span class="line">&#125; catch (IllegalAccessException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; catch (InvocationTargetException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//3.调用Service查询</span><br><span class="line">UserService service = new UserServiceImpl();</span><br><span class="line">User u  = service.login(user);</span><br><span class="line"></span><br><span class="line">ResultInfo info = new ResultInfo();</span><br><span class="line"></span><br><span class="line">//4.判断用户对象是否为null</span><br><span class="line">if(u == null)&#123;</span><br><span class="line">    //用户名密码或错误</span><br><span class="line">    info.setFlag(false);</span><br><span class="line">    info.setErrorMsg(&quot;用户名密码或错误&quot;);</span><br><span class="line">&#125;</span><br><span class="line">//5.判断用户是否激活</span><br><span class="line">if(u != null &amp;&amp; !&quot;Y&quot;.equals(u.getStatus()))&#123;</span><br><span class="line">    //用户尚未激活</span><br><span class="line">    info.setFlag(false);</span><br><span class="line">    info.setErrorMsg(&quot;您尚未激活，请激活&quot;);</span><br><span class="line">&#125;</span><br><span class="line">//6.判断登录成功</span><br><span class="line">if(u != null &amp;&amp; &quot;Y&quot;.equals(u.getStatus()))&#123;</span><br><span class="line">    //登录成功</span><br><span class="line">    info.setFlag(true);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//响应数据</span><br><span class="line">ObjectMapper mapper = new ObjectMapper();</span><br><span class="line"></span><br><span class="line">response.setContentType(&quot;application/json;charset=utf-8&quot;);</span><br><span class="line">mapper.writeValue(response.getOutputStream(),info);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>UserService</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public User login(User user) &#123;</span><br><span class="line">    return userDao.findByUsernameAndPassword(user.getUsername(),user.getPassword());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>UserDao</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public User findByUsernameAndPassword(String username, String password) &#123;</span><br><span class="line">    User user = null;</span><br><span class="line">    try &#123;</span><br><span class="line">        //1.定义sql</span><br><span class="line">        String sql = &quot;select * from tab_user where username = ? and password = ?&quot;;</span><br><span class="line">        //2.执行sql</span><br><span class="line">        user = template.queryForObject(sql, new BeanPropertyRowMapper&lt;User&gt;(User.class), username,password);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return user;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h5 id="index页面中用户姓名的提示信息功能"><a href="#index页面中用户姓名的提示信息功能" class="headerlink" title="index页面中用户姓名的提示信息功能"></a>index页面中用户姓名的提示信息功能</h5><ul>
+<li>效果：<br><img src="/2020/03/06/JavaWeb综合案例之旅游网1/17.png" alt="image"></li>
+<li><strong>header.html代码</strong><br><img src="/2020/03/06/JavaWeb综合案例之旅游网1/18.png" alt="image"></li>
+<li><strong>Servlet代码</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//从session中获取登录用户</span><br><span class="line">Object user = request.getSession().getAttribute(&quot;user&quot;);</span><br><span class="line">//将user写回客户端</span><br><span class="line"></span><br><span class="line">ObjectMapper mapper = new ObjectMapper();</span><br><span class="line">response.setContentType(&quot;application/json;charset=utf-8&quot;);</span><br><span class="line">mapper.writeValue(response.getOutputStream(),user);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="7、退出"><a href="#7、退出" class="headerlink" title="7、退出"></a>7、退出</h3><p><em>什么叫做登录了？session中有user对象。</em></p>
+<h4 id="实现步骤："><a href="#实现步骤：" class="headerlink" title="实现步骤："></a>实现步骤：</h4><pre><code>1.    访问servlet，将session销毁
+2.    跳转到登录页面</code></pre><h4 id="代码实现："><a href="#代码实现：" class="headerlink" title="代码实现："></a>代码实现：</h4><h5 id="Header-html"><a href="#Header-html" class="headerlink" title="Header.html"></a>Header.html</h5><p><img src="/2020/03/06/JavaWeb综合案例之旅游网1/19.png" alt="image"></p>
+<h5 id="Servlet"><a href="#Servlet" class="headerlink" title="Servlet"></a>Servlet</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//1.销毁session</span><br><span class="line">request.getSession().invalidate();</span><br><span class="line"></span><br><span class="line">//2.跳转登录页面</span><br><span class="line">response.sendRedirect(request.getContextPath()+&quot;/login.html&quot;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><p><em>如果有需要代码的，评论联系我</em></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Allen Xue</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><strong>To be or not to be,that is a question.<strong></strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/JavaWeb/"># JavaWeb</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/03/04/让Maven管理你的JavaWeb项目吧（Maven基础）/">让Maven管理你的JavaWeb项目吧（Maven基础）</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Allen Xue | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+    
+        <script type="text/javascript" color="0,0,0" opacity="0.3" zindex="-2" count="99" src="/js/canvas-nest.js"></script>
+    
+</body>
+</html>
