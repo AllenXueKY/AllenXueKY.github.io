@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>JavaWeb综合案例之旅游网3（完结） | Allen Xue&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Allen Xue&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Allen Xue&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">JavaWeb综合案例之旅游网3（完结）</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Allen Xue</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">March 7, 2020&nbsp;&nbsp;18:36:41</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/JavaWeb/">JavaWeb</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="项目开发过程"><a href="#项目开发过程" class="headerlink" title="项目开发过程"></a>项目开发过程</h2><h3 id="11、旅游线路名称查询"><a href="#11、旅游线路名称查询" class="headerlink" title="11、旅游线路名称查询"></a>11、旅游线路名称查询</h3><p><img src="/2020/03/07/JavaWeb综合案例之旅游网3（完结）/1.png" alt="image"></p>
+<h4 id="（1）查询参数的传递"><a href="#（1）查询参数的传递" class="headerlink" title="（1）查询参数的传递"></a>（1）查询参数的传递</h4><ul>
+<li><p><strong>header.html</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$(&quot;#search-button&quot;).click(function () &#123;</span><br><span class="line">    //线路名称</span><br><span class="line">    var rname = $(&quot;#search_input&quot;).val();</span><br><span class="line"></span><br><span class="line">    var cid = getParameter(&quot;cid&quot;);</span><br><span class="line">    // 跳转路径 http://localhost/travel/route_list.html?cid=5，拼接上rname=xxx</span><br><span class="line">    location.href=&quot;http://localhost/travel/route_list.html?cid=&quot;+cid+&quot;&amp;rname=&quot;+rname;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>route_list.html</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var cid = getParameter(&quot;cid&quot;);</span><br><span class="line"> //获取rname的参数值</span><br><span class="line"> var rname = getParameter(&quot;rname&quot;);</span><br><span class="line"> //判断rname如果不为null或者&quot;&quot;</span><br><span class="line"> if(rname)&#123;</span><br><span class="line">     //url解码</span><br><span class="line">     rname = window.decodeURIComponent(rname);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="（2）修改后台代码"><a href="#（2）修改后台代码" class="headerlink" title="（2）修改后台代码"></a>（2）修改后台代码</h4><ul>
+<li><p><strong>RouteServlet</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">@WebServlet(&quot;/route/*&quot;)</span><br><span class="line">public class RouteServlet extends BaseServlet &#123;</span><br><span class="line"></span><br><span class="line">    private RouteService routeService = new RouteServiceImpl();</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 分页查询</span><br><span class="line">     * @param request</span><br><span class="line">     * @param response</span><br><span class="line">     * @throws ServletException</span><br><span class="line">     * @throws IOException</span><br><span class="line">     */</span><br><span class="line">    public void pageQuery(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        //1.接受参数</span><br><span class="line">        String currentPageStr = request.getParameter(&quot;currentPage&quot;);</span><br><span class="line">        String pageSizeStr = request.getParameter(&quot;pageSize&quot;);</span><br><span class="line">        String cidStr = request.getParameter(&quot;cid&quot;);</span><br><span class="line"></span><br><span class="line">        //接受rname 线路名称</span><br><span class="line">        String rname = request.getParameter(&quot;rname&quot;);</span><br><span class="line">        rname = new String(rname.getBytes(&quot;iso-8859-1&quot;),&quot;utf-8&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        int cid = 0;//类别id</span><br><span class="line">        //2.处理参数</span><br><span class="line">        if(cidStr != null &amp;&amp; cidStr.length() &gt; 0)&#123;</span><br><span class="line">            cid = Integer.parseInt(cidStr);</span><br><span class="line">        &#125;</span><br><span class="line">        int currentPage = 0;//当前页码，如果不传递，则默认为第一页</span><br><span class="line">        if(currentPageStr != null &amp;&amp; currentPageStr.length() &gt; 0)&#123;</span><br><span class="line">            currentPage = Integer.parseInt(currentPageStr);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            currentPage = 1;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        int pageSize = 0;//每页显示条数，如果不传递，默认每页显示5条记录</span><br><span class="line">        if(pageSizeStr != null &amp;&amp; pageSizeStr.length() &gt; 0)&#123;</span><br><span class="line">            pageSize = Integer.parseInt(pageSizeStr);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            pageSize = 5;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //3. 调用service查询PageBean对象</span><br><span class="line">        PageBean&lt;Route&gt; pb = routeService.pageQuery(cid, currentPage, pageSize,rname);</span><br><span class="line"></span><br><span class="line">        //4. 将pageBean对象序列化为json，返回</span><br><span class="line">        writeValue(pb,response);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Service</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public PageBean&lt;Route&gt; pageQuery(int cid, int currentPage, int pageSize,String rname ) &#123;</span><br><span class="line">    //封装PageBean</span><br><span class="line">    PageBean&lt;Route&gt; pb = new PageBean&lt;Route&gt;();</span><br><span class="line">    //设置当前页码</span><br><span class="line">    pb.setCurrentPage(currentPage);</span><br><span class="line">    //设置每页显示条数</span><br><span class="line">    pb.setPageSize(pageSize);</span><br><span class="line">    </span><br><span class="line">    //设置总记录数</span><br><span class="line">    int totalCount = routeDao.findTotalCount(cid,rname);</span><br><span class="line">    pb.setTotalCount(totalCount);</span><br><span class="line">    //设置当前页显示的数据集合</span><br><span class="line">    int start = (currentPage - 1) * pageSize;//开始的记录数</span><br><span class="line">    List&lt;Route&gt; list = routeDao.findByPage(cid,start,pageSize,rname);</span><br><span class="line">    pb.setList(list);</span><br><span class="line"></span><br><span class="line">    //设置总页数 = 总记录数/每页显示条数</span><br><span class="line">    int totalPage = totalCount % pageSize == 0 ? totalCount / pageSize :(totalCount / pageSize) + 1 ;</span><br><span class="line">    pb.setTotalPage(totalPage);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    return pb;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Dao</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public int findTotalCount(int cid,String rname) &#123;</span><br><span class="line">    //String sql = &quot;select count(*) from tab_route where cid = ?&quot;;</span><br><span class="line">    //1.定义sql模板</span><br><span class="line">    String sql = &quot;select count(*) from tab_route where 1=1 &quot;;</span><br><span class="line">    StringBuilder sb = new StringBuilder(sql);</span><br><span class="line"></span><br><span class="line">    List params = new ArrayList();//条件们</span><br><span class="line">    //2.判断参数是否有值</span><br><span class="line">    if(cid != 0)&#123;</span><br><span class="line">        sb.append( &quot; and cid = ? &quot;);</span><br><span class="line"></span><br><span class="line">        params.add(cid);//添加？对应的值</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if(rname != null &amp;&amp; rname.length() &gt; 0)&#123;</span><br><span class="line">        sb.append(&quot; and rname like ? &quot;);</span><br><span class="line"></span><br><span class="line">        params.add(&quot;%&quot;+rname+&quot;%&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    sql = sb.toString();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    return template.queryForObject(sql,Integer.class,params.toArray());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public List&lt;Route&gt; findByPage(int cid, int start, int pageSize,String rname) &#123;</span><br><span class="line">    //String sql = &quot;select * from tab_route where cid = ? and rname like ?  limit ? , ?&quot;;</span><br><span class="line">    String sql = &quot; select * from tab_route where 1 = 1 &quot;;</span><br><span class="line">    //1.定义sql模板</span><br><span class="line">    StringBuilder sb = new StringBuilder(sql);</span><br><span class="line"></span><br><span class="line">    List params = new ArrayList();//条件们</span><br><span class="line">    //2.判断参数是否有值</span><br><span class="line">    if(cid != 0)&#123;</span><br><span class="line">        sb.append( &quot; and cid = ? &quot;);</span><br><span class="line"></span><br><span class="line">        params.add(cid);//添加？对应的值</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if(rname != null &amp;&amp; rname.length() &gt; 0)&#123;</span><br><span class="line">        sb.append(&quot; and rname like ? &quot;);</span><br><span class="line"></span><br><span class="line">        params.add(&quot;%&quot;+rname+&quot;%&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    sb.append(&quot; limit ? , ? &quot;);//分页条件</span><br><span class="line"></span><br><span class="line">    sql = sb.toString();</span><br><span class="line"></span><br><span class="line">    params.add(start);</span><br><span class="line">    params.add(pageSize);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    return template.query(sql,new BeanPropertyRowMapper&lt;Route&gt;(Route.class),params.toArray());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="（3）修改前台代码"><a href="#（3）修改前台代码" class="headerlink" title="（3）修改前台代码"></a>（3）修改前台代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br></pre></td><td class="code"><pre><span class="line">$(function () &#123;</span><br><span class="line">   /* var search = location.search;</span><br><span class="line">    //alert(search);//?id=5</span><br><span class="line">    // 切割字符串，拿到第二个值</span><br><span class="line">    var cid = search.split(&quot;=&quot;)[1];*/</span><br><span class="line">   //获取cid的参数值</span><br><span class="line">   var cid = getParameter(&quot;cid&quot;);</span><br><span class="line">    //获取rname的参数值</span><br><span class="line">    var rname = getParameter(&quot;rname&quot;);</span><br><span class="line">    //判断rname如果不为null或者&quot;&quot;</span><br><span class="line">    if(rname)&#123;</span><br><span class="line">        //url解码</span><br><span class="line">        rname = window.decodeURIComponent(rname);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //当页码加载完成后，调用load方法，发送ajax请求加载数据</span><br><span class="line">    load(cid,null,rname);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">function load(cid ,currentPage,rname)&#123;</span><br><span class="line">    //发送ajax请求，请求route/pageQuery,传递cid</span><br><span class="line">    $.get(&quot;route/pageQuery&quot;,&#123;cid:cid,currentPage:currentPage,rname:rname&#125;,function (pb) &#123;</span><br><span class="line">        //解析pagebean数据，展示到页面上</span><br><span class="line"></span><br><span class="line">        //1.分页工具条数据展示</span><br><span class="line">        //1.1 展示总页码和总记录数</span><br><span class="line">        $(&quot;#totalPage&quot;).html(pb.totalPage);</span><br><span class="line">        $(&quot;#totalCount&quot;).html(pb.totalCount);</span><br><span class="line"></span><br><span class="line">        /*</span><br><span class="line">                &lt;li&gt;&lt;a href=&quot;&quot;&gt;首页&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">                &lt;li class=&quot;threeword&quot;&gt;&lt;a href=&quot;#&quot;&gt;上一页&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">                &lt;li class=&quot;curPage&quot;&gt;&lt;a href=&quot;#&quot;&gt;1&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;2&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;3&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;4&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;5&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;6&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;7&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;8&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;9&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;10&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">                &lt;li class=&quot;threeword&quot;&gt;&lt;a href=&quot;javascript:;&quot;&gt;下一页&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">                &lt;li class=&quot;threeword&quot;&gt;&lt;a href=&quot;javascript:;&quot;&gt;末页&lt;/a&gt;&lt;/li&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         */</span><br><span class="line">        var lis = &quot;&quot;;</span><br><span class="line"></span><br><span class="line">        var fristPage = &apos;&lt;li onclick=&quot;javascipt:load(&apos;+cid+&apos;,1,\&apos;&apos;+rname+&apos;\&apos;)&quot;&gt;&lt;a href=&quot;javascript:void(0)&quot;&gt;首页&lt;/a&gt;&lt;/li&gt;&apos;;</span><br><span class="line"></span><br><span class="line">        //计算上一页的页码</span><br><span class="line">        var beforeNum =  pb.currentPage - 1;</span><br><span class="line">        if(beforeNum &lt;= 0)&#123;</span><br><span class="line">            beforeNum = 1;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        var beforePage = &apos;&lt;li  onclick=&quot;javascipt:load(&apos;+cid+&apos;,&apos;+beforeNum+&apos;,\&apos;&apos;+rname+&apos;\&apos;)&quot; class=&quot;threeword&quot;&gt;&lt;a href=&quot;javascript:void(0)&quot;&gt;上一页&lt;/a&gt;&lt;/li&gt;&apos;;</span><br><span class="line"></span><br><span class="line">        lis += fristPage;</span><br><span class="line">        lis += beforePage;</span><br><span class="line">        //1.2 展示分页页码</span><br><span class="line">        /*</span><br><span class="line">            1.一共展示10个页码，能够达到前5后4的效果</span><br><span class="line">            2.如果前边不够5个，后边补齐10个</span><br><span class="line">            3.如果后边不足4个，前边补齐10个</span><br><span class="line">        */</span><br><span class="line"></span><br><span class="line">        // 定义开始位置begin,结束位置 end</span><br><span class="line">        var begin; // 开始位置</span><br><span class="line">        var end ; //  结束位置</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        //1.要显示10个页码</span><br><span class="line">        if(pb.totalPage &lt; 10)&#123;</span><br><span class="line">            //总页码不够10页</span><br><span class="line"></span><br><span class="line">            begin = 1;</span><br><span class="line">            end = pb.totalPage;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            //总页码超过10页</span><br><span class="line"></span><br><span class="line">            begin = pb.currentPage - 5 ;</span><br><span class="line">            end = pb.currentPage + 4 ;</span><br><span class="line"></span><br><span class="line">            //2.如果前边不够5个，后边补齐10个</span><br><span class="line">            if(begin &lt; 1)&#123;</span><br><span class="line">                begin = 1;</span><br><span class="line">                end = begin + 9;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            //3.如果后边不足4个，前边补齐10个</span><br><span class="line">            if(end &gt; pb.totalPage)&#123;</span><br><span class="line">                end = pb.totalPage;</span><br><span class="line">                begin = end - 9 ;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        for (var i = begin; i &lt;= end ; i++) &#123;</span><br><span class="line">            var li;</span><br><span class="line">            //判断当前页码是否等于i</span><br><span class="line">            if(pb.currentPage == i)&#123;</span><br><span class="line"></span><br><span class="line">                li = &apos;&lt;li class=&quot;curPage&quot; onclick=&quot;javascipt:load(&apos;+cid+&apos;,&apos;+i+&apos;,\&apos;&apos;+rname+&apos;\&apos;)&quot;&gt;&lt;a href=&quot;javascript:void(0)&quot;&gt;&apos;+i+&apos;&lt;/a&gt;&lt;/li&gt;&apos;;</span><br><span class="line"></span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                //创建页码的li</span><br><span class="line">                li = &apos;&lt;li onclick=&quot;javascipt:load(&apos;+cid+&apos;,&apos;+i+&apos;,\&apos;&apos;+rname+&apos;\&apos;)&quot;&gt;&lt;a href=&quot;javascript:void(0)&quot;&gt;&apos;+i+&apos;&lt;/a&gt;&lt;/li&gt;&apos;;</span><br><span class="line">            &#125;</span><br><span class="line">            //拼接字符串</span><br><span class="line">            lis += li;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       /* for (var i = 1; i &lt;= pb.totalPage ; i++) &#123;</span><br><span class="line">            var li;</span><br><span class="line">            //判断当前页码是否等于i</span><br><span class="line">            if(pb.currentPage == i)&#123;</span><br><span class="line"></span><br><span class="line">                li = &apos;&lt;li class=&quot;curPage&quot; onclick=&quot;javascipt:load(&apos;+cid+&apos;,&apos;+i+&apos;)&quot;&gt;&lt;a href=&quot;javascript:void(0)&quot;&gt;&apos;+i+&apos;&lt;/a&gt;&lt;/li&gt;&apos;;</span><br><span class="line"></span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                //创建页码的li</span><br><span class="line">                li = &apos;&lt;li onclick=&quot;javascipt:load(&apos;+cid+&apos;,&apos;+i+&apos;)&quot;&gt;&lt;a href=&quot;javascript:void(0)&quot;&gt;&apos;+i+&apos;&lt;/a&gt;&lt;/li&gt;&apos;;</span><br><span class="line">            &#125;</span><br><span class="line">            //拼接字符串</span><br><span class="line">            lis += li;</span><br><span class="line">        &#125;*/</span><br><span class="line">        var lastPage = &apos;&lt;li class=&quot;threeword&quot;&gt;&lt;a href=&quot;javascript:;&quot;&gt;末页&lt;/a&gt;&lt;/li&gt;&apos;;</span><br><span class="line">        var nextPage = &apos;&lt;li class=&quot;threeword&quot;&gt;&lt;a href=&quot;javascript:;&quot;&gt;下一页&lt;/a&gt;&lt;/li&gt;&apos;;</span><br><span class="line"></span><br><span class="line">        lis += nextPage;</span><br><span class="line">        lis += lastPage;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        //将lis内容设置到 ul</span><br><span class="line">        $(&quot;#pageNum&quot;).html(lis);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        /*</span><br><span class="line">            &lt;li&gt;</span><br><span class="line">                &lt;div class=&quot;img&quot;&gt;&lt;img src=&quot;images/04-search_03.jpg&quot; alt=&quot;&quot;&gt;&lt;/div&gt;</span><br><span class="line">                &lt;div class=&quot;text1&quot;&gt;</span><br><span class="line">                    &lt;p&gt;【减100元 含除夕/春节出发】广州增城三英温泉度假酒店/自由行套票&lt;/p&gt;</span><br><span class="line">                    &lt;br/&gt;</span><br><span class="line">                    &lt;p&gt;1-2月出发，网付立享￥1099/2人起！爆款位置有限，抢完即止！&lt;/p&gt;</span><br><span class="line">                &lt;/div&gt;</span><br><span class="line">                &lt;div class=&quot;price&quot;&gt;</span><br><span class="line">                    &lt;p class=&quot;price_num&quot;&gt;</span><br><span class="line">                        &lt;span&gt;&amp;yen;&lt;/span&gt;</span><br><span class="line">                        &lt;span&gt;299&lt;/span&gt;</span><br><span class="line">                        &lt;span&gt;起&lt;/span&gt;</span><br><span class="line">                    &lt;/p&gt;</span><br><span class="line">                    &lt;p&gt;&lt;a href=&quot;route_detail.html&quot;&gt;查看详情&lt;/a&gt;&lt;/p&gt;</span><br><span class="line">                &lt;/div&gt;</span><br><span class="line">            &lt;/li&gt;</span><br><span class="line"></span><br><span class="line">         */</span><br><span class="line"></span><br><span class="line">        //2.列表数据展示</span><br><span class="line">        var route_lis = &quot;&quot;;</span><br><span class="line"></span><br><span class="line">        for (var i = 0; i &lt; pb.list.length; i++) &#123;</span><br><span class="line">            //获取&#123;rid:1,rname:&quot;xxx&quot;&#125;</span><br><span class="line">            var route = pb.list[i];</span><br><span class="line"></span><br><span class="line">            var li = &apos;&lt;li&gt;\n&apos; +</span><br><span class="line">                &apos;                        &lt;div class=&quot;img&quot;&gt;&lt;img src=&quot;&apos;+route.rimage+&apos;&quot; style=&quot;width: 299px;&quot;&gt;&lt;/div&gt;\n&apos; +</span><br><span class="line">                &apos;                        &lt;div class=&quot;text1&quot;&gt;\n&apos; +</span><br><span class="line">                &apos;                            &lt;p&gt;&apos;+route.rname+&apos;&lt;/p&gt;\n&apos; +</span><br><span class="line">                &apos;                            &lt;br/&gt;\n&apos; +</span><br><span class="line">                &apos;                            &lt;p&gt;&apos;+route.routeIntroduce+&apos;&lt;/p&gt;\n&apos; +</span><br><span class="line">                &apos;                        &lt;/div&gt;\n&apos; +</span><br><span class="line">                &apos;                        &lt;div class=&quot;price&quot;&gt;\n&apos; +</span><br><span class="line">                &apos;                            &lt;p class=&quot;price_num&quot;&gt;\n&apos; +</span><br><span class="line">                &apos;                                &lt;span&gt;&amp;yen;&lt;/span&gt;\n&apos; +</span><br><span class="line">                &apos;                                &lt;span&gt;&apos;+route.price+&apos;&lt;/span&gt;\n&apos; +</span><br><span class="line">                &apos;                                &lt;span&gt;起&lt;/span&gt;\n&apos; +</span><br><span class="line">                &apos;                            &lt;/p&gt;\n&apos; +</span><br><span class="line">                &apos;                            &lt;p&gt;&lt;a href=&quot;route_detail.html&quot;&gt;查看详情&lt;/a&gt;&lt;/p&gt;\n&apos; +</span><br><span class="line">                &apos;                        &lt;/div&gt;\n&apos; +</span><br><span class="line">                &apos;                    &lt;/li&gt;&apos;;</span><br><span class="line">            route_lis += li;</span><br><span class="line">        &#125;</span><br><span class="line">        $(&quot;#route&quot;).html(route_lis);</span><br><span class="line"></span><br><span class="line">        //定位到页面顶部</span><br><span class="line">        window.scrollTo(0,0);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="12、旅游线路的详情展示"><a href="#12、旅游线路的详情展示" class="headerlink" title="12、旅游线路的详情展示"></a>12、旅游线路的详情展示</h3><h4 id="（1）分析"><a href="#（1）分析" class="headerlink" title="（1）分析"></a>（1）分析</h4><p><img src="/2020/03/07/JavaWeb综合案例之旅游网3（完结）/2.png" alt="image"><br><img src="/2020/03/07/JavaWeb综合案例之旅游网3（完结）/3.png" alt="image"></p>
+<h4 id="（2）代码实现"><a href="#（2）代码实现" class="headerlink" title="（2）代码实现"></a>（2）代码实现</h4><h5 id="后台代码"><a href="#后台代码" class="headerlink" title="后台代码"></a>后台代码</h5><ul>
+<li><p><strong>Servlet</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 根据id查询一个旅游线路的详细信息</span><br><span class="line"> * @param request</span><br><span class="line"> * @param response</span><br><span class="line"> * @throws ServletException</span><br><span class="line"> * @throws IOException</span><br><span class="line"> */</span><br><span class="line">public void findOne(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line"></span><br><span class="line">    //1.接收id</span><br><span class="line">    String rid = request.getParameter(&quot;rid&quot;);</span><br><span class="line">    //2.调用service查询route对象</span><br><span class="line">    Route route = routeService.findOne(rid);</span><br><span class="line">    //3.转为json写回客户端</span><br><span class="line">    writeValue(route,response);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Service</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public Route findOne(String rid) &#123;</span><br><span class="line">    //1.根据id去route表中查询route对象</span><br><span class="line">    Route route = routeDao.findOne(Integer.parseInt(rid));</span><br><span class="line"></span><br><span class="line">    //2.根据route的id 查询图片集合信息</span><br><span class="line">    List&lt;RouteImg&gt; routeImgList = routeImgDao.findByRid(route.getRid());</span><br><span class="line">    //2.2将集合设置到route对象</span><br><span class="line">    route.setRouteImgList(routeImgList);</span><br><span class="line">    //3.根据route的sid（商家id）查询商家对象</span><br><span class="line">    Seller seller = sellerDao.findById(route.getSid());</span><br><span class="line">    route.setSeller(seller);</span><br><span class="line"></span><br><span class="line">    return route;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>SellerDao</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class SellerDaoImpl implements SellerDao &#123;</span><br><span class="line"></span><br><span class="line">    private JdbcTemplate template = new JdbcTemplate(JDBCUtils.getDataSource());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Seller findById(int id) &#123;</span><br><span class="line"></span><br><span class="line">        String sql = &quot;select * from tab_seller where sid = ? &quot;;</span><br><span class="line">        return template.queryForObject(sql,new BeanPropertyRowMapper&lt;Seller&gt;(Seller.class),id);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>routeDao</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public Route findOne(int rid) &#123;</span><br><span class="line">    String sql = &quot;select * from tab_route where rid = ?&quot;;</span><br><span class="line">    return template.queryForObject(sql,new BeanPropertyRowMapper&lt;Route&gt;(Route.class),rid);</span><br><span class="line">&#125;</span><br><span class="line">RouteImgDao</span><br><span class="line"></span><br><span class="line">public class RouteImgDaoImpl implements RouteImgDao &#123;</span><br><span class="line"></span><br><span class="line">    private JdbcTemplate template = new JdbcTemplate(JDBCUtils.getDataSource());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public List&lt;RouteImg&gt; findByRid(int rid) &#123;</span><br><span class="line">        String sql = &quot;select * from tab_route_img where rid = ? &quot;;</span><br><span class="line">        return template.query(sql,new BeanPropertyRowMapper&lt;RouteImg&gt;(RouteImg.class),rid);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h5 id="前台代码"><a href="#前台代码" class="headerlink" title="前台代码"></a>前台代码</h5><ul>
+<li><p><strong>Route_detail.html中加载后</strong></p>
+<pre><code>1.    获取rid
+2.    发送ajax请求，获取route对象
+3.    解析对象的数据</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">//1.获取rid</span><br><span class="line">var rid = getParameter(&quot;rid&quot;);</span><br><span class="line"></span><br><span class="line">//2.发送请求请求 route/findOne</span><br><span class="line"> $.get(&quot;route/findOne&quot;,&#123;rid:rid&#125;,function (route) &#123;</span><br><span class="line">     //3.解析数据填充html</span><br><span class="line">     $(&quot;#rname&quot;).html(route.rname);</span><br><span class="line">     $(&quot;#routeIntroduce&quot;).html(route.routeIntroduce);</span><br><span class="line">     $(&quot;#price&quot;).html(&quot;¥&quot;+route.price);</span><br><span class="line">     $(&quot;#sname&quot;).html(route.seller.sname);</span><br><span class="line">     $(&quot;#consphone&quot;).html(route.seller.consphone);</span><br><span class="line">     $(&quot;#address&quot;).html(route.seller.address);</span><br><span class="line"></span><br><span class="line">     //图片展示</span><br><span class="line"></span><br><span class="line">     var ddstr = &apos;&lt;a class=&quot;up_img up_img_disable&quot;&gt;&lt;/a&gt;&apos;;</span><br><span class="line"></span><br><span class="line">     //遍历routeImgList</span><br><span class="line">     for (var i = 0; i &lt; route.routeImgList.length; i++) &#123;</span><br><span class="line">         var astr ;</span><br><span class="line">         if(i &gt;= 4)&#123;</span><br><span class="line">             astr = &apos;&lt;a title=&quot;&quot; class=&quot;little_img&quot; data-bigpic=&quot;&apos;+route.routeImgList[i].bigPic+&apos;&quot; style=&quot;display:none;&quot;&gt;\n&apos; +</span><br><span class="line">                 &apos;                        &lt;img src=&quot;&apos;+route.routeImgList[i].smallPic+&apos;&quot;&gt;\n&apos; +</span><br><span class="line">                 &apos;                    &lt;/a&gt;&apos;;</span><br><span class="line">         &#125;else&#123;</span><br><span class="line">             astr = &apos;&lt;a title=&quot;&quot; class=&quot;little_img&quot; data-bigpic=&quot;&apos;+route.routeImgList[i].bigPic+&apos;&quot;&gt;\n&apos; +</span><br><span class="line">                 &apos;                        &lt;img src=&quot;&apos;+route.routeImgList[i].smallPic+&apos;&quot;&gt;\n&apos; +</span><br><span class="line">                 &apos;                    &lt;/a&gt;&apos;;</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         ddstr += astr;</span><br><span class="line">     &#125;</span><br><span class="line">     ddstr+=&apos;&lt;a class=&quot;down_img down_img_disable&quot; style=&quot;margin-bottom: 0;&quot;&gt;&lt;/a&gt;&apos;;</span><br><span class="line"></span><br><span class="line">     $(&quot;#dd&quot;).html(ddstr);</span><br><span class="line"></span><br><span class="line">     //图片展示和切换代码调用</span><br><span class="line">     goImg();</span><br><span class="line"> &#125;);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="13、旅游线路收藏功能"><a href="#13、旅游线路收藏功能" class="headerlink" title="13、旅游线路收藏功能"></a>13、旅游线路收藏功能</h3><h4 id="（1）分析-1"><a href="#（1）分析-1" class="headerlink" title="（1）分析"></a>（1）分析</h4><h5 id="判断当前登录用户是否收藏过该线路"><a href="#判断当前登录用户是否收藏过该线路" class="headerlink" title="判断当前登录用户是否收藏过该线路"></a>判断当前登录用户是否收藏过该线路</h5><ul>
+<li><strong>当页面加载完成后，发送ajax请求，获取用户是否收藏的标记</strong></li>
+<li>根据标记，展示不同的按钮样式<br><img src="/2020/03/07/JavaWeb综合案例之旅游网3（完结）/4.png" alt="image"><br><img src="/2020/03/07/JavaWeb综合案例之旅游网3（完结）/5.png" alt="image"></li>
+</ul>
+<h4 id="（2）编写代码"><a href="#（2）编写代码" class="headerlink" title="（2）编写代码"></a>（2）编写代码</h4><h5 id="后台代码-1"><a href="#后台代码-1" class="headerlink" title="后台代码"></a>后台代码</h5><ul>
+<li><p><strong>RouteServlet</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public void isFavorite(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">    //1. 获取线路id</span><br><span class="line">    String rid = request.getParameter(&quot;rid&quot;);</span><br><span class="line"></span><br><span class="line">    //2. 获取当前登录的用户 user</span><br><span class="line">    User user = (User) request.getSession().getAttribute(&quot;user&quot;);</span><br><span class="line">    int uid;//用户id</span><br><span class="line">    if(user == null)&#123;</span><br><span class="line">        //用户尚未登录</span><br><span class="line">        uid = 0;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        //用户已经登录</span><br><span class="line">        uid = user.getUid();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //3. 调用FavoriteService查询是否收藏</span><br><span class="line">    boolean flag = favoriteService.isFavorite(rid, uid);</span><br><span class="line"></span><br><span class="line">    //4. 写回客户端</span><br><span class="line">    writeValue(flag,response);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>FavoriteService</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean isFavorite(String rid, int uid) &#123;</span><br><span class="line"></span><br><span class="line">    Favorite favorite = favoriteDao.findByRidAndUid(Integer.parseInt(rid), uid);</span><br><span class="line"></span><br><span class="line">    return favorite != null;//如果对象有值，则为true，反之，则为false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>FavoriteDao</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public Favorite findByRidAndUid(int rid, int uid) &#123;</span><br><span class="line">    Favorite favorite = null;</span><br><span class="line">    try &#123;</span><br><span class="line">        String sql = &quot; select * from tab_favorite where rid = ? and uid = ?&quot;;</span><br><span class="line">        favorite = template.queryForObject(sql, new BeanPropertyRowMapper&lt;Favorite&gt;(Favorite.class), rid, uid);</span><br><span class="line">    &#125; catch (DataAccessException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    return favorite;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h5 id="前台代码-1"><a href="#前台代码-1" class="headerlink" title="前台代码"></a>前台代码</h5><ul>
+<li><strong>route_detail.html</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$(function () &#123;</span><br><span class="line">   // 发送请求，判断用户是否收藏过该线路</span><br><span class="line">    var rid = getParameter(&quot;rid&quot;);</span><br><span class="line">    $.get(&quot;route/isFavorite&quot;,&#123;rid:rid&#125;,function (flag) &#123;</span><br><span class="line">        if(flag)&#123;</span><br><span class="line">            // 用户已经收藏过</span><br><span class="line">            //&lt;a  class=&quot;btn already&quot; disabled=&quot;disabled&quot;&gt;</span><br><span class="line">            //设置收藏按钮的样式</span><br><span class="line">            $(&quot;#favorite&quot;).addClass(&quot;already&quot;);</span><br><span class="line">            $(&quot;#favorite&quot;).prop(&quot;disabled&quot;,disabled);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            // 用户没有收藏</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="（3）收藏次数的动态展示"><a href="#（3）收藏次数的动态展示" class="headerlink" title="（3）收藏次数的动态展示"></a>（3）收藏次数的动态展示</h4><h5 id="前台"><a href="#前台" class="headerlink" title="前台"></a>前台</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//设置收藏次数</span><br><span class="line">$(&quot;#favoriteCount&quot;).html(&quot;已收藏&quot;+route.count+&quot;次&quot;);</span><br></pre></td></tr></table></figure>
+
+<h5 id="后台"><a href="#后台" class="headerlink" title="后台"></a>后台</h5><ul>
+<li><p><strong>RouteService</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//4. 查询收藏次数</span><br><span class="line">int count = favoriteDao.findCountByRid(route.getRid());</span><br><span class="line">route.setCount(count);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>FavoriteDao</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public int findCountByRid(int rid) &#123;</span><br><span class="line">    String sql = &quot;SELECT COUNT(*) FROM tab_favorite WHERE rid = ?&quot;;</span><br><span class="line"></span><br><span class="line">    return template.queryForObject(sql,Integer.class,rid);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="（4）点击按钮收藏线路"><a href="#（4）点击按钮收藏线路" class="headerlink" title="（4）点击按钮收藏线路"></a>（4）点击按钮收藏线路</h4><h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p><img src="/2020/03/07/JavaWeb综合案例之旅游网3（完结）/6.png" alt="image"></p>
+<h5 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h5><ul>
+<li><p><strong>前台代码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">	$(function () &#123;</span><br><span class="line">   // 发送请求，判断用户是否收藏过该线路</span><br><span class="line">    var rid = getParameter(&quot;rid&quot;);</span><br><span class="line">    $.get(&quot;route/isFavorite&quot;,&#123;rid:rid&#125;,function (flag) &#123;</span><br><span class="line">        if(flag)&#123;</span><br><span class="line">            // 用户已经收藏过</span><br><span class="line">            //&lt;a  class=&quot;btn already&quot; disabled=&quot;disabled&quot;&gt;</span><br><span class="line">            //设置收藏按钮的样式</span><br><span class="line">            $(&quot;#favorite&quot;).addClass(&quot;already&quot;);</span><br><span class="line">            $(&quot;#favorite&quot;).attr(&quot;disabled&quot;,&quot;disabled&quot;);</span><br><span class="line"></span><br><span class="line">            //删除按钮的点击事件</span><br><span class="line">            $(&quot;#favorite&quot;).removeAttr(&quot;onclick&quot;);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            // 用户没有收藏</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">//点击收藏按钮触发的方法</span><br><span class="line">function addFavorite()&#123;</span><br><span class="line">    var rid = getParameter(&quot;rid&quot;);</span><br><span class="line">    //1. 判断用户是否登录</span><br><span class="line">    $.get(&quot;user/findOne&quot;,&#123;&#125;,function (user) &#123;</span><br><span class="line">       if(user)&#123;</span><br><span class="line">           //用户登录了</span><br><span class="line">            //添加功能</span><br><span class="line">            $.get(&quot;route/addFavorite&quot;,&#123;rid:rid&#125;,function () &#123;</span><br><span class="line">                //代码刷新页面</span><br><span class="line">                location.reload();</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">       &#125;else&#123;</span><br><span class="line">           //用户没有登录</span><br><span class="line">           alert(&quot;您尚未登录，请登录&quot;);</span><br><span class="line">           location.href=&quot;http://localhost/travel/login.html&quot;;</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>后台代码</strong></p>
+</li>
+<li><p><strong>RouteServlet</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public void addFavorite(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">    //1. 获取线路rid</span><br><span class="line">    String rid = request.getParameter(&quot;rid&quot;);</span><br><span class="line">    //2. 获取当前登录的用户</span><br><span class="line">    User user = (User) request.getSession().getAttribute(&quot;user&quot;);</span><br><span class="line">    int uid;//用户id</span><br><span class="line">    if(user == null)&#123;</span><br><span class="line">        //用户尚未登录</span><br><span class="line">        return ;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        //用户已经登录</span><br><span class="line">        uid = user.getUid();</span><br><span class="line">    &#125;</span><br><span class="line">    //3. 调用service添加</span><br><span class="line">    favoriteService.add(rid,uid);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>FavoriteService</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void add(String rid, int uid) &#123;</span><br><span class="line">    favoriteDao.add(Integer.parseInt(rid),uid);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>FavoriteDao</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void add(int rid, int uid) &#123;</span><br><span class="line">    String sql = &quot;insert into tab_favorite values(?,?,?)&quot;;</span><br><span class="line"></span><br><span class="line">    template.update(sql,rid,new Date(),uid);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><p><em>有待改进的地方：</em></p>
+<ul>
+<li><em>用户收藏页面的实现</em></li>
+<li><em>热门排行榜的实现</em></li>
+</ul>
+<p><strong>至此，JavaWeb也已基本学习结束，下面将开启框架和微服务的学习。</strong></p>
+<ul>
+<li>备注：如果需要相关代码，欢迎随时打扰（<a href="mailto:873661417@qq.com" target="_blank" rel="noopener">873661417@qq.com</a>）</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Allen Xue</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><strong>To be or not to be,that is a question.<strong></strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/JavaWeb/"># JavaWeb</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/03/06/JavaWeb综合案例之旅游网2/">JavaWeb综合案例之旅游网2</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Allen Xue | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+    
+        <script type="text/javascript" color="0,0,0" opacity="0.3" zindex="-2" count="99" src="/js/canvas-nest.js"></script>
+    
+</body>
+</html>
